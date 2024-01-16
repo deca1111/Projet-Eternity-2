@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="sdkName" value="INF6102-Projet" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="INF6102-Projet" project-jdk-type="Python SDK" />
+</project>
