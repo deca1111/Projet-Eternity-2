@@ -51,7 +51,10 @@ if __name__ == '__main__':
         solution, n_conflict = solver_advanced.solve_advanced(e)
     else:
         raise Exception("This agent does not exist")
-    solving_time = round((time.time() - start_time) / 60,2)
+    # solving_time = round((time.time() - start_time) / 60,2)
+    solving_time = (time.time() - start_time)
+    minutes = int(solving_time / 60)
+    seconds = int(solving_time % 60)
 
     e.display_solution(solution,args.visufile)
     e.print_solution(solution, args.outfile)
@@ -59,7 +62,7 @@ if __name__ == '__main__':
 
     print("***********************************************************")
     print("[INFO] Solution obtained")
-    print("[INFO] Execution time: %s minutes" % solving_time)
+    print(f"[INFO] Execution time: {minutes} minutes and {seconds} seconds")
     print("[INFO] Number of conflicts: %s" % n_conflict)
     print("[INFO] Feasible solution: %s" % (n_conflict == 0))
     print("[INFO] Sanity check passed: %s" % e.verify_solution(solution))

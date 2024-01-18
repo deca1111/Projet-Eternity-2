@@ -27,6 +27,8 @@ def solve_random(eternity_puzzle):
 
         remaining_piece.remove(piece)
 
+        # print(solution)
+
     return solution, eternity_puzzle.get_total_n_conflict(solution)
 
 
