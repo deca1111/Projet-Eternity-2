@@ -42,7 +42,7 @@ def solverHeuristique1DeepV1(eternity_puzzle: EternityPuzzle, heuristique) -> ([
     return solution, eternity_puzzle.get_total_n_conflict(solution)
 
 
-def solverHeuristique1DeepV2(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
+def solverHeuristique1DeepRestart(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
     """
     Amélioration de l'algorithme précédent. On utilise un restart aléatoire pour essayer d'avoir de meilleurs résultats.
     :param eternity_puzzle:
@@ -52,7 +52,7 @@ def solverHeuristique1DeepV2(eternity_puzzle: EternityPuzzle, heuristique) -> ([
 
     originalPieceList = copy.deepcopy(eternity_puzzle.piece_list)
 
-    nbRestart = 100
+    nbRestart = 10000
 
     bestSolution = None
     bestNConflict = INFINITY
@@ -79,3 +79,61 @@ def solverHeuristique1DeepV2(eternity_puzzle: EternityPuzzle, heuristique) -> ([
     eternity_puzzle.piece_list = originalPieceList
 
     return bestSolution, bestNConflict
+
+
+def solverHeuristique1DeepEdgeFirst(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
+    """
+    Amélioration de l'algorithme solverHeuristique1Deep. On place les pièces en partant des bords de la grille. Puis en
+    diagonale en partant du bord en bas à gauche jusqu'au bord en haut à droite.
+
+    :param eternity_puzzle:
+    :param heuristique:
+    :return:
+    """
+
+    # Création de la solution vide sous forme de matrice de taille board_size * board_size pour avoir des coordonnées
+    # x et y.
+    solutionMatrix = [[0 for i in range(eternity_puzzle.board_size)] for j in range(eternity_puzzle.board_size)]
+    print("Matrice de solution vide:")
+    print(np.matrix(solutionMatrix))
+
+    # Mélange des pièces
+    shuffledPieceList = copy.deepcopy(eternity_puzzle.piece_list)
+    np.random.shuffle(shuffledPieceList)
+
+
+    # Conversion de la solution en liste
+    solutionList = [solutionMatrix[i][j] for i in range(eternity_puzzle.board_size) for j in range(eternity_puzzle.board_size)]
+
+    # Placement des bords (size * 4 - 4 pièces)
+    for indexPiece in range(eternity_puzzle.board_size * 4 - 4):
+        # Calcul des coordonnées x et y où l'on veut placer la pièce
+        # On commence par la bande du bas:
+        if indexPiece < eternity_puzzle.board_size:
+            x = 0
+            y = indexPiece
+        # Puis la bande de gauche:
+        elif indexPiece < eternity_puzzle.board_size * 2 - 1:
+            x = 1 + (indexPiece - eternity_puzzle.board_size)
+            y = 0
+        elif indexPiece < eternity_puzzle.board_size * 3 - 2:
+            x = 1 + (indexPiece - (eternity_puzzle.board_size * 2 - 1))
+            y = eternity_puzzle.board_size - 1
+        else:
+            x = eternity_puzzle.board_size - 1
+            y = 1 + (indexPiece - (eternity_puzzle.board_size * 3 - 2))
+
+    # Placement des autres pièces
+    indexPiece = eternity_puzzle.board_size * 4 - 4
+    for indexDiagonal in range(eternity_puzzle.board_size - 2):
+
+
+
+
+        solutionMatrix[x][y] = indexPiece
+
+    # Affichage de la solution
+    print("Solution:")
+    print(np.matrix(solutionMatrix))
+
+

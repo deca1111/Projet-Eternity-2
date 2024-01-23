@@ -3,9 +3,6 @@ from typing import Tuple
 from eternity_puzzle import EternityPuzzle
 
 GRAY = 0
-BLACK = 23
-RED = 24
-WHITE = 25
 
 NORTH = 0
 SOUTH = 1

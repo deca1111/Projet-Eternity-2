@@ -18,7 +18,4 @@ def getAllPossiblePossibilities(eternity_puzzle: EternityPuzzle, remainingPiece:
     for piece in remainingPiece:
         result.extend(eternity_puzzle.generate_rotation(piece))
 
-    # print(f"Remainig pieces :\n{remainingPiece}")
-    # print(f"Results:\n{result}")
-
     return result
