@@ -1,4 +1,5 @@
 from typing import Tuple
+import numpy as np
 
 from eternity_puzzle import EternityPuzzle
 
@@ -126,5 +127,70 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
     else:
         if newPiece[EAST] == GRAY:
             n_conflict += poidConflitBord
+
+    return n_conflict
+
+
+def heuristicNbConflictPieceV3(
+        eternity_puzzle: EternityPuzzle, solutionMatrix: [[int]], newPiece: Tuple[int],
+        coordNewPiece: Tuple[int, int]
+        ) -> int:
+    n_conflict = 0
+    poidConflitClassique = 1
+    poidConflitBord = 10
+
+    sizeBoard = eternity_puzzle.board_size
+
+    # SOUTH
+    # 1er cas, la pièce est placé sur la première ligne, on vérifie donc le conflit avec le bord
+    if coordNewPiece[0] == 0:
+        if newPiece[SOUTH] != GRAY:
+            n_conflict += poidConflitBord
+    # 2ème cas, la pièce n'est pas sur la première ligne, on vérifie donc le conflit avec la pièce au sud et que le sud
+    # de la pièce n'est pas gris
+    else:
+        if newPiece[SOUTH] == GRAY:
+            n_conflict += poidConflitBord
+        elif newPiece[SOUTH] != solutionMatrix[coordNewPiece[0] - 1][coordNewPiece[1]][NORTH]:
+            n_conflict += poidConflitClassique
+
+    # WEST
+    # 1er cas, la pièce est placé sur la première colonne, on vérifie donc le conflit avec le bord
+    if coordNewPiece[1] == 0:
+        if newPiece[WEST] != GRAY:
+            n_conflict += poidConflitBord
+    # 2ème cas, la pièce n'est pas sur la première colonne, on vérifie donc le conflit avec la pièce à l'ouest et que
+    # l'ouest de la pièce n'est pas gris
+    else:
+        if newPiece[WEST] == GRAY:
+            n_conflict += poidConflitBord
+        elif newPiece[WEST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] - 1][EAST]:
+            n_conflict += poidConflitClassique
+
+    # NORTH
+    # 1er cas, la pièce est placé sur la dernière ligne, on vérifie donc le conflit avec le bord
+    if coordNewPiece[0] == sizeBoard - 1:
+        if newPiece[NORTH] != GRAY:
+            n_conflict += poidConflitBord
+    # 2ème cas, la pièce n'est pas sur la dernière ligne, on vérifie donc le conflit avec la pièce au nord et que le
+    # nord de la pièce n'est pas gris
+    else:
+        if newPiece[NORTH] == GRAY:
+            n_conflict += poidConflitBord
+        elif newPiece[NORTH] != solutionMatrix[coordNewPiece[0] + 1][coordNewPiece[1]][SOUTH]:
+            n_conflict += poidConflitClassique
+
+    # EAST
+    # 1er cas, la pièce est placé sur la dernière colonne, on vérifie donc le conflit avec le bord
+    if coordNewPiece[1] == sizeBoard - 1:
+        if newPiece[EAST] != GRAY:
+            n_conflict += poidConflitBord
+    # 2ème cas, la pièce n'est pas sur la dernière colonne, on vérifie donc le conflit avec la pièce à l'est et que
+    # l'est de la pièce n'est pas gris
+    else:
+        if newPiece[EAST] == GRAY:
+            n_conflict += poidConflitBord
+        elif newPiece[EAST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] + 1][WEST]:
+            n_conflict += poidConflitClassique
 
     return n_conflict

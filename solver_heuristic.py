@@ -1,5 +1,6 @@
-from algoSolveur import solverHeuristique1DeepV1, solverHeuristique1DeepRestart, solverHeuristique1DeepEdgeFirst
-from heuristiques import heuristicNbConflictPieceV1, heuristicNbConflictPieceV2
+from algoSolveur import (solverHeuristique1Deep, solverHeuristique1DeepRestart, solverHeuristique1DeepEdgeFirst,
+                         solverHeuristique1DeepEdgeFirstV2)
+from heuristiques import heuristicNbConflictPieceV1, heuristicNbConflictPieceV2, heuristicNbConflictPieceV3
 
 
 def solve_heuristic(eternity_puzzle):
@@ -10,7 +11,7 @@ def solve_heuristic(eternity_puzzle):
         cost is the cost of the solution
     """
 
-    solution, nbConflict = solverHeuristique1DeepEdgeFirst(eternity_puzzle, heuristicNbConflictPieceV2)
+    solution, nbConflict = solverHeuristique1DeepEdgeFirstV2(eternity_puzzle, heuristicNbConflictPieceV3)
 
     return solution, nbConflict
 
