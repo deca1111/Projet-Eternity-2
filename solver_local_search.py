@@ -1,3 +1,5 @@
+from algoLocalSearch import solverLSNaiveRandomStart
+
 def solve_local_search(eternity_puzzle):
     """
     Local search solution of the problem
@@ -5,5 +7,7 @@ def solve_local_search(eternity_puzzle):
     :return: a tuple (solution, cost) where solution is a list of the pieces (rotations applied) and
         cost is the cost of the solution
     """
-    # TODO implement here your solution
-    raise Exception("Agent not implemented")
+
+    solution, nbConflict = solverLSNaiveRandomStart(eternity_puzzle)
+    return solution, nbConflict
+

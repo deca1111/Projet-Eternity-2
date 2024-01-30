@@ -4,7 +4,7 @@ from tqdm import tqdm
 import numpy as np
 
 from eternity_puzzle import EternityPuzzle
-from utils import getAllPossiblePossibilities, INFINITY, chooseBestPiece
+from utils import getAllPlacementPossibilities, INFINITY, chooseBestPiece, getListFromMatrix
 
 
 def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tuple[List[Tuple[int]], int]:
@@ -28,7 +28,7 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
         bestPiece = None
         indexBestPiece = None
 
-        possibilities = getAllPossiblePossibilities(eternity_puzzle, remainingPiece)
+        possibilities = getAllPlacementPossibilities(eternity_puzzle, remainingPiece)
 
         for index, piece in enumerate(possibilities):
             nConflict = heuristique(eternity_puzzle, solution, piece)
@@ -46,7 +46,7 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
     return solution, eternity_puzzle.get_total_n_conflict(solution)
 
 
-def solverHeuristique1DeepRestart(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
+def solverHeuristique1DeepRestart(eternity_puzzle: EternityPuzzle, heuristique) -> Tuple[List[Tuple[int]], int]:
     """
     Amélioration de l'algorithme précédent. On utilise un restart aléatoire pour essayer d'avoir de meilleurs résultats.
     :param eternity_puzzle:
@@ -85,10 +85,10 @@ def solverHeuristique1DeepRestart(eternity_puzzle: EternityPuzzle, heuristique) 
     return bestSolution, bestNConflict
 
 
-def solverHeuristique1DeepEdgeFirst(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
+def solverHeuristique1DeepEdgeFirst(eternity_puzzle: EternityPuzzle, heuristique) -> Tuple[List[Tuple[int]], int]:
     """
-    Amélioration de l'algorithme solverHeuristique1Deep. On place les pièces en partant des bords de la grille. Puis en
-    diagonale en partant du bord en bas à gauche jusqu'au bord en haut à droite.
+    Amélioration de l'algorithme solverHeuristique1Deep. On place les pièces en partant des bords de la grille. Puis de
+    manière symétrique de chaque côté de la diagonale (voir exemple ci-dessous).
 
     L'ordre de placement des pièces est le suivant avec une grille de taille 7x7
     [[ 0  1  2  3  4  5  6]
@@ -164,16 +164,15 @@ def solverHeuristique1DeepEdgeFirst(eternity_puzzle: EternityPuzzle, heuristique
                 solutionMatrix[x][y] = bestPiece
 
     # Conversion de la solution en liste
-    solutionList = [solutionMatrix[i][j] for i in range(eternity_puzzle.board_size) for j in
-                    range(eternity_puzzle.board_size)]
+    solutionList = getListFromMatrix(eternity_puzzle, solutionMatrix)
 
     return solutionList, eternity_puzzle.get_total_n_conflict(solutionList)
 
 
-def solverHeuristique1DeepEdgeFirstV2(eternity_puzzle: EternityPuzzle, heuristique) -> ([Tuple[int]], int):
+def solverHeuristique1DeepEdgeFirstV2(eternity_puzzle: EternityPuzzle, heuristique) -> Tuple[List[Tuple[int]], int]:
     """
-    Amélioration de l'algorithme solverHeuristique1Deep. On place les pièces en partant des bords de la grille. Puis en
-    diagonale en partant du bord en bas à gauche jusqu'au bord en haut à droite.
+    Amélioration de l'algorithme solverHeuristique1DeepEdgeFirst. On place les pièces en partant des bords de la grille.
+    Puis en diagonale en partant du bord en bas à gauche jusqu'au bord en haut à droite.
 
     L'ordre de placement des pièces est le suivant avec une grille de taille 7x7
     [[ 0  1  2  3  4  5  6]
@@ -249,7 +248,6 @@ def solverHeuristique1DeepEdgeFirstV2(eternity_puzzle: EternityPuzzle, heuristiq
             solutionMatrix[x][y] = bestPiece
 
     # Conversion de la solution en liste
-    solutionList = [solutionMatrix[i][j] for i in range(eternity_puzzle.board_size) for j in
-                    range(eternity_puzzle.board_size)]
+    solutionList = getListFromMatrix(eternity_puzzle, solutionMatrix)
 
     return solutionList, eternity_puzzle.get_total_n_conflict(solutionList)

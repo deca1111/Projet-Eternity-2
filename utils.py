@@ -1,16 +1,21 @@
+import copy
+import random
 from typing import Tuple, List
+
+import numpy as np
+
 from eternity_puzzle import EternityPuzzle
 import math
 
 INFINITY = math.inf
 
 
-def getAllPossiblePossibilities(eternity_puzzle: EternityPuzzle, remainingPiece: List[Tuple]) -> List[Tuple]:
+def getAllPlacementPossibilities(eternity_puzzle: EternityPuzzle, remainingPiece: List[Tuple]) -> List[Tuple]:
     """
-    Cette fonction retourne toutes les possibilitées de placement possibles en fonction des pièces restantes et des rotations.
+    Cette fonction retourne toutes les possibilitées de placement possibles en fonction des pièces restantes et des
+    rotations.
     :param eternity_puzzle:
-    :param remainingPiece:
-    :return:
+    :param remainingPiece: :return:
     """
 
     result = []
@@ -42,7 +47,7 @@ def chooseBestPiece(
     indexBestPiece = None
 
     # On récupère toutes les possibilités de placement possibles en fonction des pièces restantes et des rotations
-    possibilities = getAllPossiblePossibilities(eternityPuzzle, remainingPiece)
+    possibilities = getAllPlacementPossibilities(eternityPuzzle, remainingPiece)
 
     # On parcourt toutes les possibilités
     for index, piece in enumerate(possibilities):
@@ -62,3 +67,39 @@ def chooseBestPiece(
     remainingPiece.remove(possibilities[indexBestPiece - indexBestPiece % 4])
 
     return bestPiece, remainingPiece
+
+
+def getRandomSolution(eternityPuzzle: EternityPuzzle) -> List[Tuple]:
+    """
+    Fonction qui retourne une solution aléatoire.
+    :param eternityPuzzle:
+    :return:
+    """
+
+    # Copie de la liste des pièces
+    listPieces = copy.deepcopy(eternityPuzzle.piece_list)
+    # Mélange de la liste des pièces
+    np.random.shuffle(listPieces)
+
+    return listPieces
+
+
+def getMatrixFromList(eternityPuzzle: EternityPuzzle, listSolution: List[Tuple]) -> List[List[Tuple]]:
+    """
+    Fonction qui retourne une matrice à partir d'une solution.
+    :param eternityPuzzle:
+    :param listSolution:
+    :return:
+    """
+    return [[listSolution[i * eternityPuzzle.board_size + j] for j in range(eternityPuzzle.board_size)]
+            for i in range(eternityPuzzle.board_size)]
+
+
+def getListFromMatrix(eternityPuzzle: EternityPuzzle, matrixSolution: List[List[Tuple]]) -> List[Tuple]:
+    """
+    Fonction qui retourne une solution à partir d'une matrice.
+    :param eternityPuzzle:
+    :param matrixSolution:
+    :return:
+    """
+    return [matrixSolution[i][j] for i in range(eternityPuzzle.board_size) for j in range(eternityPuzzle.board_size)]
