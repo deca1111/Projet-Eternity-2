@@ -135,6 +135,15 @@ def heuristicNbConflictPieceV3(
         eternity_puzzle: EternityPuzzle, solutionMatrix: [[int]], newPiece: Tuple[int],
         coordNewPiece: Tuple[int, int]
         ) -> int:
+    """
+    On compte le nombre de conflit que la pièce apporte à la solution. La solution fournit est une matrice.
+    On doit aussi donner les coordonnées de la pièce dans la matrice.
+    :param eternity_puzzle:
+    :param solutionMatrix:
+    :param newPiece:
+    :param coordNewPiece:
+    :return:
+    """
     n_conflict = 0
     poidConflitClassique = 1
     poidConflitBord = 10
