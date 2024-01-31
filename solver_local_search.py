@@ -1,4 +1,4 @@
-from algoLocalSearch import solverLSNaiveRandomStart
+from algoLocalSearch import solverLSNaive, solverLocalSearchGlobal
 
 
 def solve_local_search(eternity_puzzle):
@@ -9,5 +9,6 @@ def solve_local_search(eternity_puzzle):
         cost is the cost of the solution
     """
 
-    solution, nbConflict = solverLSNaiveRandomStart(eternity_puzzle, 120)
+    solution, nbConflict = solverLSNaive(eternity_puzzle, 15)
+
     return solution, nbConflict

@@ -23,7 +23,7 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
     np.random.shuffle(remainingPiece)
     nbPiece = len(remainingPiece)
 
-    for _ in range(nbPiece):
+    for indexPiece in range(nbPiece):
         bestConflict = INFINITY
         bestPiece = None
         indexBestPiece = None
@@ -31,7 +31,7 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
         possibilities = getAllPlacementPossibilities(eternity_puzzle, remainingPiece)
 
         for index, piece in enumerate(possibilities):
-            nConflict = heuristique(eternity_puzzle, solution, piece)
+            nConflict = heuristique(eternity_puzzle, solution, piece, indexPiece)
             if nConflict < bestConflict:
                 bestConflict = nConflict
                 bestPiece = piece
@@ -56,7 +56,7 @@ def solverHeuristique1DeepRestart(eternity_puzzle: EternityPuzzle, heuristique) 
 
     originalPieceList = copy.deepcopy(eternity_puzzle.piece_list)
 
-    nbRestart = 500
+    nbRestart = 1000
 
     bestSolution = None
     bestNConflict = INFINITY

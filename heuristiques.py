@@ -11,7 +11,7 @@ WEST = 2
 EAST = 3
 
 
-def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int]) -> int:
+def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int], indexNewPiece) -> int:
     """
     Le but de cette fonction heuristique est de calculer le nombre de conflit qu'apporte une nouvelle pièce à
     la solution.
@@ -25,8 +25,6 @@ def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple
     """
 
     n_conflict = 0
-    nbPiecePlaced = len(solution)
-    indexNewPiece = nbPiecePlaced
 
     sizeBoard = eternity_puzzle.board_size
 
@@ -63,7 +61,7 @@ def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple
     return n_conflict
 
 
-def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int]) -> int:
+def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int], indexNewPiece) -> int:
     """
     Amélioration de la fonction heuristique précédente. On donne une grosse pénalité en cas de conflit avec les bords
     :param newPiece:
@@ -73,8 +71,6 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
     """
 
     n_conflict = 0
-    nbPiecePlaced = len(solution)
-    indexNewPiece = nbPiecePlaced
 
     poidConflitClassique = 1
     poidConflitBord = 100

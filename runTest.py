@@ -44,34 +44,36 @@ def runAllTests(saveResult=False, saveFile=None, nbIter=1000, plot=False):
         ax2 = ax1.twinx()
 
         # Plot des scores
-        ax1.bar(xName, [x[0] for x in yResults], color='b', label="Moyenne des conflits")
-        ax1.bar(xName, [x[1] for x in yResults], color='r', label="Meilleur conflit")
+        ax1.plot(xName, [x[0] for x in yResults], '-bo', linewidth=3, label="Moyenne des conflits")
+        ax1.plot(xName, [x[1] for x in yResults], '-r+', linewidth=3, label="Meilleur conflit")
 
         ax1.set_title(f"Résultats des tests pour l'instance : {instanceName}\nNombre d'itérations : {nbIter}")
         ax1.set_xlabel("Algorithme / Heuristique")
         ax1.set_ylabel("Nombre de conflits")
+        ax1.margins(y=0.25)
 
-        # Ajout des valeurs sur les barres
+        # Ajout des valeurs sur les points
         for i, v in enumerate([x[0] for x in yResults]):
-            ax1.text(i, v - 5, str(round(v, 2)), ha='center', va='bottom', fontsize=10)
+            ax1.text(i, v+1, str(round(v, 2)), ha='center', va='bottom', fontsize=10)
         for i, v in enumerate([x[1] for x in yResults]):
-            ax1.text(i, v - 5, str(round(v, 2)), ha='center', va='bottom', fontsize=10)
+            ax1.text(i, v+1, str(round(v, 2)), ha='center', va='bottom', fontsize=10)
 
         # Plot des temps d'exécution
         ax2.set_ylabel("Temps d'exécution moyen")
+        ax2.margins(y=0.15)
 
-        ax2.plot(xName, [x[2] for x in yResults], color='g', label="Temps d'exécution moyen")
+        ax2.plot(xName, [x[2] for x in yResults], '-gD', linewidth=3, label="Temps d'exécution moyen")
 
         # Affichages des légendes
-        ax1.legend(loc="center left")
-        ax2.legend(loc="center right")
+        ax1.legend(loc="upper left")
+        ax2.legend(loc="upper right")
 
         plt.tight_layout()
         # fig.autofmt_xdate()
-        fig.savefig("plot_test_result.png")
+        fig.savefig("plot_test_result.png", dpi=150)
 
 
-def runTest(eternityPuzzle, algorithme, heuristique, nbIter, save=False,saveFile=None) -> (int, int):
+def runTest(eternityPuzzle, algorithme, heuristique, nbIter, save=False, saveFile=None) -> (int, int):
     """
     Fonction qui lance un test sur un algorithme et une heuristique.
     :param eternityPuzzle:
@@ -95,17 +97,17 @@ def runTest(eternityPuzzle, algorithme, heuristique, nbIter, save=False,saveFile
     print("\n")
 
     # Sauvegarde des résultats
-    if saveFile is not None:
+    if saveFile is not None and save:
         with open(saveFile, "a", encoding="utf-8") as file:
             file.write(f"Algorithme : {algorithme.__name__} / Heuristique : {heuristique.__name__}\n")
             file.write(f"Moyenne des score : {sommeConflit / nbIter}\n")
             file.write(f"Meilleur score : {best}\n")
             file.write(f"Temps d'exécution :  {round(time.time() - start, 2)} secondes\n")
-            file.write(f"Temps d'exécution moyen : {round((time.time() - start) / nbIter, 2)} secondes\n\n")
+            file.write(f"Temps d'exécution moyen : {round((time.time() - start) / nbIter, 4)} secondes\n\n")
 
     return (sommeConflit / nbIter,
             best,
-            round((time.time() - start) / nbIter, 2))
+            round((time.time() - start) / nbIter, 4))
 
 
 def parse_arguments():

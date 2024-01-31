@@ -1,41 +1,48 @@
 import time
 from typing import Tuple, List
 
-from utils import getRandomSolution
+from utils import getRandomSolution, getMatrixFromList
 from eternity_puzzle import EternityPuzzle
 import itertools
 from algoHeuristic import solverHeuristique1DeepEdgeFirstV2
-from heuristiques import heuristicNbConflictPieceV3
+from heuristiques import heuristicNbConflictPieceV3, heuristicNbConflictPieceV1
 
 
-def solverLSNaiveRandomStart(eternityPuzzle: EternityPuzzle, maxTime) -> Tuple[List[Tuple[int]], int]:
+def solverLSNaive(eternityPuzzle: EternityPuzzle, maxTime, goodStart=False) -> Tuple[List[Tuple[int]], int]:
     """
-    Algorithme de recherche locale avec un démarrage aléatoire.
+    Algorithme de recherche locale avec un démarrage aléatoire ou un bon départ généré par un algorithme basé sur une
+    heuristique.
     La selection des voisins se fait en comptant le nombre de conflits total.
-    :param evalFct:
     :param eternityPuzzle:
-    :return:
+    :param maxTime:
+    :param goodStart:
     """
     # Calcul du temps
     startTime = time.time()
     curentTime = time.time() - startTime
 
-    # currentSolution = getRandomSolution(eternityPuzzle)
-    # currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
+    bestSolution = None
+    bestCost = (eternityPuzzle.board_size ** 2 + eternityPuzzle.board_size) * 2
 
-    currentSolution, currentCost = solverHeuristique1DeepEdgeFirstV2(eternityPuzzle, heuristicNbConflictPieceV3)
+    if goodStart:
+        currentSolution, currentCost = solverHeuristique1DeepEdgeFirstV2(eternityPuzzle, heuristicNbConflictPieceV3)
+    else:
+        currentSolution = getRandomSolution(eternityPuzzle)
+        currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
 
+    print(f"First best cost : {bestCost}")
     print(f"Coût initial : {currentCost}")
 
     while curentTime < maxTime and currentCost > 0:
-        if voisinage := getVoisinageAllPiecesAndRotations(eternityPuzzle, currentSolution, currentCost):
+        if voisinage := getVoisinageAllPermutAndRotations(eternityPuzzle, currentSolution):
 
-            bestVoisin = min(voisinage, key=lambda x: x[1])
+            currentSolution = min(voisinage, key=eternityPuzzle.get_total_n_conflict)
+            currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
 
-            if bestVoisin[1] < currentCost:
-                currentSolution = bestVoisin[0]
-                currentCost = bestVoisin[1]
-                print(f"Nouveau meilleur coût : {currentCost}")
+            if currentCost < bestCost:
+                bestSolution = currentSolution
+                bestCost = currentCost
+                print(f"Nouveau meilleur coût : {bestCost}")
 
             curentTime = time.time() - startTime
         else:
@@ -43,20 +50,67 @@ def solverLSNaiveRandomStart(eternityPuzzle: EternityPuzzle, maxTime) -> Tuple[L
 
     print(f"Éxecution terminée en {round(curentTime, 4)} secondes")
 
-    return currentSolution, currentCost
+    return bestSolution, bestCost
 
 
-def getVoisinageAllPiecesAndRotations(eternityPuzzle: EternityPuzzle, solution: List[Tuple[int]], bestCurrentCost) -> \
-List[Tuple[List[Tuple[int]], int]]:
+def solverLocalSearchGlobal(eternityPuzzle: EternityPuzzle, voisinageFct, selectFct, costFct, maxTime) -> \
+        Tuple[List[Tuple[int]], int]:
     """
-    Fonction qui retourne tous les voisins possibles de la solution en prenant en compte les rotations.
+    Algorithme de recherche locale générique.
+    :param eternityPuzzle:
+    :param voisinageFct:
+    :param validFct:
+    :param selectFct:
+    :param costFct:
+    :param maxTime:
+    :return:
+    """
+    # Calcul du temps
+    startTime = time.time()
+    curentTime = time.time() - startTime
+
+    bestSolution = None
+    bestCost = (eternityPuzzle.board_size ** 2 + eternityPuzzle.board_size) * 2
+
+    currentSolution, currentCost = solverHeuristique1DeepEdgeFirstV2(eternityPuzzle, heuristicNbConflictPieceV3)
+
+    print(f"First best cost : {bestCost}")
+    print(f"Coût initial : {currentCost}")
+
+    while curentTime < maxTime and currentCost > 0:
+        voisinage = voisinageFct(eternityPuzzle, currentSolution)
+        print(f"Temps de calcul du voisinage : {round(time.time() - startTime, 4)} secondes")
+        if len(voisinage) > 0:
+
+            currentSolution = selectFct(voisinage)
+            print(f"Temps de calcul de la sélection : {round(time.time() - startTime, 4)} secondes")
+            currentCost = costFct(currentSolution)
+            print(f"Temps de calcul du coût : {round(time.time() - startTime, 4)} secondes")
+
+            if currentCost < bestCost:
+                bestSolution = currentSolution
+                bestCost = currentCost
+                print(f"Nouveau meilleur coût : {bestCost}")
+
+            curentTime = time.time() - startTime
+        else:
+            break
+
+    print(f"Éxecution terminée en {round(curentTime, 4)} secondes")
+
+    return bestSolution, bestCost
+
+
+def getVoisinageAllPermutAndRotations(eternityPuzzle: EternityPuzzle, solution: List[Tuple[int]]) -> \
+        List[List[Tuple[int]]]:
+    """
+    Retourne tous les voisins permis par la permutation de 2 pièces et toutes leurs rotations.
     :param bestCurrentCost:
     :param eternityPuzzle:
     :param solution:
     :return:
     """
     # Génération de toutes les combinaisons possibles de swap
-
     listSwap = list(itertools.combinations(range(len(solution)), 2))
 
     voisinage = []
@@ -70,26 +124,23 @@ List[Tuple[List[Tuple[int]], int]]:
                 newSolution = solution.copy()
                 newSolution[swap[0]] = piece2
                 newSolution[swap[1]] = piece1
-                newCost = eternityPuzzle.get_total_n_conflict(newSolution)
-                if newCost < bestCurrentCost:
-                    voisinage.append((newSolution, newCost))
+                # On ajoute la solution à la liste des voisins
+                voisinage.append(newSolution)
 
     # print(f"Nombre de voisins : {len(voisinage)}")
     return voisinage
 
 
-def getVoisinageOnlyCOnflict(eternityPuzzle: EternityPuzzle, solution: List[Tuple[int]], bestCurrentCost) -> \
-List[Tuple[List[Tuple[int]], int]]:
+def getVoisinageOnlyConflict(eternityPuzzle: EternityPuzzle, solution: List[Tuple[int]]) -> List[List[Tuple[int]]]:
     """
-    Fonction qui retourne le voisinage de la solution en prenant seulement les permutations de pièeces qui ont des
-    conflit (au moins 1 des 2)
+    Retourne les voisins dont la permutation comporte un conflit parmis toutes les permutations et les rotations
+    possibles.
     :param eternityPuzzle:
     :param solution:
-    :param bestCurrentCost:
     :return:
     """
-    # On commence par lister l'ID des pièces qui génèrent au moins un conflit
-    listPieceWithConflict = []
-    for i, piece in enumerate(solution):
-        if eternityPuzzle.get_n_conflict(piece) > 0:
-            listPieceWithConflict.append(i)
+    # Génération de toutes les pièces comportant un conflit
+    pieceInConflict = set()
+    for i in range(len(solution)):
+        if heuristicNbConflictPieceV1:
+            pass

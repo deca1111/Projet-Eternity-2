@@ -1,27 +1,27 @@
 Résultats des tests pour l'instance : eternity_complet.txt
-Nombre d'itérations : 50
+Nombre d'itérations : 500
 
 Algorithme : solverHeuristique1Deep / Heuristique : heuristicNbConflictPieceV1
-Moyenne des score : 114.06
-Meilleur score : 100
-Temps d'exécution :  3.28 secondes
-Temps d'exécution moyen : 0.07 secondes
+Moyenne des score : 114.53
+Meilleur score : 96
+Temps d'exécution :  14.22 secondes
+Temps d'exécution moyen : 0.03 secondes
 
 Algorithme : solverHeuristique1Deep / Heuristique : heuristicNbConflictPieceV2
-Moyenne des score : 99.5
-Meilleur score : 84
-Temps d'exécution :  6.47 secondes
-Temps d'exécution moyen : 0.13 secondes
+Moyenne des score : 99.524
+Meilleur score : 76
+Temps d'exécution :  17.16 secondes
+Temps d'exécution moyen : 0.03 secondes
 
 Algorithme : solverHeuristique1DeepEdgeFirst / Heuristique : heuristicNbConflictPieceV3
-Moyenne des score : 99.62
-Meilleur score : 88
-Temps d'exécution :  27.68 secondes
-Temps d'exécution moyen : 0.55 secondes
+Moyenne des score : 100.624
+Meilleur score : 83
+Temps d'exécution :  42.93 secondes
+Temps d'exécution moyen : 0.09 secondes
 
 Algorithme : solverHeuristique1DeepEdgeFirstV2 / Heuristique : heuristicNbConflictPieceV3
-Moyenne des score : 96.0
-Meilleur score : 81
-Temps d'exécution :  27.75 secondes
-Temps d'exécution moyen : 0.56 secondes
+Moyenne des score : 96.876
+Meilleur score : 82
+Temps d'exécution :  42.47 secondes
+Temps d'exécution moyen : 0.08 secondes
 
