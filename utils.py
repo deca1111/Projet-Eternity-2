@@ -8,6 +8,12 @@ from eternity_puzzle import EternityPuzzle
 import math
 
 INFINITY = math.inf
+NORTH = 0
+SOUTH = 1
+WEST = 2
+EAST = 3
+
+GRAY = 0
 
 
 def getAllPlacementPossibilities(eternity_puzzle: EternityPuzzle, remainingPiece: List[Tuple]) -> List[Tuple]:
@@ -30,7 +36,7 @@ def chooseBestPiece(
         eternityPuzzle: EternityPuzzle, solution: List[List[Tuple]],
         remainingPiece: List[Tuple],
         heuristique, coord: Tuple[int, int]
-        ) -> Tuple[Tuple[int, int, int, int], List[Tuple]]:
+) -> Tuple[Tuple[int, int, int, int], List[Tuple]]:
     """
     Fonction qui retourne la pièce qui apporte le moins de conflit à la solution.
     :param coord:
@@ -103,3 +109,85 @@ def getListFromMatrix(eternityPuzzle: EternityPuzzle, matrixSolution: List[List[
     :return:
     """
     return [matrixSolution[i][j] for i in range(eternityPuzzle.board_size) for j in range(eternityPuzzle.board_size)]
+
+
+def getConflictPieces(eternityPuzzle: EternityPuzzle, solution: List[Tuple]) -> List[int]:
+    """
+    Fonction qui retourne la liste des indices des pièces qui sont en conflit avec une autre ou un bord. On compte comme
+    un conflit le fait qu'un bord gris d'une pièce ne soit pas en face du bord d'un plateau.
+
+    :param eternityPuzzle:
+    :param solution:
+    :return:
+    """
+    sizeBoard = eternityPuzzle.board_size
+    conflictPieces = set()
+    nbPieceChecked = 0
+    # En réalité on peut ne checker qu'une pièce sur deux, car si on regarde les quatres coins d'une pièces on regarde
+    # aussi des coins des autres pièces adjacentes. Comme on veut aussi vérifier que les bords gris de chaque pièce est
+    # bien placé sur le bord d'un plateau, on va checker toutes les pièces si elles ne sont pas déjà comme marquée en
+    # conflit. La plupart des conflits trouvés vont donc éliminer 2 pièces.
+    # Si cette fonction est trop lente, on peut la refaire avec la logique qu'on check les connexions et pas les
+    # pièces, la on optimiserait les calculs.
+    for indexPiece in range(len(solution)):
+        # Si cette pièce n'est pas déjà dans la liste des pièces en conflit, on vérifie ses connexions avec les autres
+        if indexPiece not in conflictPieces:
+            nbPieceChecked += 1
+            # On récupère la pièce
+            piece = solution[indexPiece]
+
+            # SUD
+            # 1er cas, la pièce est placé sur la première ligne, on vérifie donc le conflit avec le bord
+            if indexPiece < sizeBoard:
+                if piece[SOUTH] != GRAY:
+                    conflictPieces.add(indexPiece)
+            # 2ème cas, la pièce n'est pas sur la première ligne, on vérifie donc le conflit avec la pièce au sud et
+            # que le sud de la pièce n'est pas gris
+            elif piece[SOUTH] == GRAY or piece[SOUTH] != solution[indexPiece - sizeBoard][NORTH]:
+                conflictPieces.add(indexPiece)
+                conflictPieces.add(indexPiece - sizeBoard)
+
+            # OUEST
+            # 1er cas, la pièce est placé sur la première colonne, on vérifie donc le conflit avec le bord
+            if indexPiece % sizeBoard == 0:
+                if piece[WEST] != GRAY:
+                    conflictPieces.add(indexPiece)
+            # 2ème cas, la pièce n'est pas sur la première colonne, on vérifie donc le conflit avec la pièce à l'ouest
+            # et que l'ouest de la pièce n'est pas gris
+            elif piece[WEST] == GRAY or piece[WEST] != solution[indexPiece - 1][EAST]:
+                conflictPieces.add(indexPiece)
+                conflictPieces.add(indexPiece - 1)
+
+            # NORD
+            # 1er cas, la pièce est placé sur la dernière ligne, on vérifie donc le conflit avec le bord
+            if indexPiece >= sizeBoard * (sizeBoard - 1):
+                if piece[NORTH] != GRAY:
+                    conflictPieces.add(indexPiece)
+            # 2ème cas, la pièce n'est pas sur la dernière ligne, on vérifie donc le conflit avec la pièce au nord
+            # et que le nord de la pièce n'est pas gris
+            elif piece[NORTH] == GRAY or piece[NORTH] != solution[indexPiece + sizeBoard][SOUTH]:
+                conflictPieces.add(indexPiece)
+                conflictPieces.add(indexPiece + sizeBoard)
+
+            # EST
+            # 1er cas, la pièce est placé sur la dernière colonne, on vérifie donc le conflit avec le bord
+            if indexPiece % sizeBoard == sizeBoard - 1:
+                if piece[EAST] != GRAY:
+                    conflictPieces.add(indexPiece)
+            # 2ème cas, la pièce n'est pas sur la dernière colonne, on vérifie donc le conflit avec la pièce à l'est
+            # et que l'est de la pièce n'est pas gris
+            elif piece[EAST] == GRAY or piece[EAST] != solution[indexPiece + 1][WEST]:
+                conflictPieces.add(indexPiece)
+                conflictPieces.add(indexPiece + 1)
+    # print(f"Nombre de pièces vérifiées : {nbPieceChecked}")
+    return list(conflictPieces)
+
+
+def selectWithNbConflict(voisinage, eternityPuzzle: EternityPuzzle):
+    """
+    Fonction qui retourne le voisin qui a le moins de conflit.
+    :param eternityPuzzle:
+    :param voisinage:
+    :return:
+    """
+    return min(voisinage, key=eternityPuzzle.get_total_n_conflict)

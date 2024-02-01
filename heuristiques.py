@@ -11,13 +11,15 @@ WEST = 2
 EAST = 3
 
 
-def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int], indexNewPiece) -> int:
+def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
+                               indexNewPiece) -> int:
     """
     Le but de cette fonction heuristique est de calculer le nombre de conflit qu'apporte une nouvelle pièce à
     la solution.
     Le score sera donc compris entre 0 et 4.
     Comme on place les pièces une par une en partant d'en bas à gauche jusqu'en haut à droite, on a besoin de check
     seuelement les conflits avec la pièce au sud et la pièce à l'ouest. Il faut aussi vérifier les bords de la grille.
+    :param indexNewPiece:
     :param newPiece:
     :param eternity_puzzle:
     :param solution:
@@ -61,7 +63,8 @@ def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple
     return n_conflict
 
 
-def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int], indexNewPiece) -> int:
+def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
+                               indexNewPiece) -> int:
     """
     Amélioration de la fonction heuristique précédente. On donne une grosse pénalité en cas de conflit avec les bords
     :param newPiece:
@@ -130,7 +133,7 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
 def heuristicNbConflictPieceV3(
         eternity_puzzle: EternityPuzzle, solutionMatrix: [[int]], newPiece: Tuple[int],
         coordNewPiece: Tuple[int, int]
-        ) -> int:
+) -> int:
     """
     On compte le nombre de conflit que la pièce apporte à la solution. La solution fournit est une matrice.
     On doit aussi donner les coordonnées de la pièce dans la matrice.
