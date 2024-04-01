@@ -36,7 +36,7 @@ def chooseBestPiece(
         eternityPuzzle: EternityPuzzle, solution: List[List[Tuple]],
         remainingPiece: List[Tuple],
         heuristique, coord: Tuple[int, int]
-) -> Tuple[Tuple[int, int, int, int], List[Tuple]]:
+        ) -> Tuple[Tuple[int, int, int, int], List[Tuple]]:
     """
     Fonction qui retourne la pièce qui apporte le moins de conflit à la solution.
     :param coord:
@@ -191,3 +191,44 @@ def selectWithNbConflict(voisinage, eternityPuzzle: EternityPuzzle):
     :return:
     """
     return min(voisinage, key=eternityPuzzle.get_total_n_conflict)
+
+
+def getEdgeIndexes(eternityPuzzle: EternityPuzzle) -> Tuple[List[int], List[int], List[int], List[int]]:
+    """
+    Fonction qui retourne les indices des pièces qui sont des bords. Dans l'ordre suivant : sud, ouest, nord, est.
+    :param eternityPuzzle:
+    :return:
+    """
+    sizeBoard = eternityPuzzle.board_size
+    return (list(range(sizeBoard)),
+            list(range(0, sizeBoard * sizeBoard, sizeBoard)),
+            list(range(sizeBoard * (sizeBoard - 1), sizeBoard * sizeBoard)),
+            list(range(sizeBoard - 1, sizeBoard * sizeBoard, sizeBoard)))
+
+
+def getAngleIndexes(eternityPuzzle: EternityPuzzle) -> List[int]:
+    """
+    Fonction qui retourne les indices des pièces qui sont des angles dans l'ordre suivant : sud-ouest, nord-ouest,
+    nord-est, sud-est.
+    :param eternityPuzzle:
+    :return:
+    """
+    sizeBoard = eternityPuzzle.board_size
+    return [0, sizeBoard * (sizeBoard - 1), sizeBoard * sizeBoard - 1, sizeBoard - 1]
+
+
+def printGridIndexes(eternityPuzzle: EternityPuzzle):
+    """
+    Fonction qui affiche la grille avec les indices des pièces.
+    :param eternityPuzzle:
+    :return:
+    """
+
+    # L'angle sud-ouest est en bas à gauche et possède l'indice 0, l'angle nord-ouest est en haut à gauche et possède
+    # l'indice sizeBoard * (sizeBoard - 1)
+    # l'affichage commence par la ligne du haut
+    sizeBoard = eternityPuzzle.board_size
+    for i in range(sizeBoard-1, -1, -1):
+        for j in range(sizeBoard):
+            print(f"{i * sizeBoard + j:3d}", end=" ")
+        print()
