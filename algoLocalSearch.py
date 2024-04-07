@@ -1,3 +1,5 @@
+import math
+import random
 import time
 from typing import Tuple, List
 
@@ -60,72 +62,129 @@ def solverLSNaive(eternityPuzzle: EternityPuzzle, maxTime, goodStart=False) -> T
     return bestSolution, bestCost
 
 
-def solverLocalSearchGlobal(eternityPuzzle: EternityPuzzle, voisinageFct, selectFct, costFct, maxTime) -> \
+def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selectFct, costFct, remainingTime=60, debug=False) -> \
         Tuple[List[Tuple[int]], int]:
     """
     Algorithme de recherche locale générique.
-    :param eternityPuzzle:
-    :param voisinageFct:
-    :param selectFct:
-    :param costFct:
-    :param maxTime:
-    :return:
+    :param eternityPuzzle: Instance du problème
+    :param startingSol: Solution de départ
+    :param voisinageFct: Fonction de génération du voisinage
+    :param selectFct: Fonction de sélection du voisin
+    :param costFct: Fonction de coût
+    :param remainingTime: Temps restant pour l'exécution
+    :return: Tuple (meilleure solution, coût de la meilleure solution)
     """
 
     # Calcul du temps
     startTime = time.time()
-    curentTime = time.time() - startTime
 
-    bestSolution = None
-    bestCost = (eternityPuzzle.board_size ** 2 + eternityPuzzle.board_size) * 2
+    currentSolution = startingSol
+    currentCost = costFct(currentSolution)
+    bestSolution = currentSolution
+    bestCost = currentCost
 
-    # currentSolution = getRandomSolution(eternityPuzzle)
+    idxIter = 1
 
-    currentSolution, currentCost = solverHeuristique1DeepEdgeFirstV2(eternityPuzzle, heuristicNbConflictPieceV3)
-
-    print(f"First best cost : {bestCost}")
-    print(f"Coût initial : {currentCost}")
+    if debug:
+        print(f"Coût initial : {currentCost}")
 
     if currentCost == 0:
         return currentSolution, currentCost
 
-    # start1 = time.time()
-    # voisinage1 = getVoisinageAllPermutAndRotations(eternityPuzzle, currentSolution)
-    # print(f"Temps de calcul du voisinage1 : {round(time.time() - start1, 4)} secondes")
-    # print(f"Nombre de voisins : {len(voisinage1)}")
-    # currentSolution = min(voisinage1, key=eternityPuzzle.get_total_n_conflict)
-    # currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
-    # print(f"Temps de calcul de la sélection1 : {round(time.time() - start1, 4)} secondes")
-
-    # start2 = time.time()
-    # voisinage2 = getVoisinageOnlyConflict(eternityPuzzle, currentSolution)
-    # print(f"Temps de calcul du voisinage2 : {round(time.time() - start2, 4)} secondes")
-    # print(f"Nombre de voisins : {len(voisinage2)}")
-    # currentSolution = min(voisinage2, key=eternityPuzzle.get_total_n_conflict)
-    # currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
-    # print(f"Temps de calcul de la sélection2 : {round(time.time() - start2, 4)} secondes")
-    # return currentSolution, currentCost
-
-    while curentTime < maxTime and currentCost > 0:
+    while currentCost > 0 and (time.time() - startTime) < remainingTime:
+        # Génération du voisinage
         voisinage = voisinageFct(eternityPuzzle, currentSolution)
-        # print(f"Temps de calcul du voisinage : {round(time.time() - startTime, 4)} secondes")
-        if len(voisinage) > 0:
 
-            currentSolution = selectFct(voisinage, eternityPuzzle)
-            # print(f"Temps de calcul de la sélection : {round(time.time() - startTime, 4)} secondes")
+        currentSolution = selectFct(eternityPuzzle, voisinage, currentSolution)
+
+        if currentSolution is not None:
+
             currentCost = costFct(currentSolution)
-            # print(f"Temps de calcul du coût : {round(time.time() - startTime, 4)} secondes")
 
             if currentCost < bestCost:
                 bestSolution = currentSolution
                 bestCost = currentCost
-                print(f"Nouveau meilleur coût : {bestCost}")
+                if debug:
+                    print(f"Nouveau meilleur coût : {bestCost} - Temps restant: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter}")
 
-            curentTime = time.time() - startTime
         else:
             break
 
-    print(f"Éxecution terminée en {round(curentTime, 4)} secondes")
+        idxIter += 1
+
+    return bestSolution, bestCost
+
+
+def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp, tauxDecroissance, maxWithoutImprovement=100, remainingTime=60, debug=False) -> Tuple[List[Tuple[int]], int]:
+
+    # Initialisation
+    currentSolution = startingSol
+    currentCost = eternityPuzzle.get_total_n_conflict(startingSol)
+    bestSolution = currentSolution
+    bestCost = currentCost
+    startTime = time.time()
+    nbTryWithoutImprovement = 0
+
+    idxIter = 1
+    nbChosenSol = 0
+
+    tailleVoisinage = 0
+
+    if debug:
+        print(f"Début simulated annealing - Temps restant: {round(remainingTime, 2)} s - Coût initial: {bestCost} - Température "
+              f"initiale: {initialTemp}")
+
+    temperature = initialTemp
+
+    # Tant qu'il reste du temps, on continue
+    while (time.time() - startTime) < remainingTime and bestCost > 0:
+
+        voisinage = getVoisinageOnlyConflictV2(eternityPuzzle, currentSolution)
+
+        tailleVoisinage += len(voisinage)
+
+        # Séléction d'un voisin aléatoire
+        chosenSol = random.choice(voisinage)
+        chosenCost = eternityPuzzle.get_total_n_conflict(chosenSol)
+
+        delta = chosenCost - currentCost
+
+        changeSol = False
+
+        # Si le voisin est meilleur, on le garde
+        if delta < 0:
+            currentSolution = chosenSol
+            currentCost = chosenCost
+        else:
+            # Si le voisin est moins bon, on le garde avec une probabilité
+            proba = math.exp(-delta / temperature)
+            if random.random() < proba:
+                currentSolution = chosenSol
+                currentCost = chosenCost
+                nbChosenSol += 1
+
+        # Mise à jour de la meilleure solution
+        if currentCost < bestCost:
+            bestSolution = currentSolution
+            bestCost = currentCost
+            nbTryWithoutImprovement = 0
+            if debug:
+                print(f"New best cost: {bestCost} - Temperature: {round(temperature, 3)} - Remaining time: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter} - Taille moyenne du voisinage: {tailleVoisinage / idxIter}")
+
+        # Si on améliore pas au bout, on augmente le nombre d'essais sans amélioration
+        else:
+            nbTryWithoutImprovement += 1
+
+            # Si on atteint le nombre d'essais sans amélioration, on arrête
+            if nbTryWithoutImprovement >= maxWithoutImprovement:
+                if debug:
+                    print(f"Nombre d'essais max sans amélioration atteint ({maxWithoutImprovement}) - Final score {currentCost} - Temperature: {temperature} - Total iteration: {idxIter} - Taille moyenne du voisinage: {tailleVoisinage / idxIter} - % chosen sol: {nbChosenSol / idxIter}")
+                break
+
+        # Mise à jour de la température
+        temperature *= tauxDecroissance
+
+        idxIter += 1
 
     return bestSolution, bestCost
 
@@ -225,6 +284,9 @@ def getVoisinageOnlyConflictV2(eternityPuzzle: EternityPuzzle, solution: List[Tu
                     # if swap[0] == 0 or swap[1] == 0:
                     #     print(f"Swap {swap[0]} <-> {swap[1]}")
                     #     print(f"{piece1} <-> {piece2}")
+
+    # mélange du voisinage
+    random.shuffle(voisinage)
 
     return voisinage
 
@@ -360,7 +422,22 @@ def generatePossibleRotationForSwap(eternityPuzzle: EternityPuzzle, solution, id
             return [initial_shape, rotation_90, rotation_180, rotation_270]
 
 
+def findFirstUpgradingNeighbor(eternityPuzzle: EternityPuzzle, voisinage: List[List[Tuple[int]]], currentSolution: List[Tuple[int]]) -> List[Tuple[int]]:
+    """
+    Retourne le premier voisin qui améliore la solution actuelle.
+    Si aucun voisin n'améliore la solution, retourne None.
+    :param eternityPuzzle: Instance du problème
+    :param voisinage: Liste des voisins
+    :param currentSolution: Solution actuelle
+    :return: Solution améliorée ou None
+    """
+    currentCost = eternityPuzzle.get_total_n_conflict(currentSolution)
 
+    for voisin in voisinage:
+        if eternityPuzzle.get_total_n_conflict(voisin) < currentCost:
+            return voisin
+
+    return None
 
 
 

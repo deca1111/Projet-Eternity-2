@@ -5,6 +5,7 @@ import solver_random
 import solver_heuristic
 import solver_local_search
 import solver_advanced
+import os
 
 
 def parse_arguments():
@@ -13,14 +14,32 @@ def parse_arguments():
     # Instances parameters
     parser.add_argument('--agent', type=str, default='random')
     parser.add_argument('--infile', type=str, default='input')
-    parser.add_argument('--outfile', type=str, default='solution.txt')
-    parser.add_argument('--visufile', type=str, default='visualization.png')
+    parser.add_argument('--outfile', type=str, default=None)
+    parser.add_argument('--visufile', type=str, default=None)
 
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_arguments()
+
+    if args.outfile is None:
+        # Création d'un dossier de sortie en fonction de l'agent
+        rootSol = "solutions"
+        os.makedirs(os.path.join(rootSol, args.agent), exist_ok=True)
+
+        fileName = "sol_" + args.infile.split('\\')[-1]
+        filePath = os.path.join(rootSol, args.agent, fileName)
+        args.outfile = filePath
+
+    if args.visufile is None:
+        # Création d'un dossier de sortie en fonction de l'agent
+        rootVisu = "visualizations"
+        os.makedirs(os.path.join(rootVisu, args.agent), exist_ok=True)
+
+        fileName = "visu_" + (args.infile.split("\\")[-1]).split(".")[0] + ".png"
+        filePath = os.path.join(rootVisu, args.agent, fileName)
+        args.visufile = filePath
 
 
     e = eternity_puzzle.EternityPuzzle(args.infile)
@@ -39,7 +58,7 @@ if __name__ == '__main__':
 
     if args.agent == "random":
         # Take the best of 1,000,000 random trials
-        solution, n_conflict = solver_random.solve_best_random(e, 100000)
+        solution, n_conflict = solver_random.solve_random(e)
     elif args.agent == "heuristic":
         # Agent based on a constructive heuristic (Phase 1)
         solution, n_conflict = solver_heuristic.solve_heuristic(e)

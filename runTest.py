@@ -230,114 +230,118 @@ def runTestTailleVoisinage():
 
 
 def runTestVoisinage():
-    instanceName = "eternity_E.txt"
-    global puzzle, currentSolution
+    instanceName = "eternity_C.txt"
+    global puzzle, currentSolution, time
     puzzle = eternity_puzzle.EternityPuzzle("./instances/" + instanceName)
 
-    nTaille = 50
-    nTime = 50
+    fctToTest = [getVoisinageAllPermutAndRotations, getVoisinageOnlyConflictV1, getVoisinageOnlyConflictV2]
 
-    tailleVoisGetVoisinageAllPermutAndRotations = 0
-    tailleVoisGetVoisinageOnlyConflictV1 = 0
-    tailleVoisGetVoisinageOnlyConflictV2 = 0
+    nbIter = 50
 
-    currentSolution = None
+    tailleVoisinage = [0 for _ in range(len(fctToTest))]
 
-    for _ in range(nTaille):
+    timeVoisinage = [0 for _ in range(len(fctToTest))]
+
+    timeFindAmeliorant = [0 for _ in range(len(fctToTest))]
+
+    nbAmeliorant = [0 for _ in range(len(fctToTest))]
+
+    for idx in range(nbIter):
+        print(f"Iteration {idx+1}/{nbIter}")
         currentSolution, currentCost = solverHeuristique1DeepEdgeFirstV2(puzzle, heuristicNbConflictPieceV3)
 
-        tailleVoisGetVoisinageAllPermutAndRotations += len(getVoisinageAllPermutAndRotations(puzzle, currentSolution))
+        for index, fctVoisinage in enumerate(fctToTest):
+            startTime = time.time()
+            voisinage = fctVoisinage(puzzle, currentSolution)
+            endTime = time.time()
 
-        tailleVoisGetVoisinageOnlyConflictV1 += len(getVoisinageOnlyConflictV1(puzzle, currentSolution))
+            timeVoisinage[index] += endTime - startTime
+            tailleVoisinage[index] += len(voisinage)
 
-        tailleVoisGetVoisinageOnlyConflictV2 += len(getVoisinageOnlyConflictV2(puzzle, currentSolution))
+            ameliorant = 0
+            startTime = time.time()
+            endTime = None
+            for voisin in voisinage:
+                if puzzle.get_total_n_conflict(voisin) < currentCost:
+                    ameliorant += 1
+                    if endTime is None:
+                        endTime = time.time()
+            if endTime is None:
+                endTime = time.time()
 
-    print(f"Comparaison des tailles de voisinages pour {nTaille} itérations :")
-    print(f"- getVoisinageAllPermutAndRotations : {tailleVoisGetVoisinageAllPermutAndRotations / nTaille}")
-    print(f"- getVoisinageOnlyConflictV1 : {tailleVoisGetVoisinageOnlyConflictV1 / nTaille}")
-    print(f"- getVoisinageOnlyConflictV2 : {tailleVoisGetVoisinageOnlyConflictV2 / nTaille}")
+            timeFindAmeliorant[index] += endTime - startTime
 
-    timeGetVoisinageAllPermutAndRotations = timeit.timeit(stmt="getVoisinageAllPermutAndRotations(puzzle, "
-                                                               "currentSolution)", globals=globals(), number=nTime)
+            nbAmeliorant[index] += ameliorant
 
-    timeGetVoisinageOnlyConflictV1 = timeit.timeit(stmt="getVoisinageOnlyConflictV1(puzzle, currentSolution)",
-                                                   globals=globals(), number=nTime)
+    print(f"Comparaison des tailles de voisinages pour {nbIter} itérations :")
+    for index, fct in enumerate(fctToTest):
+        print(f"- {fct.__name__} : {tailleVoisinage[index] / nbIter}")
 
-    timeGetVoisinageOnlyConflictV2 = timeit.timeit(stmt="getVoisinageOnlyConflictV2(puzzle, currentSolution)",
-                                                   globals=globals(), number=nTime)
+    print(f"\nComparaison des temps d'exécution pour {nbIter} itérations :")
+    for index, fct in enumerate(fctToTest):
+        print(f"- {fct.__name__} : {timeVoisinage[index] / nbIter}")
 
-    print(f"\nComparaison des temps d'exécution pour {nTime} itérations :")
-    print("- getVoisinageAllPermutAndRotations : %E seconds" % (timeGetVoisinageAllPermutAndRotations / nTime))
-    print("- getVoisinageOnlyConflictV1 : %E seconds" % (timeGetVoisinageOnlyConflictV1 / nTime))
-    print("- getVoisinageOnlyConflictV2 : %E seconds" % (timeGetVoisinageOnlyConflictV2 / nTime))
+    print(f"\nComparaison des nombres de voisins améliorants pour {nbIter} itérations :")
+    for index, fct in enumerate(fctToTest):
+        print(f"- {fct.__name__} : {nbAmeliorant[index] / nbIter}")
 
     # Plot de 2 graphe partagent l'axe des abscisses. Le premier pour les temps d'execution et le second pour les
     # tailles des voisinnages.
 
-    fig, ax1 = plt.subplots(figsize=(10, 7))
-    ax2 = ax1.twinx()
+    fig, (ax1, ax3) = plt.subplots(2, sharex=True, figsize=(10, 7))
 
-    # Plot des temps d'exécution
-    ax1.plot(["getVoisinageAllPermutAndRotations", "getVoisinageOnlyConflictV1", "getVoisinageOnlyConflictV2"],
-             [timeGetVoisinageAllPermutAndRotations / nTime,
-              timeGetVoisinageOnlyConflictV1 / nTime,
-              timeGetVoisinageOnlyConflictV2 / nTime],
-             '-bo', linewidth=3, label=f"Temps moyen d'exécution - {nTime} itérations")
+    fig.suptitle(f"Comparaison des fonctions de voisinage - {nbIter} itérations\nInstance : {instanceName}")
 
-    ax1.set_ylim((min(timeGetVoisinageAllPermutAndRotations, timeGetVoisinageOnlyConflictV1,
-                        timeGetVoisinageOnlyConflictV2) / nTime) * 0.95
-                 , (max(timeGetVoisinageAllPermutAndRotations, timeGetVoisinageOnlyConflictV1,
-                        timeGetVoisinageOnlyConflictV2) / nTime) * 1.1)
+    # ax2 = ax1.twinx()
+    ax4 = ax3.twinx()
+
+    ax1.plot([fct.__name__ for fct in fctToTest], [time_ / nbIter for time_ in timeVoisinage], '-bo', linewidth=2, label=f"Temps moyen d'exécution")
+
+    ax1.plot([fct.__name__ for fct in fctToTest], [time_ / nbIter for time_ in timeFindAmeliorant], '-ko', linewidth=2, label=f"Temps moyen trouver 1er améliorant")
 
     # Ajout des valeurs sur les points
-    ax1.text(0, timeGetVoisinageAllPermutAndRotations / nTime,
-             f"{(timeGetVoisinageAllPermutAndRotations / nTime):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
-    ax1.text(1, timeGetVoisinageOnlyConflictV1 / nTime, f"{(timeGetVoisinageOnlyConflictV1 / nTime):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
-    ax1.text(2, timeGetVoisinageOnlyConflictV2 / nTime, f"{(timeGetVoisinageOnlyConflictV2 / nTime):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
 
-    ax1.set_title(f"Comparaison fonctions de voisinage \nInstance : {instanceName}")
-    ax1.set_ylabel("Temps d'exécution")
+    for i, time_ in enumerate(timeVoisinage):
+        ax1.text(i, time_ / nbIter, f"{(time_ / nbIter):.2E}s\n", ha='center', va='bottom', fontsize=10)
+
+    for i, time_ in enumerate(timeFindAmeliorant):
+        ax1.text(i, time_ / nbIter, f"{(time_ / nbIter):.2E}s\n", ha='center', va='bottom', fontsize=10)
+
+    ax1.set_title(f"Temps d'exécution")
+    ax1.set_ylabel("[s]")
+    ax1.set_yscale('log')
 
     # Plot des tailles de voisinages
-    ax2.plot(["getVoisinageAllPermutAndRotations", "getVoisinageOnlyConflictV1", "getVoisinageOnlyConflictV2"],
-             [tailleVoisGetVoisinageAllPermutAndRotations / nTaille,
-              tailleVoisGetVoisinageOnlyConflictV1 / nTaille,
-              tailleVoisGetVoisinageOnlyConflictV2 / nTaille],
-             '-r+', linewidth=3, label=f"Taille moyenne du voisinage - {nTaille} itérations")
+    ax3.plot([fct.__name__ for fct in fctToTest], [taille / nbIter for taille in tailleVoisinage], '-ro', linewidth=2, label=f"Taille moyenne du voisinage")
 
-    ax2.set_ylim((min(timeGetVoisinageAllPermutAndRotations, timeGetVoisinageOnlyConflictV1,
-                        timeGetVoisinageOnlyConflictV2) / nTime)
-                 , (max(tailleVoisGetVoisinageAllPermutAndRotations, tailleVoisGetVoisinageOnlyConflictV1,
-                        tailleVoisGetVoisinageOnlyConflictV2) / nTaille) * 1.1)
+    ax4.plot([fct.__name__ for fct in fctToTest], [(nbAmeliorant[i] / tailleVoisinage[i]) * 100 for i in range(len(tailleVoisinage))], '-go', linewidth=2, label=f"% voisins améliorants")
 
     # Ajout des valeurs sur les points
-    ax2.text(0, tailleVoisGetVoisinageAllPermutAndRotations / nTaille,
-             f"{(tailleVoisGetVoisinageAllPermutAndRotations / nTaille):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
-    ax2.text(1, tailleVoisGetVoisinageOnlyConflictV1 / nTaille,
-             f"{(tailleVoisGetVoisinageOnlyConflictV1 / nTaille):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
-    ax2.text(2, tailleVoisGetVoisinageOnlyConflictV2 / nTaille,
-             f"{(tailleVoisGetVoisinageOnlyConflictV2 / nTaille):.2E}\n",
-             ha='center', va='bottom', fontsize=10)
+    for i, taille in enumerate(tailleVoisinage):
+        ax3.text(i, taille / nbIter, f"{int(taille / nbIter)}\n", ha='center', va='bottom', fontsize=10)
 
-    ax2.set_ylabel("Taille du voisinage")
+    for i, nbAmel in enumerate(nbAmeliorant):
+        prct = (nbAmel / tailleVoisinage[i]) * 100
+        ax4.text(i, prct, f"{(prct):.3f}%\n", ha='center', va='bottom', fontsize=10)
+
+    ax3.set_title(f"Taille du voisinage")
+    ax3.set_ylabel("[Nombre d'éléments]")
+    ax4.set_ylabel("[%]")
 
     # Ajout de marges pour une meilleure visibilité du texte
-    ax1.margins(x=0.15)
-    ax2.margins(x=0.10)
+    ax1.margins(x=0.15, y=0.2)
+    ax3.margins(x=0.15, y=0.2)
+    ax4.margins(x=0.15, y=0.2)
 
     # Affichages des légendes
-    ax1.legend(loc="upper left")
-    ax2.legend(loc="upper right")
+    ax1.legend(loc="upper right")
+    ax3.legend(loc="lower left")
+    ax4.legend(loc="lower right")
 
     plt.tight_layout()
 
     plt.show()
-    fig.savefig("plot_voisinage.png", dpi=150)
+    fig.savefig("plot_voisinage_v2.png", dpi=250)
 
 
 if __name__ == '__main__':
