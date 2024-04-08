@@ -1,0 +1,16 @@
+
+--------------------------------------------------
+maxTime : 300
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 23
+Temps écoulé : 18.69
+
+--------------------------------------------------
+maxTime : 300
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 19
+Temps écoulé : 15.42

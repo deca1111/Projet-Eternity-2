@@ -1,6 +1,7 @@
 import copy
 import random
 from typing import Tuple, List
+import os
 
 import numpy as np
 
@@ -44,7 +45,7 @@ def chooseBestPiece(
     :param solution:
     :param remainingPiece:
     :param heuristique:
-    :return:
+    :return: la meilleure pièce et la liste des pièces restantes
     """
 
     # Initialisation des variables
@@ -232,3 +233,46 @@ def printGridIndexes(eternityPuzzle: EternityPuzzle):
         for j in range(sizeBoard):
             print(f"{i * sizeBoard + j:3d}", end=" ")
         print()
+
+
+def countChange(solution1: List[Tuple], solution2: List[Tuple]) -> int:
+    """
+    Fonction qui compte le nombre de changement entre deux solutions.
+    :param solution1:
+    :param solution2:
+    :return:
+    """
+    return sum([1 for i in range(len(solution1)) if solution1[i] != solution2[i]])
+
+
+def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
+    """
+    Fonction qui log les résultats dans un fichier.
+    :param puzzle: Instance du puzzle
+    :param ligDict: Dictionnaire contenant les informations à logger
+    :return:
+    """
+    root = "logResultats"
+    os.makedirs(root, exist_ok=True)
+
+    directory = os.path.join(root, solver)
+    os.makedirs(directory, exist_ok=True)
+
+    instanceNames = {2: "eternity_trivial_A.txt",
+                     3: "eternity_trivial_B.txt",
+                     4: "eternity_A.txt",
+                     7: "eternity_B.txt",
+                     8: "eternity_C.txt",
+                     9: "eternity_D.txt",
+                     10: "eternity_E.txt",
+                     16: "eternity_complet.txt"}
+
+    if puzzle.board_size in instanceNames:
+        instanceName = instanceNames[puzzle.board_size]
+    else:
+        instanceName = "eternity_custom.txt"
+
+    with open(os.path.join(directory, instanceName), "a", encoding='UTF-8') as f:
+        f.write(f"\n--------------------------------------------------\n")
+        for key, value in ligDict.items():
+            f.write(f"{key} : {value}\n")

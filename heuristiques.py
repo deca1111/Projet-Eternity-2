@@ -76,7 +76,7 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
     n_conflict = 0
 
     poidConflitClassique = 1
-    poidConflitBord = 100
+    poidConflitBord = 10
 
     sizeBoard = eternity_puzzle.board_size
 
@@ -116,6 +116,8 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
     else:
         if newPiece[NORTH] == GRAY:
             n_conflict += poidConflitBord
+        elif newPiece[NORTH] != solution[indexNewPiece + sizeBoard][SOUTH]:
+            n_conflict += poidConflitClassique
 
     # EAST
     # Si la pièce est placé sur la dernière colonne, on vérifie le conflit avec le bord
@@ -126,6 +128,8 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
     else:
         if newPiece[EAST] == GRAY:
             n_conflict += poidConflitBord
+        elif newPiece[EAST] != solution[indexNewPiece + 1][WEST]:
+            n_conflict += poidConflitClassique
 
     return n_conflict
 
