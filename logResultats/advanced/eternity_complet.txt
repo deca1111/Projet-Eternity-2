@@ -6,3 +6,11 @@ maxWithoutAccept : 10000
 debug : True
 bestScore : 82
 Temps écoulé : 119.97
+
+--------------------------------------------------
+maxTime : 300
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 73
+Temps écoulé : 50.59
