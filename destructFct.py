@@ -59,3 +59,17 @@ def destructProbaMostConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]]
         destroyedPieces.append(solution[idx])
 
     return destructedSol, destroyedPieces, idxDestructed
+
+
+def destructOnlyConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], prctDestruct: float = 0.1):
+    """
+    Choix des pièces à détruire uniquement en fonction du nombre de conflits qu'elles apportent
+    :param puzzle: the puzzle
+    :param solution: the solution
+    :param prctDestruct: the percentage of pieces to destruct
+    :return: La solution dégradée et une liste des pièces détruite et une liste d'index des pièces détruites
+    """
+
+    # Number of pieces to destruct
+    nbDestruct = int(len(solution) * prctDestruct)
+

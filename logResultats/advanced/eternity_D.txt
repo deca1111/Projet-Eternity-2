@@ -14,3 +14,21 @@ maxWithoutAccept : 10000
 debug : True
 bestScore : 19
 Temps écoulé : 15.42
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 300
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 16
+Temps écoulé : 300.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 16
+Temps écoulé : 900.0

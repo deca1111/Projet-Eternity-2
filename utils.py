@@ -2,6 +2,7 @@ import copy
 import random
 from typing import Tuple, List
 import os
+import json
 
 import numpy as np
 
@@ -245,18 +246,7 @@ def countChange(solution1: List[Tuple], solution2: List[Tuple]) -> int:
     return sum([1 for i in range(len(solution1)) if solution1[i] != solution2[i]])
 
 
-def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
-    """
-    Fonction qui log les résultats dans un fichier.
-    :param puzzle: Instance du puzzle
-    :param ligDict: Dictionnaire contenant les informations à logger
-    :return:
-    """
-    root = "logResultats"
-    os.makedirs(root, exist_ok=True)
-
-    directory = os.path.join(root, solver)
-    os.makedirs(directory, exist_ok=True)
+def getInstanceName(puzzle: EternityPuzzle) -> str:
 
     instanceNames = {2: "eternity_trivial_A.txt",
                      3: "eternity_trivial_B.txt",
@@ -272,7 +262,93 @@ def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
     else:
         instanceName = "eternity_custom.txt"
 
+    return instanceName
+
+
+def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
+    """
+    Fonction qui log les résultats dans un fichier.
+    :param puzzle: Instance du puzzle
+    :param solver: Nom du solver
+    :param ligDict: Dictionnaire contenant les informations à logger
+    :return:
+    """
+    root = "logResultats"
+    os.makedirs(root, exist_ok=True)
+
+    directory = os.path.join(root, solver)
+    os.makedirs(directory, exist_ok=True)
+
+    instanceName = getInstanceName(puzzle)
+
     with open(os.path.join(directory, instanceName), "a", encoding='UTF-8') as f:
         f.write(f"\n--------------------------------------------------\n")
         for key, value in ligDict.items():
             f.write(f"{key} : {value}\n")
+
+
+def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int):
+    """
+    Fonction qui sauvegarde la meilleure solution trouvée.
+    :param puzzle: Instance du puzzle
+    :param solver: Nom du solver
+    :param bestSolution: Meilleure solution trouvée
+    :param bestScore: Meilleur score
+    :return:
+    """
+
+    # Dossiers de sauvegarde des solutions
+    root = "savedBestSolutions"
+    os.makedirs(root, exist_ok=True)
+
+    rootVizu = os.path.join(root, "visualizations")
+    os.makedirs(rootVizu, exist_ok=True)
+    rootVizuSolver = os.path.join(rootVizu, solver)
+    os.makedirs(rootVizuSolver, exist_ok=True)
+
+    rootSol = os.path.join(root, "solutions")
+    os.makedirs(rootSol, exist_ok=True)
+    rootSolSolver = os.path.join(rootSol, solver)
+    os.makedirs(rootSolSolver, exist_ok=True)
+
+    # Fichier de sauvegarde des meilleures scores
+    fileScores = os.path.join(root, "bestScores.json")
+
+    # Récupération du nom de l'instance
+    instanceName = getInstanceName(puzzle)
+
+    # Si le fichier n'existe pas, on le crée
+    if not os.path.exists(fileScores):
+        with open(fileScores, "w", encoding='UTF-8') as f:
+            json.dump({}, f)
+
+    # Check si la solution est meilleure que celle déjà sauvegardée
+    with open(fileScores, "r", encoding='UTF-8') as f:
+        bestScores = json.load(f)
+
+        # Si le solver n'existe pas dans le fichier, on le crée
+        if solver not in bestScores:
+            bestScores[solver] = {}
+
+        # Si l'instance n'existe pas dans le solver, on la crée
+        if instanceName not in bestScores[solver]:
+            bestScores[solver][instanceName] = {"score": bestScore}
+
+        elif bestScore < bestScores[solver][instanceName]["score"]:
+            bestScores[solver][instanceName]["score"] = bestScore
+
+        # Si la solution n'est pas meilleure, on ne sauvegarde pas
+        else:
+            print(f"La solution trouvée n'est pas meilleure que celle déjà sauvegardée pour le solver {solver}")
+            return
+
+        # Sauvegarde du fichier
+        with open(fileScores, "w", encoding='UTF-8') as f:
+            json.dump(bestScores, f)
+
+    # Sauvegarde de la solution
+    solPath = os.path.join(rootSolSolver, "sol_" + instanceName)
+    vizuPath = os.path.join(rootVizuSolver, "visu_" + instanceName.split(".")[0] + ".png")
+
+    puzzle.print_solution(bestSolution, solPath)
+    puzzle.display_solution(bestSolution, vizuPath)

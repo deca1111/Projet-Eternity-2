@@ -5,3 +5,30 @@ prctDestruct : 0.15
 maxWithoutAccept : 10000
 debug : True
 bestScore : 5
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 300
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 4
+Temps écoulé : 300.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 60
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 4
+Temps écoulé : 60.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 3
+Temps écoulé : 900.0
