@@ -20,34 +20,29 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
         cost is the cost of the solution
     """
 
-    if maxTime_ is None:
-        maxTime = 15 * 60
-    else:
-        maxTime = maxTime_
-
+    maxTime = 15 * 60 if maxTime_ is None else maxTime_
     prctDestruct = 0.15
-    maxWithoutAccept = 10000
+    maxWithoutAcceptOrImprove = 10000
     debug = True
     log = True
     logs = {"Algorithm": "restartLNS",
             "maxTime": maxTime,
             "prctDestruct": prctDestruct,
-            "maxWithoutAccept": maxWithoutAccept,
+            "maxWithoutAcceptOrImprove": maxWithoutAcceptOrImprove,
             "debug": debug}
 
     startTime = time.time()
 
-    bestSol, bestScore = restartLNS(eternity_puzzle, destructProbaMostConflict, repairHeuristicAllRotation,
-                                    acceptOnlyBetter,
-                                    maxWithoutAccept=maxWithoutAccept, prctDestruct=prctDestruct,
-                                    maxTime=maxTime, debug=debug)
+    bestSol, bestScore = restartLNS(eternity_puzzle, destructAllConflict, repairHeuristicAllRotation,
+                                    acceptSameOrBetter, maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
+                                    prctDestruct=prctDestruct, maxTime=maxTime, debug=debug, logs=logs)
 
     if log:
         logs["bestScore"] = bestScore
-        logs["Temps écoulé"] = round(time.time() - startTime, 2)
+        logs["Temps pris"] = round(time.time() - startTime, 2)
         logResults(eternity_puzzle, "advanced", logs)
 
-    saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore)
+    saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore, logs)
 
     return bestSol, bestScore
 

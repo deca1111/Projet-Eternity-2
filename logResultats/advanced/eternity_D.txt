@@ -32,3 +32,12 @@ maxWithoutAccept : 10000
 debug : True
 bestScore : 16
 Temps écoulé : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAccept : 15000
+debug : True
+bestScore : 17
+Temps pris : 900.0

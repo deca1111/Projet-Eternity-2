@@ -231,7 +231,7 @@ def printGridIndexes(eternityPuzzle: EternityPuzzle):
     # l'indice sizeBoard * (sizeBoard - 1)
     # l'affichage commence par la ligne du haut
     sizeBoard = eternityPuzzle.board_size
-    for i in range(sizeBoard-1, -1, -1):
+    for i in range(sizeBoard - 1, -1, -1):
         for j in range(sizeBoard):
             print(f"{i * sizeBoard + j:3d}", end=" ")
         print()
@@ -248,7 +248,6 @@ def countChange(solution1: List[Tuple], solution2: List[Tuple]) -> int:
 
 
 def getInstanceName(puzzle: EternityPuzzle) -> str:
-
     instanceNames = {2: "eternity_trivial_A.txt",
                      3: "eternity_trivial_B.txt",
                      4: "eternity_A.txt",
@@ -266,7 +265,7 @@ def getInstanceName(puzzle: EternityPuzzle) -> str:
     return instanceName
 
 
-def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
+def logResults(puzzle: EternityPuzzle, solver: str, ligDict: dict):
     """
     Fonction qui log les résultats dans un fichier.
     :param puzzle: Instance du puzzle
@@ -288,13 +287,14 @@ def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
             f.write(f"{key} : {value}\n")
 
 
-def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int, logDict = None):
+def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int, logDict=None):
     """
     Fonction qui sauvegarde la meilleure solution trouvée.
     :param puzzle: Instance du puzzle
     :param solver: Nom du solver
     :param bestSolution: Meilleure solution trouvée
     :param bestScore: Meilleur score
+    :param logDict: Dictionnaire contenant les informations à logger
     :return:
     """
 
@@ -320,42 +320,41 @@ def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tup
 
     # Si le fichier n'existe pas, on le crée
     if not os.path.exists(fileScores):
-        with open(fileScores, "w", encoding='UTF-8') as f:
+        with open(fileScores, "w") as f:
+            print("Création du fichier de sauvegarde des meilleurs scores")
             json.dump({}, f)
 
     # Check si la solution est meilleure que celle déjà sauvegardée
     with open(fileScores, "r", encoding='UTF-8') as f:
         bestScores = json.load(f)
 
-        # Si le solver n'existe pas dans le fichier, on le crée
-        if solver not in bestScores:
-            bestScores[solver] = {}
+    # Si le solver n'existe pas dans le fichier, on le crée
+    if solver not in bestScores:
+        bestScores[solver] = {}
 
-		updateBestScore = False
+    # Si l'instance n'existe pas dans le solver ou si la solution est meilleure que celle déjà sauvegardée
+    if instanceName not in bestScores[solver] or bestScore < bestScores[solver][instanceName]["score"]:
+        bestScores[solver][instanceName] = {"score": bestScore}
 
-        # Si l'instance n'existe pas dans le solver, on la crée
-        if instanceName not in bestScores[solver] or bestScore < bestScores[solver][instanceName]["score"]:
-            bestScores[solver][instanceName] = {}
+        date = datetime.now()
+        bestScores[solver][instanceName]["date"] = date.strftime("%d/%m/%Y, %H:%M:%S")
 
-			bestScores[solver][instanceName]["score"] = bestScore
-			date = datetime.now()
-			bestScores[solver][instanceName]["date"] = date.strftime("%d/%m/%Y, %H:%M:%S")
+        if logDict is not None:
+            for key in logDict:
+                bestScores[solver][instanceName][key] = logDict[key]
 
-			if logDict is not None:
-				for key in logDict:
-					bestScores[solver][instanceName][key] = logDict[key]
+            # Sauvegarde des meilleurs scores
+        with open(fileScores, "w") as f:
+            json.dump(bestScores, f, indent=4)
 
-        # Si la solution n'est pas meilleure, on ne sauvegarde pas
-        else:
-            print(f"La solution trouvée n'est pas meilleure que celle déjà sauvegardée pour le solver {solver}")
-            return
+    else:
+        print(f"La solution trouvée n'est pas meilleure que celle déjà sauvegardée pour le solver {solver}")
+        return
 
-        # Sauvegarde du fichier
-        with open(fileScores, "w", encoding='UTF-8') as f:
-            json.dump(bestScores, f, indent=2)
+
 
     # Sauvegarde de la solution
-    solPath = os.path.join(rootSolSolver, "sol_" + instanceName)
+    solPath = os.path.join(rootSolSolver, f"sol_{instanceName}")
     vizuPath = os.path.join(rootVizuSolver, "visu_" + instanceName.split(".")[0] + ".png")
 
     puzzle.print_solution(bestSolution, solPath)

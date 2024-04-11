@@ -32,3 +32,64 @@ maxWithoutAccept : 10000
 debug : True
 bestScore : 3
 Temps écoulé : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAccept : 10000
+debug : True
+bestScore : 5
+Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 180
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 2
+DestructFct : destructProbaMostConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+bestScore : 9
+Temps pris : 180.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 180
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 60
+DestructFct : destructProbaMostConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+bestScore : 9
+Temps pris : 180.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAccept : 15000
+debug : True
+NbRestart : 119
+DestructFct : destructAllConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptOnlyBetter
+bestScore : 3
+Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 180
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 10000
+debug : True
+NbRestart : 12
+DestructFct : destructAllConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+bestScore : 3
+Temps pris : 180.0

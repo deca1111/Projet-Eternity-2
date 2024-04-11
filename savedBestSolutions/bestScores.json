@@ -1,1 +1,104 @@
-{"advanced": {"eternity_A.txt": {"score": 0}, "eternity_B.txt": {"score": 3}, "eternity_C.txt": {"score": 13}, "eternity_complet.txt": {"score": 79}, "eternity_D.txt": {"score": 16}, "eternity_E.txt": {"score": 19}, "eternity_trivial_A.txt": {"score": 0}, "eternity_trivial_B.txt": {"score": 0}}}
+{
+    "advanced": {
+        "eternity_A.txt": {
+            "score": 0,
+            "date": "11/04/2024, 15:03:35",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "NbRestart": 1,
+            "DestructFct": "destructProbaMostConflict",
+            "ReconstructFct": "repairHeuristicAllRotation",
+            "AcceptFct": "acceptOnlyBetter",
+            "bestScore": 0,
+            "Temps pris": 0.0
+        },
+        "eternity_B.txt": {
+            "score": 3,
+            "date": "11/04/2024, 15:41:26",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "NbRestart": 119,
+            "DestructFct": "destructAllConflict",
+            "ReconstructFct": "repairHeuristicAllRotation",
+            "AcceptFct": "acceptOnlyBetter",
+            "bestScore": 3,
+            "Temps pris": 900.0
+        },
+        "eternity_C.txt": {
+            "score": 10,
+            "date": "11/04/2024, 16:14:34",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAcceptOrImprove": 10000,
+            "debug": true,
+            "NbRestart": 4,
+            "DestructFct": "destructAllConflict",
+            "ReconstructFct": "repairHeuristicAllRotation",
+            "AcceptFct": "acceptSameOrBetter",
+            "bestScore": 10,
+            "Temps pris": 900.0
+        },
+        "eternity_complet.txt": {
+            "score": 73,
+            "date": "11/04/2024, 14:11:24",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 25000,
+            "debug": true,
+            "bestScore": 73,
+            "Temps pris": 900.0
+        },
+        "eternity_D.txt": {
+            "score": 17,
+            "date": "11/04/2024, 14:26:26",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "bestScore": 17,
+            "Temps pris": 900.0
+        },
+        "eternity_E.txt": {
+            "score": 19,
+            "date": "11/04/2024, 14:41:27",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "bestScore": 19,
+            "Temps pris": 900.0
+        },
+        "eternity_trivial_A.txt": {
+            "score": 0,
+            "date": "11/04/2024, 14:41:29",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "bestScore": 0,
+            "Temps pris": 0.0
+        },
+        "eternity_trivial_B.txt": {
+            "score": 0,
+            "date": "11/04/2024, 14:41:30",
+            "Algorithm": "restartLNS",
+            "maxTime": 900,
+            "prctDestruct": 0.15,
+            "maxWithoutAccept": 15000,
+            "debug": true,
+            "bestScore": 0,
+            "Temps pris": 0.0
+        }
+    }
+}

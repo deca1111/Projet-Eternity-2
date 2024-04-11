@@ -73,3 +73,54 @@ def destructOnlyConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], prc
     # Number of pieces to destruct
     nbDestruct = int(len(solution) * prctDestruct)
 
+    # Récupération des index des pièces triées par nombre de conflits
+    conflicts = [(idx, heuristicNbConflictPieceV2(puzzle, solution, solution[idx], idx))
+                 for idx in range(len(solution))]
+
+    # On enlève les pièces sans conflits
+    conflicts = [c for c in conflicts if c[1] > 0]
+
+    # Mélanges des pièces pour éviter de toujours détruire les mêmes
+    random.shuffle(conflicts)
+
+    # Tri des pièces par nombre de conflits (de la plus conflictuelle à la moins conflictuelle)
+    conflicts.sort(key=lambda x: x[1], reverse=True)
+
+    # On ne garde que les nbDestruct premières pièces
+    if len(conflicts) < nbDestruct:
+        nbDestruct = len(conflicts)
+        print("Nombre de pièces à détruire réduit à", nbDestruct)
+
+    idxDestructed = [idx for idx, _ in conflicts[:nbDestruct]]
+
+    destructedSol = deepcopy(solution)
+    destroyedPieces = []
+
+    for idx in idxDestructed:
+        destructedSol[idx] = (0, 0, 0, 0)
+        destroyedPieces.append(solution[idx])
+
+    return destructedSol, destroyedPieces, idxDestructed
+
+
+def destructAllConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], _):
+    """
+    Destruct all the pieces that are in conflict
+    :param puzzle: the puzzle
+    :param solution: the solution
+    :return: La solution dégradée et une liste des pièces détruite et une liste d'index des pièces détruites
+    :param _: PAS PRIS EN COMPTE (pour avoir la même signature que les autres fonctions de destruction)
+    """
+
+    destructedSol = deepcopy(solution)
+    destroyedPieces = []
+    idxDestructed = []
+
+    for idx, piece in enumerate(solution):
+        if heuristicNbConflictPieceV2(puzzle, solution, piece, idx) > 0:
+            destructedSol[idx] = (0, 0, 0, 0)
+            destroyedPieces.append(piece)
+            idxDestructed.append(idx)
+
+    return destructedSol, destroyedPieces, idxDestructed
+
