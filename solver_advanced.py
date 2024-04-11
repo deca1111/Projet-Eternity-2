@@ -21,19 +21,22 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
     """
 
     maxTime = 15 * 60 if maxTime_ is None else maxTime_
-    prctDestruct = 0.15
-    maxWithoutAcceptOrImprove = 10000
+    prctDestruct = 0.1
+    maxWithoutAcceptOrImprove = 5000
     debug = True
     log = True
-    logs = {"Algorithm": "restartLNS",
-            "maxTime": maxTime,
-            "prctDestruct": prctDestruct,
-            "maxWithoutAcceptOrImprove": maxWithoutAcceptOrImprove,
-            "debug": debug}
+    if log:
+        date = datetime.now()
+        logs = {"Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
+                "Algorithm": "restartLNS",
+                "maxTime": maxTime,
+                "prctDestruct": prctDestruct,
+                "maxWithoutAcceptOrImprove": maxWithoutAcceptOrImprove,
+                "debug": debug}
 
     startTime = time.time()
 
-    bestSol, bestScore = restartLNS(eternity_puzzle, destructAllConflict, repairHeuristicAllRotation,
+    bestSol, bestScore = restartLNS(eternity_puzzle, destructOnlyConflict, repairHeuristicAllRotation,
                                     acceptSameOrBetter, maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
                                     prctDestruct=prctDestruct, maxTime=maxTime, debug=debug, logs=logs)
 

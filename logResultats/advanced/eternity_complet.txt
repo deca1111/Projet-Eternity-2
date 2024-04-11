@@ -41,3 +41,57 @@ maxWithoutAccept : 25000
 debug : True
 bestScore : 73
 Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 10000
+debug : True
+NbRestart : 16
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptOnlyBetter
+bestScore : 64
+Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 10000
+debug : True
+NbRestart : 16
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+bestScore : 56
+Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.2
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 20
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+bestScore : 62
+Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 45
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+MeanScore : 65.5
+StdScore : 5.5
+bestScore : 53
+Temps pris : 900.0

@@ -41,3 +41,16 @@ maxWithoutAccept : 15000
 debug : True
 bestScore : 17
 Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 10000
+debug : True
+NbRestart : 26
+DestructFct : destructAllConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+bestScore : 11
+Temps pris : 900.0

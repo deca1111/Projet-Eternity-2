@@ -74,3 +74,16 @@ ReconstructFct : repairHeuristicAllRotation
 AcceptFct : acceptSameOrBetter
 bestScore : 10
 Temps pris : 900.0
+
+--------------------------------------------------
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.2
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 242
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+bestScore : 10
+Temps pris : 900.0

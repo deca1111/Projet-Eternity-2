@@ -6,10 +6,10 @@ from heuristiques import heuristicNbConflictPieceV2
 import numpy as np
 
 
-def destructRandom(puzzle: EternityPuzzle, solution: List[Tuple[int]], prctDestruct: float = 0.1):
+def destructRandom(_, solution: List[Tuple[int]], prctDestruct: float = 0.1):
     """
     Randomly destruct nbDestruct pieces from the solution
-    :param puzzle: the puzzle
+    :param _: PAS PRIS EN COMPTE (pour avoir la même signature que les autres fonctions de destruction)
     :param solution: the solution
     :param prctDestruct: the percentage of pieces to destruct
     :return: La solution dégradée et une liste des pièces détruite et une liste d'index des pièces détruites
@@ -40,11 +40,13 @@ def destructProbaMostConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]]
     :return: La solution dégradée et une liste des pièces détruite et une liste d'index des pièces détruites
     """
 
+    poidConflit = 3
+
     # Number of pieces to destruct
     nbDestruct = int(len(solution) * prctDestruct)
 
     # Get the number of conflict for each piece
-    conflicts = [1 + heuristicNbConflictPieceV2(puzzle, solution, solution[idx], idx) for idx in range(len(solution))]
+    conflicts = [1 + poidConflit * heuristicNbConflictPieceV2(puzzle, solution, solution[idx], idx) for idx in range(len(solution))]
     # Compute the probability of destruction for each piece
     conflicts = np.array(conflicts) / sum(conflicts)
 
@@ -89,7 +91,6 @@ def destructOnlyConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], prc
     # On ne garde que les nbDestruct premières pièces
     if len(conflicts) < nbDestruct:
         nbDestruct = len(conflicts)
-        print("Nombre de pièces à détruire réduit à", nbDestruct)
 
     idxDestructed = [idx for idx, _ in conflicts[:nbDestruct]]
 

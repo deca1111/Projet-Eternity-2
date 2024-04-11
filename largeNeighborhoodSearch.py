@@ -2,6 +2,7 @@ from eternity_puzzle import EternityPuzzle
 from colorama import Fore, Style
 import time
 from solver_local_search import getInitialSolutionAndScore
+import numpy as np
 
 
 def restartLNS(
@@ -23,6 +24,7 @@ def restartLNS(
 
     startTime = time.time()
     nbRestart = 1
+    scores = []
 
     if debug:
         print(Fore.BLUE + f"----------------- Début LNS avec restart - Temps restant: {maxTime} s -----------------")
@@ -51,6 +53,8 @@ def restartLNS(
                                                            acceptFct, maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
                                                            prctDestruct=prctDestruct, remainingTime=remainingTime,
                                                            debug=debug)
+
+        scores.append(currentScore)
 
         # Si on a trouvé une solution valide, on arrête
         if bestScore == 0:
@@ -84,6 +88,10 @@ def restartLNS(
         logs["DestructFct"] = destructFct.__name__
         logs["ReconstructFct"] = reconstructFct.__name__
         logs["AcceptFct"] = acceptFct.__name__
+        meanScore = sum(scores) / len(scores)
+        logs["MeanScore"] = meanScore
+        stdScore = np.std(scores)
+        logs["StdScore"] = stdScore
 
     return bestSol, bestScore
 

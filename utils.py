@@ -283,6 +283,7 @@ def logResults(puzzle: EternityPuzzle, solver: str, ligDict: dict):
 
     with open(os.path.join(directory, instanceName), "a", encoding='UTF-8') as f:
         f.write(f"\n--------------------------------------------------\n")
+
         for key, value in ligDict.items():
             f.write(f"{key} : {value}\n")
 
@@ -335,9 +336,6 @@ def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tup
     # Si l'instance n'existe pas dans le solver ou si la solution est meilleure que celle déjà sauvegardée
     if instanceName not in bestScores[solver] or bestScore < bestScores[solver][instanceName]["score"]:
         bestScores[solver][instanceName] = {"score": bestScore}
-
-        date = datetime.now()
-        bestScores[solver][instanceName]["date"] = date.strftime("%d/%m/%Y, %H:%M:%S")
 
         if logDict is not None:
             for key in logDict:
