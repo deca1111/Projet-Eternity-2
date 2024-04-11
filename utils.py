@@ -3,6 +3,7 @@ import random
 from typing import Tuple, List
 import os
 import json
+from datetime import datetime
 
 import numpy as np
 
@@ -287,7 +288,7 @@ def logResults(puzzle: EternityPuzzle, solver: str,ligDict: dict):
             f.write(f"{key} : {value}\n")
 
 
-def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int):
+def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int, logDict = None):
     """
     Fonction qui sauvegarde la meilleure solution trouvée.
     :param puzzle: Instance du puzzle
@@ -330,12 +331,19 @@ def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tup
         if solver not in bestScores:
             bestScores[solver] = {}
 
-        # Si l'instance n'existe pas dans le solver, on la crée
-        if instanceName not in bestScores[solver]:
-            bestScores[solver][instanceName] = {"score": bestScore}
+		updateBestScore = False
 
-        elif bestScore < bestScores[solver][instanceName]["score"]:
-            bestScores[solver][instanceName]["score"] = bestScore
+        # Si l'instance n'existe pas dans le solver, on la crée
+        if instanceName not in bestScores[solver] or bestScore < bestScores[solver][instanceName]["score"]:
+            bestScores[solver][instanceName] = {}
+
+			bestScores[solver][instanceName]["score"] = bestScore
+			date = datetime.now()
+			bestScores[solver][instanceName]["date"] = date.strftime("%d/%m/%Y, %H:%M:%S")
+
+			if logDict is not None:
+				for key in logDict:
+					bestScores[solver][instanceName][key] = logDict[key]
 
         # Si la solution n'est pas meilleure, on ne sauvegarde pas
         else:
@@ -344,7 +352,7 @@ def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tup
 
         # Sauvegarde du fichier
         with open(fileScores, "w", encoding='UTF-8') as f:
-            json.dump(bestScores, f)
+            json.dump(bestScores, f, indent=2)
 
     # Sauvegarde de la solution
     solPath = os.path.join(rootSolSolver, "sol_" + instanceName)
