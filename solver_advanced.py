@@ -20,9 +20,9 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
         cost is the cost of the solution
     """
 
-    maxTime = 15 * 60 if maxTime_ is None else maxTime_
+    maxTime = 90 * 60 if maxTime_ is None else maxTime_
     prctDestruct = 0.1
-    maxWithoutAcceptOrImprove = 5000
+    maxWithoutAcceptOrImprove = 10000
     debug = True
     log = True
     if log:
@@ -37,7 +37,7 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
     startTime = time.time()
 
     bestSol, bestScore = restartLNS(eternity_puzzle, destructOnlyConflict, repairHeuristicAllRotation,
-                                    acceptSameOrBetter, maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
+                                    acceptAll, maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
                                     prctDestruct=prctDestruct, maxTime=maxTime, debug=debug, logs=logs)
 
     if log:

@@ -95,3 +95,67 @@ MeanScore : 65.5
 StdScore : 5.5
 bestScore : 53
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 17:42:32
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 5000
+debug : True
+NbRestart : 20
+DestructFct : destructProbaMostConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+MeanScore : 69.3157894736842
+StdScore : 3.027116598852296
+bestScore : 60
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 17:59:31
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+NbRestart : 23
+MeanScore : 65.45454545454545
+StdScore : 5.051797814345384
+bestScore : 53
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:14:52
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 21
+MeanScore : 47.1
+StdScore : 2.6439
+bestScore : 42
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:33:18
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.15
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 17
+MeanScore : 59.0
+StdScore : 2.1794
+bestScore : 53
+Temps pris : 900.0

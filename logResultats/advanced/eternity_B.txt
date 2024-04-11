@@ -119,3 +119,35 @@ ReconstructFct : repairHeuristicAllRotation
 AcceptFct : acceptSameOrBetter
 bestScore : 2
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 17:50:35
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+DestructFct : destructProbaMostConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptSameOrBetter
+NbRestart : 123
+MeanScore : 5.147540983606557
+StdScore : 1.4064962346755177
+bestScore : 2
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:17:39
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 77
+MeanScore : 8.0779
+StdScore : 4.0057
+bestScore : 0
+Temps pris : 266.62

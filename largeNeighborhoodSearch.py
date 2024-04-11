@@ -39,7 +39,7 @@ def restartLNS(
     # Initialisation meilleure solution
     bestSol, bestScore = getInitialSolutionAndScore(puzzle)
 
-    while (time.time() - startTime) < maxTime:
+    while (time.time() - startTime) < maxTime and bestScore > 0:
         # Génération d'une solution initiale
         initialSolution, initialScore = getInitialSolutionAndScore(puzzle)
 
@@ -57,7 +57,9 @@ def restartLNS(
         scores.append(currentScore)
 
         # Si on a trouvé une solution valide, on arrête
-        if bestScore == 0:
+        if currentScore == 0:
+            bestSol = currentSol
+            bestScore = currentScore
             break
 
         if currentScore < bestScore:
@@ -84,14 +86,14 @@ def restartLNS(
                           f"-----------------" + Style.RESET_ALL)
 
     if logs is not None:
-        logs["NbRestart"] = nbRestart
         logs["DestructFct"] = destructFct.__name__
         logs["ReconstructFct"] = reconstructFct.__name__
         logs["AcceptFct"] = acceptFct.__name__
+        logs["NbRestart"] = nbRestart
         meanScore = sum(scores) / len(scores)
-        logs["MeanScore"] = meanScore
+        logs["MeanScore"] = round(meanScore, 4)
         stdScore = np.std(scores)
-        logs["StdScore"] = stdScore
+        logs["StdScore"] = round(stdScore, 4)
 
     return bestSol, bestScore
 
@@ -141,6 +143,12 @@ def largeNeighborhoodSearch(
 
         # Critère d'acceptation
         reconstructedScore = puzzle.get_total_n_conflict(reconstructedSol)
+
+        # Si on a trouvé une solution valide, on arrête
+        if reconstructedScore == 0:
+            bestSol = reconstructedSol
+            bestScore = reconstructedScore
+            break
 
         # Si on accepte la solution reconstruite
         if acceptFct(currentScore, reconstructedScore):
