@@ -50,21 +50,21 @@
             "Temps pris": 900.0
         },
         "eternity_complet.txt": {
-            "score": 42,
-            "Date": "11/04/2024, 18:14:52",
+            "score": 39,
+            "Date": "11/04/2024, 18:51:45",
             "Algorithm": "restartLNS",
-            "maxTime": 900,
+            "maxTime": 5400,
             "prctDestruct": 0.1,
             "maxWithoutAcceptOrImprove": 10000,
             "debug": true,
             "DestructFct": "destructOnlyConflict",
             "ReconstructFct": "repairHeuristicAllRotation",
             "AcceptFct": "acceptAll",
-            "NbRestart": 21,
-            "MeanScore": 47.1,
-            "StdScore": 2.6439,
-            "bestScore": 42,
-            "Temps pris": 900.0
+            "NbRestart": 107,
+            "MeanScore": 47.434,
+            "StdScore": 2.2862,
+            "bestScore": 39,
+            "Temps pris": 5400.0
         },
         "eternity_D.txt": {
             "score": 8,

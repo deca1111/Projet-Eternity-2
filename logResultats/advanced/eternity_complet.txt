@@ -159,3 +159,51 @@ MeanScore : 59.0
 StdScore : 2.1794
 bestScore : 53
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:51:22
+Algorithm : restartLNS
+maxTime : 5400
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 113
+MeanScore : 47.1696
+StdScore : 2.4234
+bestScore : 41
+Temps pris : 5400.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:51:39
+Algorithm : restartLNS
+maxTime : 5400
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 114
+MeanScore : 47.354
+StdScore : 2.5239
+bestScore : 42
+Temps pris : 5400.0
+
+--------------------------------------------------
+Date : 11/04/2024, 18:51:45
+Algorithm : restartLNS
+maxTime : 5400
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 107
+MeanScore : 47.434
+StdScore : 2.2862
+bestScore : 39
+Temps pris : 5400.0

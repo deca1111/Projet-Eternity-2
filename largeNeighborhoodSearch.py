@@ -167,9 +167,9 @@ def largeNeighborhoodSearch(
                 # Réinitialisation du compteur de solutions sans amélioration
                 nbWithoutImprovement = 0
 
-                if debug:
-                    print(Fore.BLACK + f"New best score: {bestScore} - Temps restant: "
-                                       f"{round(remainingTime - (time.time() - startTime), 2)} s - Itération {idxIter}")
+                # if debug:
+                #     print(Fore.BLACK + f"New best score: {bestScore} - Temps restant: "
+                #                        f"{round(remainingTime - (time.time() - startTime), 2)} s - Itération {idxIter}")
 
             else:
                 nbWithoutImprovement += 1
