@@ -211,7 +211,7 @@ class EternityPuzzle:
                  )
         ax.set_title(title)
 
-        plt.savefig(output_file)
+        plt.savefig(output_file, dpi=200)
 
     def print_solution(self, solution, output_file):
         with open(output_file, "w") as file:

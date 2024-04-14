@@ -253,10 +253,11 @@ def restartALNS(
 
     if logs is not None:
         logs["NbRestart"] = nbRestart
-        meanScore = sum(scores) / len(scores)
-        logs["MeanScore"] = round(meanScore, 4)
-        stdScore = np.std(scores)
-        logs["StdScore"] = round(stdScore, 4)
+        if len(scores) > 0:
+            meanScore = sum(scores) / len(scores)
+            logs["MeanScore"] = round(meanScore, 4)
+            stdScore = np.std(scores)
+            logs["StdScore"] = round(stdScore, 4)
         logs["FinalWeights"] = {
             "DestructFct": {k: round(v[0], 2) for k, v in destructFctWeights.items()},
             "ReconstructFct": {k: round(v[0], 2) for k, v in reconstructFctWeights.items()},
@@ -269,10 +270,11 @@ def restartALNS(
             }
         nbTotalIter = sum(v[1] for v in destructFctWeights.values())
         logs["NbTotalIter"] = nbTotalIter
-        logs["%UsageFct"] = {
-            "DestructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in destructFctWeights.items()},
-            "ReconstructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in reconstructFctWeights.items()},
-            "AcceptFct": {k: round(v[1] / nbTotalIter, 2) for k, v in acceptFctWeights.items()}
-            }
+        if nbTotalIter > 0:
+            logs["%UsageFct"] = {
+                "DestructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in destructFctWeights.items()},
+                "ReconstructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in reconstructFctWeights.items()},
+                "AcceptFct": {k: round(v[1] / nbTotalIter, 2) for k, v in acceptFctWeights.items()}
+                }
 
     return bestSol, bestScore

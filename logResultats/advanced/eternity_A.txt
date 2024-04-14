@@ -196,3 +196,28 @@ ReconstructFct : repairHeuristicAllRotation
 AcceptFct : acceptOnlyBetter
 bestScore : 0
 Temps pris : 0.0
+
+--------------------------------------------------
+Date : 14/04/2024, 11:05:03
+Algorithm : restartALNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [500, 100, 5, 1]
+lambda : 0.95
+NbRestart : 1
+FinalWeights : 
+	DestructFct : {'destructRandom': 1, 'destructProbaMostConflict': 1, 'destructOnlyConflict': 1, 'destructAllConflict': 1}
+	ReconstructFct : {'repairHeuristicAllRotation': 1}
+	AcceptFct : {'acceptAll': 1, 'acceptOnlyBetter': 1, 'acceptSameOrBetter': 1}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 0, 'destructProbaMostConflict': 0, 'destructOnlyConflict': 0, 'destructAllConflict': 0}
+	ReconstructFct : {'repairHeuristicAllRotation': 0}
+	AcceptFct : {'acceptAll': 0, 'acceptOnlyBetter': 0, 'acceptSameOrBetter': 0}
+NbTotalIter : 0
+bestScore : 0
+Temps pris : 0.0

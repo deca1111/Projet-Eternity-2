@@ -340,7 +340,7 @@ def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tup
         bestScores[solver] = {}
 
     # Si l'instance n'existe pas dans le solver ou si la solution est meilleure que celle déjà sauvegardée
-    if instanceName not in bestScores[solver] or bestScore < bestScores[solver][instanceName]["score"]:
+    if instanceName not in bestScores[solver] or bestScore <= bestScores[solver][instanceName]["score"]:
         bestScores[solver][instanceName] = {"score": bestScore}
 
         if logDict is not None:

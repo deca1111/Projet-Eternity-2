@@ -27,7 +27,7 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
 
 
 def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
-    maxTime = 90 * 60 if maxTime_ is None else maxTime_
+    maxTime = 5 * 60 if maxTime_ is None else maxTime_
     prctDestruct = 0.1
     maxWithoutAcceptOrImprove = 10000
     debug = True
@@ -60,9 +60,9 @@ def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
 def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
 
     # Initialisation des hyperparamètres
-    maxTime = 5 * 60 if maxTime_ is None else maxTime_
+    maxTime = 45 * 60 if maxTime_ is None else maxTime_
     prctDestruct = 0.1
-    maxWithoutAcceptOrImprove = 5000
+    maxWithoutAcceptOrImprove = 25000
     debug = True
     log = True
     if log:
@@ -76,8 +76,8 @@ def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
 
     # Choix des fonctions de destruction, de reconstruction et d'acceptation
     listDestructFct = [destructRandom, destructProbaMostConflict, destructOnlyConflict, destructAllConflict]
-    listReconstructFct = [repairRandom, repairHeuristicAllRotation]
-    listAcceptFct = [acceptAll, acceptOnlyBetter, acceptSameOrBetter]
+    listReconstructFct = [repairHeuristicAllRotation, repairRandom]
+    listAcceptFct = [acceptSameOrBetter]
 
     if log:
         logs["listDestructFct"] = [f.__name__ for f in listDestructFct]
@@ -89,7 +89,7 @@ def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
     # updateWeights[1] : si la nouvelle solution est meilleure que la précédente
     # updateWeights[2] : si la nouvelle solution est acceptée
     # updateWeights[3] : si la nouvelle solution est rejetée
-    updateWeights = [500, 100, 5, 1]
+    updateWeights = [1000, 200, 25, 1]
 
     if log:
         logs["updateWeights"] = updateWeights
