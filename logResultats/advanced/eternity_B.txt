@@ -151,3 +151,271 @@ MeanScore : 8.0779
 StdScore : 4.0057
 bestScore : 0
 Temps pris : 266.62
+
+--------------------------------------------------
+Date : 13/04/2024, 17:28:35
+Algorithm : ALNS
+maxTime : 5400
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [10, 7, 5, 1]
+lambda : 0.5
+bestScore : 7
+Temps pris : 8.37
+
+--------------------------------------------------
+Date : 13/04/2024, 17:30:41
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 25000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [10, 7, 5, 1]
+lambda : 0.5
+FinalWeights : {'DestructFct': {'destructRandom': 3.310447833442396, 'destructProbaMostConflict': 3.191285967886628, 'destructOnlyConflict': 6.0683216879149136, 'destructAllConflict': 3.2702647201466926}, 'ReconstructFct': {'repairRandom': 1.7730761709847886, 'repairHeuristicAllRotation': 3.9393919585777644}, 'AcceptFct': {'acceptAll': 6.6628749910768, 'acceptOnlyBetter': 2.5307699708236306, 'acceptSameOrBetter': 2.9166039662770182}}
+NbUsedFct : {'DestructFct': {'destructRandom': 6101, 'destructProbaMostConflict': 7143, 'destructOnlyConflict': 8677, 'destructAllConflict': 7664}, 'ReconstructFct': {'repairRandom': 10686, 'repairHeuristicAllRotation': 18899}, 'AcceptFct': {'acceptAll': 14728, 'acceptOnlyBetter': 6021, 'acceptSameOrBetter': 8836}}
+bestScore : 5
+Temps pris : 18.32
+
+--------------------------------------------------
+Date : 13/04/2024, 17:32:19
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 25000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [10, 7, 5, 1]
+lambda : 0.5
+FinalWeights : 
+	DestructFct : {'destructRandom': 2.931312439551239, 'destructProbaMostConflict': 1.554199267365802, 'destructOnlyConflict': 6.124949016825202, 'destructAllConflict': 3.9529672825072755}
+	ReconstructFct : {'repairRandom': 1.7109454499938073, 'repairHeuristicAllRotation': 1.93325801172143}
+	AcceptFct : {'acceptAll': 6.107006120292707, 'acceptOnlyBetter': 1.6022469690203653, 'acceptSameOrBetter': 2.1213239437590894}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 10878, 'destructProbaMostConflict': 11994, 'destructOnlyConflict': 15046, 'destructAllConflict': 12632}
+	ReconstructFct : {'repairRandom': 18551, 'repairHeuristicAllRotation': 31999}
+	AcceptFct : {'acceptAll': 25271, 'acceptOnlyBetter': 10367, 'acceptSameOrBetter': 14912}
+bestScore : 7
+Temps pris : 30.81
+
+--------------------------------------------------
+Date : 13/04/2024, 17:34:05
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 25000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [15, 10, 7, 1]
+lambda : 0.5
+FinalWeights : 
+	DestructFct : {'destructRandom': 6.556154486981079, 'destructProbaMostConflict': 4.540512200885472, 'destructOnlyConflict': 6.310057506248389, 'destructAllConflict': 6.67401721250879}
+	ReconstructFct : {'repairRandom': 2.0424723046002846, 'repairHeuristicAllRotation': 7.044303650732473}
+	AcceptFct : {'acceptAll': 7.211498343936065, 'acceptOnlyBetter': 1.8530905248105725, 'acceptSameOrBetter': 4.33844179337499}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 8815, 'destructProbaMostConflict': 9963, 'destructOnlyConflict': 12974, 'destructAllConflict': 10397}
+	ReconstructFct : {'repairRandom': 14861, 'repairHeuristicAllRotation': 27288}
+	AcceptFct : {'acceptAll': 21777, 'acceptOnlyBetter': 7923, 'acceptSameOrBetter': 12449}
+bestScore : 6
+Temps pris : 25.73
+
+--------------------------------------------------
+Date : 13/04/2024, 17:36:23
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 25000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [25, 10, 7, 1]
+lambda : 0
+FinalWeights : 
+	DestructFct : {'destructRandom': 1, 'destructProbaMostConflict': 1, 'destructOnlyConflict': 1, 'destructAllConflict': 7}
+	ReconstructFct : {'repairRandom': 1, 'repairHeuristicAllRotation': 10}
+	AcceptFct : {'acceptAll': 10, 'acceptOnlyBetter': 1, 'acceptSameOrBetter': 1}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 6226, 'destructProbaMostConflict': 7008, 'destructOnlyConflict': 9238, 'destructAllConflict': 6637}
+	ReconstructFct : {'repairRandom': 10941, 'repairHeuristicAllRotation': 18168}
+	AcceptFct : {'acceptAll': 19544, 'acceptOnlyBetter': 3991, 'acceptSameOrBetter': 5574}
+bestScore : 8
+Temps pris : 17.19
+
+--------------------------------------------------
+Date : 13/04/2024, 17:37:43
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 10, 1]
+lambda : 0.2
+FinalWeights : 
+	DestructFct : {'destructRandom': 9.709235052534547, 'destructProbaMostConflict': 2.5126184948225334, 'destructOnlyConflict': 4.477400262226477, 'destructAllConflict': 8.956428110382863}
+	ReconstructFct : {'repairRandom': 2.5004614204945694, 'repairHeuristicAllRotation': 9.778687987184304}
+	AcceptFct : {'acceptAll': 10.067178660114815, 'acceptOnlyBetter': 4.166658871416335, 'acceptSameOrBetter': 1.4098034060273386}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 6359, 'destructProbaMostConflict': 7667, 'destructOnlyConflict': 11090, 'destructAllConflict': 8244}
+	ReconstructFct : {'repairRandom': 10667, 'repairHeuristicAllRotation': 22693}
+	AcceptFct : {'acceptAll': 21074, 'acceptOnlyBetter': 4663, 'acceptSameOrBetter': 7623}
+bestScore : 7
+Temps pris : 20.54
+
+--------------------------------------------------
+Date : 13/04/2024, 17:40:35
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 10, 1]
+lambda : 0.8
+FinalWeights : 
+	DestructFct : {'destructRandom': 8.52, 'destructProbaMostConflict': 5.86, 'destructOnlyConflict': 13.29, 'destructAllConflict': 12.27}
+	ReconstructFct : {'repairRandom': 5.77, 'repairHeuristicAllRotation': 16.62}
+	AcceptFct : {'acceptAll': 13.42, 'acceptOnlyBetter': 4.19, 'acceptSameOrBetter': 14.37}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 3999, 'destructProbaMostConflict': 4626, 'destructOnlyConflict': 6470, 'destructAllConflict': 5373}
+	ReconstructFct : {'repairRandom': 6307, 'repairHeuristicAllRotation': 14161}
+	AcceptFct : {'acceptAll': 9559, 'acceptOnlyBetter': 4416, 'acceptSameOrBetter': 6493}
+bestScore : 8
+Temps pris : 12.6
+
+--------------------------------------------------
+Date : 13/04/2024, 17:41:10
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 10, 1]
+lambda : 0.8
+FinalWeights : 
+	DestructFct : {'destructRandom': 7.6, 'destructProbaMostConflict': 8.94, 'destructOnlyConflict': 13.65, 'destructAllConflict': 10.8}
+	ReconstructFct : {'repairRandom': 6.47, 'repairHeuristicAllRotation': 14.73}
+	AcceptFct : {'acceptAll': 14.81, 'acceptOnlyBetter': 6.56, 'acceptSameOrBetter': 9.82}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 3675, 'destructProbaMostConflict': 4402, 'destructOnlyConflict': 5924, 'destructAllConflict': 4867}
+	ReconstructFct : {'repairRandom': 5994, 'repairHeuristicAllRotation': 12874}
+	AcceptFct : {'acceptAll': 8681, 'acceptOnlyBetter': 4110, 'acceptSameOrBetter': 6077}
+bestScore : 8
+Temps pris : 11.8
+
+--------------------------------------------------
+Date : 13/04/2024, 17:42:32
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 10, 1]
+lambda : 0.8
+FinalWeights : 
+	DestructFct : {'destructRandom': 7.98, 'destructProbaMostConflict': 10.81, 'destructOnlyConflict': 18.13, 'destructAllConflict': 13.54}
+	ReconstructFct : {'repairRandom': 9.91, 'repairHeuristicAllRotation': 14.93}
+	AcceptFct : {'acceptAll': 11.76, 'acceptOnlyBetter': 5.6, 'acceptSameOrBetter': 15.01}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 5124, 'destructProbaMostConflict': 5787, 'destructOnlyConflict': 8184, 'destructAllConflict': 6553}
+	ReconstructFct : {'repairRandom': 8052, 'repairHeuristicAllRotation': 17596}
+	AcceptFct : {'acceptAll': 11861, 'acceptOnlyBetter': 5729, 'acceptSameOrBetter': 8058}
+bestScore : 7
+Temps pris : 15.68
+
+--------------------------------------------------
+Date : 13/04/2024, 17:43:50
+Algorithm : ALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 5, 1]
+lambda : 0.9
+FinalWeights : 
+	DestructFct : {'destructRandom': 5.24, 'destructProbaMostConflict': 5.98, 'destructOnlyConflict': 9.58, 'destructAllConflict': 5.8}
+	ReconstructFct : {'repairRandom': 2.43, 'repairHeuristicAllRotation': 8.03}
+	AcceptFct : {'acceptAll': 7.41, 'acceptOnlyBetter': 2.63, 'acceptSameOrBetter': 7.75}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 3451, 'destructProbaMostConflict': 4625, 'destructOnlyConflict': 7670, 'destructAllConflict': 6181}
+	ReconstructFct : {'repairRandom': 5452, 'repairHeuristicAllRotation': 16475}
+	AcceptFct : {'acceptAll': 8935, 'acceptOnlyBetter': 5854, 'acceptSameOrBetter': 7138}
+bestScore : 6
+Temps pris : 13.55
+
+--------------------------------------------------
+Date : 13/04/2024, 19:17:50
+Algorithm : restartALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 15000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [50, 20, 5, 1]
+lambda : 0.9
+NbRestart : 21
+MeanScore : 5.4
+StdScore : 0.8
+FinalWeights : 
+	DestructFct : {'destructRandom': 6.23, 'destructProbaMostConflict': 8.83, 'destructOnlyConflict': 13.75, 'destructAllConflict': 8.59}
+	ReconstructFct : {'repairRandom': 3.04, 'repairHeuristicAllRotation': 14.7}
+	AcceptFct : {'acceptAll': 9.96, 'acceptOnlyBetter': 7.13, 'acceptSameOrBetter': 13.1}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 76357, 'destructProbaMostConflict': 102074, 'destructOnlyConflict': 169123, 'destructAllConflict': 138381}
+	ReconstructFct : {'repairRandom': 123152, 'repairHeuristicAllRotation': 362783}
+	AcceptFct : {'acceptAll': 196117, 'acceptOnlyBetter': 130546, 'acceptSameOrBetter': 159272}
+bestScore : 4
+Temps pris : 300.0
+
+--------------------------------------------------
+Date : 13/04/2024, 19:26:27
+Algorithm : restartALNS
+maxTime : 300
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+listDestructFct : ['destructRandom', 'destructProbaMostConflict', 'destructOnlyConflict', 'destructAllConflict']
+listReconstructFct : ['repairRandom', 'repairHeuristicAllRotation']
+listAcceptFct : ['acceptAll', 'acceptOnlyBetter', 'acceptSameOrBetter']
+updateWeights : [500, 100, 5, 1]
+lambda : 0.9
+NbRestart : 35
+MeanScore : 3.7941
+StdScore : 0.7963
+FinalWeights : 
+	DestructFct : {'destructRandom': 3.88, 'destructProbaMostConflict': 17.85, 'destructOnlyConflict': 22.32, 'destructAllConflict': 14.37}
+	ReconstructFct : {'repairRandom': 2.42, 'repairHeuristicAllRotation': 16.22}
+	AcceptFct : {'acceptAll': 23.63, 'acceptOnlyBetter': 7.09, 'acceptSameOrBetter': 19.02}
+NbUsedFct : 
+	DestructFct : {'destructRandom': 42673, 'destructProbaMostConflict': 84945, 'destructOnlyConflict': 248357, 'destructAllConflict': 163894}
+	ReconstructFct : {'repairRandom': 62200, 'repairHeuristicAllRotation': 477669}
+	AcceptFct : {'acceptAll': 196681, 'acceptOnlyBetter': 163203, 'acceptSameOrBetter': 179985}
+bestScore : 2
+Temps pris : 300.0

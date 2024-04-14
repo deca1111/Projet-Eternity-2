@@ -100,7 +100,7 @@ def restartLNS(
 
 def largeNeighborhoodSearch(
         puzzle: EternityPuzzle, initialSolution, destructFct, reconstructFct, acceptFct,
-        maxWithoutAcceptOrImprove=100, prctDestruct=None, remainingTime=60., debug=False
+        maxWithoutAcceptOrImprove=100, prctDestruct=0.1, remainingTime=60., debug=False
         ):
     """
     Large Neighborhood Search
@@ -133,15 +133,11 @@ def largeNeighborhoodSearch(
     while (time.time() - startTime) < remainingTime and bestScore > 0:
 
         # Destruction
-        if prctDestruct is not None:
-            partialSol, destroyedPieces, idxDestroyedPieces = destructFct(puzzle, currentSol, prctDestruct)
-        else:
-            partialSol, destroyedPieces, idxDestroyedPieces = destructFct(puzzle, currentSol)
+        partialSol, destroyedPieces, idxDestroyedPieces = destructFct(puzzle, currentSol, prctDestruct)
 
         # Réparation
         reconstructedSol = reconstructFct(puzzle, partialSol, destroyedPieces, idxDestroyedPieces)
 
-        # Critère d'acceptation
         reconstructedScore = puzzle.get_total_n_conflict(reconstructedSol)
 
         # Si on a trouvé une solution valide, on arrête

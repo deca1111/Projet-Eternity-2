@@ -285,7 +285,13 @@ def logResults(puzzle: EternityPuzzle, solver: str, ligDict: dict):
         f.write(f"\n--------------------------------------------------\n")
 
         for key, value in ligDict.items():
-            f.write(f"{key} : {value}\n")
+            # Si la valeur est un dictionnaire, on affiche les valeurs du dictionnaire
+            if isinstance(value, dict):
+                f.write(f"{key} : \n")
+                for key2, value2 in value.items():
+                    f.write(f"\t{key2} : {value2}\n")
+            else:
+                f.write(f"{key} : {value}\n")
 
 
 def saveBestSolution(puzzle: EternityPuzzle, solver: str, bestSolution: List[Tuple], bestScore: int, logDict=None):

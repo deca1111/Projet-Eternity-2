@@ -6,6 +6,31 @@ from heuristiques import heuristicNbConflictPieceV3
 from utils import *
 
 
+def repairRandom(
+        puzzle: EternityPuzzle, partialSolution: List[Tuple[int]],
+        destructedPieces: List[Tuple[int]], idxDestroyedPieces: List[int]
+        ):
+    """
+    Reconstruct the solution by replacing the None values by random piece
+    :param puzzle: the puzzle
+    :param partialSolution: the partial solution
+    :param destructedPieces: the pieces destructed
+    :param idxDestroyedPieces: the indexes of the destructed pieces
+    :return: the reconstructed solution
+    """
+
+    reconstructedSol = deepcopy(partialSolution)
+    random.shuffle(destructedPieces)
+    random.shuffle(idxDestroyedPieces)
+
+    for idx in idxDestroyedPieces:
+        newPiece = destructedPieces.pop()
+        newPiece = random.choice(puzzle.generate_rotation(newPiece))
+        reconstructedSol[idx] = newPiece
+
+    return reconstructedSol
+
+
 def repairHeuristicAllRotation(
         puzzle: EternityPuzzle, partialSolution: List[Tuple[int]],
         destructedPieces: List[Tuple[int]], idxDestroyedPieces: List[int]
@@ -38,28 +63,3 @@ def repairHeuristicAllRotation(
     solutionList = getListFromMatrix(puzzle, solutionMatrix)
 
     return solutionList
-
-
-def repairRandom(
-        puzzle: EternityPuzzle, partialSolution: List[Tuple[int]],
-        destructedPieces: List[Tuple[int]], idxDestroyedPieces: List[int]
-        ):
-    """
-    Reconstruct the solution by replacing the None values by random piece
-    :param puzzle: the puzzle
-    :param partialSolution: the partial solution
-    :param destructedPieces: the pieces destructed
-    :param idxDestroyedPieces: the indexes of the destructed pieces
-    :return: the reconstructed solution
-    """
-
-    reconstructedSol = deepcopy(partialSolution)
-    random.shuffle(destructedPieces)
-    random.shuffle(idxDestroyedPieces)
-
-    for idx in idxDestroyedPieces:
-        newPiece = destructedPieces.pop()
-        newPiece = random.choice(puzzle.generate_rotation(newPiece))
-        reconstructedSol[idx] = newPiece
-
-    return reconstructedSol
