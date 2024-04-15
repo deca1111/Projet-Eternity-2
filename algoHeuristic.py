@@ -17,7 +17,7 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
     :return:
     """
 
-    solution = []
+    solution = [(-1, -1, -1, -1) for _ in range(eternity_puzzle.board_size * eternity_puzzle.board_size)]
     # Mélange des pièces
     remainingPiece = copy.deepcopy(eternity_puzzle.piece_list)
     np.random.shuffle(remainingPiece)
@@ -39,7 +39,8 @@ def solverHeuristique1Deep(eternity_puzzle: EternityPuzzle, heuristique) -> Tupl
                 if bestConflict == 0:
                     break
 
-        solution.append(bestPiece)
+        solution[indexPiece] = bestPiece
+
         # On supprime la pièce de la liste des pièces restantes (sans prendre en compte une eventuelle rotation)
         remainingPiece.remove(possibilities[indexBestPiece - indexBestPiece % 4])
 
@@ -175,13 +176,13 @@ def solverHeuristique1DeepEdgeFirstV2(eternity_puzzle: EternityPuzzle, heuristiq
     Puis en diagonale en partant du bord en bas à gauche jusqu'au bord en haut à droite.
 
     L'ordre de placement des pièces est le suivant avec une grille de taille 7x7
-    [[ 0  1  2  3  4  5  6]
-    [ 7 24 25 27 30 34 13]
-    [ 8 26 28 31 35 42 14]
-    [ 9 29 32 36 41 45 15]
-    [10 33 37 40 44 47 16]
-    [11 38 39 43 46 48 17]
-    [12 19 20 21 22 23 18]]
+        [[ 0  1  2  3  4  5  6]
+        [ 7 24 25 27 30 34 13]
+        [ 8 26 28 31 35 42 14]
+        [ 9 29 32 36 41 45 15]
+        [10 33 37 40 44 47 16]
+        [11 38 39 43 46 48 17]
+        [12 19 20 21 22 23 18]]
 
     :param eternity_puzzle:
     :param heuristique:

@@ -11,8 +11,10 @@ WEST = 2
 EAST = 3
 
 
-def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
-                               indexNewPiece) -> int:
+def heuristicNbConflictPieceV1(
+        eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
+        indexNewPiece
+        ) -> int:
     """
     Le but de cette fonction heuristique est de calculer le nombre de conflit qu'apporte une nouvelle pièce à
     la solution.
@@ -63,8 +65,10 @@ def heuristicNbConflictPieceV1(eternity_puzzle: EternityPuzzle, solution: [Tuple
     return n_conflict
 
 
-def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
-                               indexNewPiece) -> int:
+def heuristicNbConflictPieceV2(
+        eternity_puzzle: EternityPuzzle, solution: [Tuple[int]], newPiece: Tuple[int],
+        indexNewPiece
+        ) -> int:
     """
     Amélioration de la fonction heuristique précédente. On donne une grosse pénalité en cas de conflit avec les bords
     :param newPiece:
@@ -137,7 +141,7 @@ def heuristicNbConflictPieceV2(eternity_puzzle: EternityPuzzle, solution: [Tuple
 def heuristicNbConflictPieceV3(
         eternity_puzzle: EternityPuzzle, solutionMatrix: [[int]], newPiece: Tuple[int],
         coordNewPiece: Tuple[int, int]
-) -> int:
+        ) -> int:
     """
     On compte le nombre de conflit que la pièce apporte à la solution. La solution fournit est une matrice.
     On doit aussi donner les coordonnées de la pièce dans la matrice.
@@ -163,7 +167,8 @@ def heuristicNbConflictPieceV3(
     else:
         if newPiece[SOUTH] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[SOUTH] != solutionMatrix[coordNewPiece[0] - 1][coordNewPiece[1]][NORTH]:
+        elif (newPiece[SOUTH] != solutionMatrix[coordNewPiece[0] - 1][coordNewPiece[1]][NORTH]
+              and solutionMatrix[coordNewPiece[0] - 1][coordNewPiece[1]][NORTH] != -1):
             n_conflict += poidConflitClassique
 
     # WEST
@@ -176,7 +181,8 @@ def heuristicNbConflictPieceV3(
     else:
         if newPiece[WEST] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[WEST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] - 1][EAST]:
+        elif (newPiece[WEST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] - 1][EAST]
+              and solutionMatrix[coordNewPiece[0]][coordNewPiece[1] - 1][EAST] != -1):
             n_conflict += poidConflitClassique
 
     # NORTH
@@ -189,7 +195,8 @@ def heuristicNbConflictPieceV3(
     else:
         if newPiece[NORTH] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[NORTH] != solutionMatrix[coordNewPiece[0] + 1][coordNewPiece[1]][SOUTH]:
+        elif (newPiece[NORTH] != solutionMatrix[coordNewPiece[0] + 1][coordNewPiece[1]][SOUTH]
+              and solutionMatrix[coordNewPiece[0] + 1][coordNewPiece[1]][SOUTH] != -1):
             n_conflict += poidConflitClassique
 
     # EAST
@@ -202,7 +209,8 @@ def heuristicNbConflictPieceV3(
     else:
         if newPiece[EAST] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[EAST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] + 1][WEST]:
+        elif (newPiece[EAST] != solutionMatrix[coordNewPiece[0]][coordNewPiece[1] + 1][WEST]
+              and solutionMatrix[coordNewPiece[0]][coordNewPiece[1] + 1][WEST] != -1):
             n_conflict += poidConflitClassique
 
     return n_conflict

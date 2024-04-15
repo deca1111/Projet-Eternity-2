@@ -278,3 +278,127 @@ def restartALNS(
                 }
 
     return bestSol, bestScore
+
+
+def restartBestALNS(
+        puzzle: EternityPuzzle, listDestructFct, listReconstructFct, listAcceptFct,
+        updateWeights, lambda_=0.5,
+        maxWithoutAcceptOrImprove=100, prctDestruct=None, maxTime=60., debug=False, logs=None
+        ):  # sourcery skip: low-code-quality
+    """
+    Adaptive Large Neighborhood Search avec redémarrage depuis la meilleure solution trouvée
+
+    LNS en faisant varier les fonctions de destruction, de reconstruction et d'acceptation selon des probabilitées qui
+    évoluent au fur et à mesure des itérations.
+
+    :param puzzle: Instance du puzzle
+    :param listDestructFct: Liste des fonctions de destruction
+    :param listReconstructFct: Liste des fonctions de reconstruction
+    :param listAcceptFct: Liste des fonctions d'acceptation
+    :param updateWeights: Poids de mise à jour des fonctions
+    :param lambda_: Paramètre de sensibilité pour la mise à jour des poids
+    :param maxWithoutAcceptOrImprove: Nombre maximum d'itérations sans accepter ou améliorer avant de redémarrer
+    :param prctDestruct: Pourcentage (maximum) de pièces à détruire
+    :param maxTime: Temps maximum alloué pour la recherche
+    :param debug: Affichage des informations de débogage
+    :param logs: Dictionnaire de logs
+    :return:
+    """
+
+    # Initialisation des poids des fonctions et du nombre d'utilisation des fonctions
+    destructFctWeights = {f.__name__: (1, 0) for f in listDestructFct}
+    reconstructFctWeights = {f.__name__: (1, 0) for f in listReconstructFct}
+    acceptFctWeights = {f.__name__: (1, 0) for f in listAcceptFct}
+
+    startTime = time.time()
+    nbRestart = 1
+    scores = []
+
+    if debug:
+        print(Fore.BLUE + f"----------------- Début ALNS avec restart meilleur - Temps restant: {maxTime} s -----------------")
+        print(f" - Fonctions de destruction: {[f.__name__ for f in listDestructFct]}")
+        print(f" - Fonctions de reconstruction: {[f.__name__ for f in listReconstructFct]}")
+        print(f" - Fonctions d'acceptation: {[f.__name__ for f in listAcceptFct]}")
+        print(f" - Poids de mise à jour: {updateWeights}")
+        print(f" - Paramètre lambda: {lambda_}")
+        print(f" - MaxWithoutAcceptOrImprove: {maxWithoutAcceptOrImprove}")
+        print(f" - PrctDestruct: {prctDestruct}")
+        print(f" - Temps maximum: {maxTime}")
+        print("----------------------------------------------------------------------------------------" +
+              Style.RESET_ALL)
+
+    # Initialisation meilleure solution
+    bestSol, bestScore = getInitialSolutionAndScore(puzzle)
+
+    while (time.time() - startTime) < maxTime and bestScore > 0:
+
+        remainingTime = maxTime - (time.time() - startTime)
+
+        if debug:
+            print(Fore.BLUE + f"Restart {nbRestart} - Temps restant: {round(remainingTime, 2)} s "
+                              f"- Score initial: {bestScore}")
+
+        # Lancement de l'ALNS
+        currentSol, currentScore = ALNS(puzzle, bestSol, listDestructFct, listReconstructFct, listAcceptFct,
+                                        updateWeights, lambda_,
+                                        destructFctWeights, reconstructFctWeights, acceptFctWeights,
+                                        maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove, prctDestruct=prctDestruct,
+                                        remainingTime=remainingTime, debug=debug)
+
+        scores.append(currentScore)
+
+        # Si on a trouvé une solution valide, on arrête
+        if currentScore == 0:
+            bestSol = currentSol
+            bestScore = currentScore
+            break
+
+        if currentScore < bestScore:
+            bestSol = currentSol
+            bestScore = currentScore
+
+            if debug:
+                print(Fore.GREEN + f"New best score: {bestScore} - "
+                                   f"Temps restant: {round(maxTime - (time.time() - startTime), 2)} s - "
+                                   f"Restart {nbRestart}")
+
+        else:
+            print(Fore.WHITE + f"No improvement: {currentScore} - "
+                               f"Temps restant: {round(maxTime - (time.time() - startTime), 2)} s - "
+                               f"Restart {nbRestart}")
+
+        nbRestart += 1
+
+    if debug:
+        print(Fore.BLUE + f"----------------- Fin ALNS avec restart - "
+                          f"Temps écoulé: {round(time.time() - startTime, 2)} s - "
+                          f"Restarts: {nbRestart} - "
+                          f"Meilleur score: {bestScore}" + Style.RESET_ALL)
+
+    if logs is not None:
+        logs["NbRestart"] = nbRestart
+        if len(scores) > 0:
+            meanScore = sum(scores) / len(scores)
+            logs["MeanScore"] = round(meanScore, 4)
+            stdScore = np.std(scores)
+            logs["StdScore"] = round(stdScore, 4)
+        logs["FinalWeights"] = {
+            "DestructFct": {k: round(v[0], 2) for k, v in destructFctWeights.items()},
+            "ReconstructFct": {k: round(v[0], 2) for k, v in reconstructFctWeights.items()},
+            "AcceptFct": {k: round(v[0], 2) for k, v in acceptFctWeights.items()}
+            }
+        logs["NbUsedFct"] = {
+            "DestructFct": {k: v[1] for k, v in destructFctWeights.items()},
+            "ReconstructFct": {k: v[1] for k, v in reconstructFctWeights.items()},
+            "AcceptFct": {k: v[1] for k, v in acceptFctWeights.items()}
+            }
+        nbTotalIter = sum(v[1] for v in destructFctWeights.values())
+        logs["NbTotalIter"] = nbTotalIter
+        if nbTotalIter > 0:
+            logs["%UsageFct"] = {
+                "DestructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in destructFctWeights.items()},
+                "ReconstructFct": {k: round(v[1] / nbTotalIter, 2) for k, v in reconstructFctWeights.items()},
+                "AcceptFct": {k: round(v[1] / nbTotalIter, 2) for k, v in acceptFctWeights.items()}
+                }
+
+    return bestSol, bestScore

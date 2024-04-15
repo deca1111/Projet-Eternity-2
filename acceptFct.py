@@ -9,3 +9,7 @@ def acceptAll(*_):
 
 def acceptSameOrBetter(oldCost, newCost):
     return newCost <= oldCost
+
+
+def acceptPrctWorst(oldCost, newCost, prct=0.1):
+    return newCost <= oldCost or newCost - oldCost < prct * oldCost

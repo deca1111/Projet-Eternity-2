@@ -13,7 +13,7 @@ import argparse
 import timeit
 
 
-def runAllTests(saveResult=False, saveFile=None, nbIter=1000, plot=False):
+def runAllTests(saveResult=False, saveFile=None, nbIter=100, plot=False):
     instanceName = "eternity_complet.txt"
     puzzle = eternity_puzzle.EternityPuzzle("./instances/" + instanceName)
 
@@ -66,7 +66,7 @@ def runAllTests(saveResult=False, saveFile=None, nbIter=1000, plot=False):
             ax1.text(i, v + 1, str(round(v, 2)), ha='center', va='bottom', fontsize=10)
 
         # Plot des temps d'exécution
-        ax2.set_ylabel("Temps d'exécution moyen")
+        ax2.set_ylabel("Temps d'exécution moyen [s]")
         ax2.margins(y=0.15)
 
         ax2.plot(xName, [x[2] for x in yResults], '-gD', linewidth=3, label="Temps d'exécution moyen")
@@ -77,7 +77,7 @@ def runAllTests(saveResult=False, saveFile=None, nbIter=1000, plot=False):
 
         plt.tight_layout()
         # fig.autofmt_xdate()
-        fig.savefig("plot_test_result.png", dpi=150)
+        fig.savefig("plot_test_result_heuristique.png", dpi=250)
 
 
 def runTest(eternityPuzzle, algorithme, heuristique, nbIter, save=False, saveFile=None) -> (int, int):
@@ -355,9 +355,9 @@ if __name__ == '__main__':
     # save = args.save.lower() == "true"
     # plot = args.plot.lower() == "true"
     #
-    # runAllTests(save, args.outfile, nbIter, plot)
+    runAllTests(False, None, 500, True)
 
     # runTestTailleVoisinage()
     # runTestTempsVoisinage()
 
-    runTestVoisinage()
+    # runTestVoisinage()

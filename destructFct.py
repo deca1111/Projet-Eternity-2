@@ -40,7 +40,7 @@ def destructProbaMostConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]]
     :return: La solution dégradée et une liste des pièces détruite et une liste d'index des pièces détruites
     """
 
-    poidConflit = 3
+    poidConflit = 25
 
     # Number of pieces to destruct
     nbDestruct = int(len(solution) * prctDestruct)
