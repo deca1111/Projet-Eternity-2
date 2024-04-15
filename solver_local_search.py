@@ -5,7 +5,8 @@ from algoLocalSearch import getVoisinageOnlyConflictV1, getVoisinageOnlyConflict
     findFirstUpgradingNeighbor
 from eternity_puzzle import EternityPuzzle
 from heuristiques import heuristicNbConflictPieceV3
-from utils import selectWithNbConflict, printGridIndexes
+from utils import selectWithNbConflict, printGridIndexes, saveBestSolution, logResults
+import numpy as np
 
 from colorama import Fore, Style
 
@@ -22,7 +23,7 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
 
     print(f"Initial score: {bestScore}")
 
-    maxTime = 60 * 60
+    maxTime = 15 * 60
     debug = True
 
     startingTemp = 1
@@ -32,10 +33,14 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
     startTime = time.time()
     nbIter = 1
 
+    log_ = {}
+    scores = []
+
     while time.time() - startTime < maxTime and bestScore > 0:
         if debug:
             print(Fore.WHITE + f"---------------- Iteration: {nbIter} - Temps "
                   f"restant: {round(maxTime - (time.time() - startTime), 2)} s -----------------")
+
 
         startingSol, _ = getInitialSolutionAndScore(eternity_puzzle)
 
@@ -50,7 +55,9 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
         # Local Search, premier voisin améliorant
         currentSol, currentScore = localSearch(eternity_puzzle, startingSol, getVoisinageOnlyConflictV2,
                                                findFirstUpgradingNeighbor, eternity_puzzle.get_total_n_conflict,
-                                               remainingTime=remainingTime, debug=debug)
+                                               remainingTime=remainingTime, debug=True, logs=log_)
+
+        scores.append(currentScore)
 
         # Mise à jour de la meilleure solution
         if currentScore < bestScore:
@@ -67,6 +74,24 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
         nbIter += 1
 
     print(Style.RESET_ALL)
+
+    logs = {"Date": time.strftime("%d/%m/%Y, %H:%M:%S"),
+            "Algorithm": "LocalSearch",
+            "voisinageFct": log_["voisinageFct"] if "voisinageFct" in log_ else "getVoisinageOnlyConflictV2",
+            "selectFct": log_["selectFct"] if "selectFct" in log_ else "findFirstUpgradingNeighbor",
+            "costFct": log_["costFct"] if "costFct" in log_ else "eternity_puzzle.get_total_n_conflict",
+            "maxTime": maxTime,
+            "bestScore": bestScore,
+            "Temps pris": round(time.time() - startTime, 2),
+            "NbRestart": nbIter - 1,
+            "NbIter": log_["nbIter"] if "nbIter" in log_ else 0,
+            "Score Moyen": np.mean(scores),
+            "Score std": np.std(scores),
+            }
+
+    saveBestSolution(eternity_puzzle, "local_search", bestSol, bestScore, logs)
+    logResults(eternity_puzzle, "local_search", logs)
+
     return bestSol, bestScore
 
 

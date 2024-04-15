@@ -2,6 +2,8 @@ from algoHeuristic import (solverHeuristique1Deep, solverHeuristique1DeepRestart
                            solverHeuristique1DeepEdgeFirstV2)
 from heuristiques import heuristicNbConflictPieceV1, heuristicNbConflictPieceV2, heuristicNbConflictPieceV3
 
+from utils import saveBestSolution
+
 
 def solve_heuristic(eternity_puzzle):
     """
@@ -12,6 +14,8 @@ def solve_heuristic(eternity_puzzle):
     """
 
     solution, nbConflict = solverHeuristique1DeepEdgeFirstV2(eternity_puzzle, heuristicNbConflictPieceV3)
+
+    saveBestSolution(eternity_puzzle, "heuristic", solution, nbConflict)
 
     return solution, nbConflict
 

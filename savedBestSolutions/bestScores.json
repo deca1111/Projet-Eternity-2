@@ -122,5 +122,154 @@
             "bestScore": 0,
             "Temps pris": 0.0
         }
+    },
+    "heuristic": {
+        "eternity_A.txt": {
+            "score": 0,
+            "Algorithme": "solverHeuristique1DeepEdgeFirstV2",
+            "Heuristique": "heuristicNbConflictPieceV3",
+            "Moyenne des conflits": 3.155,
+            "Meilleur score": 0,
+            "Temps d'ex\u00e9cution": 0.07,
+            "Temps d'ex\u00e9cution moyen": 0.0003,
+            "Nombre d'it\u00e9rations": 200
+        },
+        "eternity_B.txt": {
+            "score": 9,
+            "Algorithme": "solverHeuristique1DeepEdgeFirstV2",
+            "Heuristique": "heuristicNbConflictPieceV3",
+            "Moyenne des conflits": 15.645,
+            "Meilleur score": 9,
+            "Temps d'ex\u00e9cution": 0.43,
+            "Temps d'ex\u00e9cution moyen": 0.0022,
+            "Nombre d'it\u00e9rations": 200
+        },
+        "eternity_C.txt": {
+            "score": 20,
+            "Algorithme": "solverHeuristique1DeepEdgeFirstV2",
+            "Heuristique": "heuristicNbConflictPieceV3",
+            "Moyenne des conflits": 27.695,
+            "Meilleur score": 20,
+            "Temps d'ex\u00e9cution": 0.81,
+            "Temps d'ex\u00e9cution moyen": 0.0041,
+            "Nombre d'it\u00e9rations": 200
+        },
+        "eternity_D.txt": {
+            "score": 22,
+            "Algorithme": "solverHeuristique1DeepEdgeFirstV2",
+            "Heuristique": "heuristicNbConflictPieceV3",
+            "Moyenne des conflits": 32.63,
+            "Meilleur score": 22,
+            "Temps d'ex\u00e9cution": 1.25,
+            "Temps d'ex\u00e9cution moyen": 0.0063,
+            "Nombre d'it\u00e9rations": 200
+        },
+        "eternity_E.txt": {
+            "score": 28,
+            "Algorithme": "solverHeuristique1DeepEdgeFirstV2",
+            "Heuristique": "heuristicNbConflictPieceV3",
+            "Moyenne des conflits": 38.16,
+            "Meilleur score": 28,
+            "Temps d'ex\u00e9cution": 1.86,
+            "Temps d'ex\u00e9cution moyen": 0.0093,
+            "Nombre d'it\u00e9rations": 200
+        },
+        "eternity_complet.txt": {
+            "score": 76,
+            "Algorithme": "solverHeuristique1Deep",
+            "Heuristique": "heuristicNbConflictPieceV2",
+            "Moyenne des conflits": 99.742,
+            "Meilleur score": 76,
+            "Temps d'ex\u00e9cution": 39.99,
+            "Temps d'ex\u00e9cution moyen": 0.08,
+            "Nombre d'it\u00e9rations": 500
+        }
+    },
+    "local_search": {
+        "eternity_A.txt": {
+            "score": 0,
+            "Date": "15/04/2024, 13:48:31",
+            "Algorithm": "LocalSearch",
+            "voisinageFct": "getVoisinageOnlyConflictV2",
+            "selectFct": "findFirstUpgradingNeighbor",
+            "costFct": "eternity_puzzle.get_total_n_conflict",
+            "maxTime": 900,
+            "bestScore": 0,
+            "Temps pris": 0.0,
+            "NbRestart": 0,
+            "NbIter": 0,
+            "Score Moyen": NaN,
+            "Score std": NaN
+        },
+        "eternity_B.txt": {
+            "score": 4,
+            "Date": "15/04/2024, 14:04:18",
+            "Algorithm": "LocalSearch",
+            "voisinageFct": "getVoisinageOnlyConflictV2",
+            "selectFct": "findFirstUpgradingNeighbor",
+            "costFct": "get_total_n_conflict",
+            "maxTime": 900,
+            "bestScore": 4,
+            "Temps pris": 900.01,
+            "NbRestart": 5240,
+            "NbIter": 23750,
+            "Score Moyen": 11.572709923664123,
+            "Score std": 2.0397901365954056
+        },
+        "eternity_C.txt": {
+            "score": 14,
+            "Date": "15/04/2024, 14:04:23",
+            "Algorithm": "LocalSearch",
+            "voisinageFct": "getVoisinageOnlyConflictV2",
+            "selectFct": "findFirstUpgradingNeighbor",
+            "costFct": "get_total_n_conflict",
+            "maxTime": 900,
+            "bestScore": 14,
+            "Temps pris": 900.16,
+            "NbRestart": 1605,
+            "NbIter": 8757,
+            "Score Moyen": 22.945794392523364,
+            "Score std": 2.7133320449930194
+        },
+        "eternity_D.txt": {
+            "score": 18,
+            "Date": "15/04/2024, 14:04:35",
+            "Algorithm": "LocalSearch",
+            "voisinageFct": "getVoisinageOnlyConflictV2",
+            "selectFct": "findFirstUpgradingNeighbor",
+            "costFct": "get_total_n_conflict",
+            "maxTime": 900,
+            "bestScore": 18,
+            "Temps pris": 900.22,
+            "NbRestart": 657,
+            "NbIter": 3948,
+            "Score Moyen": 27.105022831050228,
+            "Score std": 2.9562392870777563
+        },
+        "eternity_E.txt": {
+            "score": 21,
+            "Date": "15/04/2024, 12:37:49",
+            "Algorithm": "LocalSearch",
+            "maxTime": 900,
+            "bestScore": 21,
+            "Temps pris": 900.08,
+            "NbRestart": 329,
+            "NbIter": 2168
+        },
+        "eternity_complet.txt": {
+            "score": 74,
+            "Date": "15/04/2024, 14:27:00",
+            "Algorithm": "LocalSearch",
+            "voisinageFct": "getVoisinageOnlyConflictV2",
+            "selectFct": "findFirstUpgradingNeighbor",
+            "costFct": "get_total_n_conflict",
+            "maxTime": 3600,
+            "bestScore": 74,
+            "Temps pris": 3613.2,
+            "NbRestart": 45,
+            "NbIter": 474,
+            "Score Moyen": 87.2,
+            "Score std": 5.035871324805668
+        }
     }
 }

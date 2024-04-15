@@ -62,8 +62,8 @@ def solverLSNaive(eternityPuzzle: EternityPuzzle, maxTime, goodStart=False) -> T
     return bestSolution, bestCost
 
 
-def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selectFct, costFct, remainingTime=60, debug=False) -> \
-        Tuple[List[Tuple[int]], int]:
+def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selectFct, costFct, remainingTime=60,
+                debug=False, maxNbWithoutImprovement = 15, logs=None) -> Tuple[List[Tuple[int]], int]:
     """
     Algorithme de recherche locale générique.
     :param eternityPuzzle: Instance du problème
@@ -72,6 +72,9 @@ def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selec
     :param selectFct: Fonction de sélection du voisin
     :param costFct: Fonction de coût
     :param remainingTime: Temps restant pour l'exécution
+    :param debug: Affichage des logs
+    :param maxNbWithoutImprovement: Nombre d'itérations sans amélioration avant d'arrêter
+    :param logs: Logs à ajouter
     :return: Tuple (meilleure solution, coût de la meilleure solution)
     """
 
@@ -85,6 +88,16 @@ def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selec
 
     idxIter = 1
 
+    nbWithoutImprovement = 0
+
+    if logs is not None:
+        if "voisinageFct" not in logs:
+            logs["voisinageFct"] = voisinageFct.__name__
+        if "selectFct" not in logs:
+            logs["selectFct"] = selectFct.__name__
+        if "costFct" not in logs:
+            logs["costFct"] = costFct.__name__
+
     if debug:
         print(f"Coût initial : {currentCost}")
 
@@ -97,20 +110,35 @@ def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selec
 
         currentSolution = selectFct(eternityPuzzle, voisinage, currentSolution)
 
-        if currentSolution is not None:
-
-            currentCost = costFct(currentSolution)
-
-            if currentCost < bestCost:
-                bestSolution = currentSolution
-                bestCost = currentCost
-                if debug:
-                    print(f"Nouveau meilleur coût : {bestCost} - Temps restant: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter}")
-
-        else:
+        # Si on ne trouve pas de voisin améliorant, on arrête
+        if currentSolution is None:
             break
 
+        currentCost = costFct(currentSolution)
+
+        if currentCost < bestCost:
+            bestSolution = currentSolution
+            bestCost = currentCost
+            nbWithoutImprovement = 0
+            if debug:
+                print(f"Nouveau meilleur coût : {bestCost} - Temps restant: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter}")
+        else:
+            nbWithoutImprovement += 1
+
+            # Si on atteint le nombre d'itérations sans amélioration, on arrête
+            if nbWithoutImprovement >= maxNbWithoutImprovement:
+                if debug:
+                    print(f"Nombre d'itérations max sans amélioration atteint ({maxNbWithoutImprovement}) - Final score {currentCost} - Total iteration: {idxIter}")
+                break
+
         idxIter += 1
+
+    if logs is not None:
+        if "nbIter" in logs:
+            logs["nbIter"] += idxIter
+        else:
+            logs["nbIter"] = idxIter
+
 
     return bestSolution, bestCost
 
@@ -438,6 +466,7 @@ def findFirstUpgradingNeighbor(eternityPuzzle: EternityPuzzle, voisinage: List[L
             return voisin
 
     return None
+
 
 
 

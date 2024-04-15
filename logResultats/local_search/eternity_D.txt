@@ -1,0 +1,23 @@
+
+--------------------------------------------------
+Date : 15/04/2024, 12:37:44
+Algorithm : LocalSearch
+maxTime : 900
+bestScore : 18
+Temps pris : 900.07
+NbRestart : 677
+NbIter : 4132
+
+--------------------------------------------------
+Date : 15/04/2024, 14:04:35
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingNeighbor
+costFct : get_total_n_conflict
+maxTime : 900
+bestScore : 18
+Temps pris : 900.22
+NbRestart : 657
+NbIter : 3948
+Score Moyen : 27.105022831050228
+Score std : 2.9562392870777563

@@ -7,7 +7,7 @@ from tqdm import tqdm
 from algoHeuristic import solverHeuristique1Deep, solverHeuristique1DeepEdgeFirst, solverHeuristique1DeepEdgeFirstV2
 from heuristiques import heuristicNbConflictPieceV1, heuristicNbConflictPieceV2, heuristicNbConflictPieceV3
 from algoLocalSearch import getVoisinageAllPermutAndRotations, getVoisinageOnlyConflictV1, getVoisinageOnlyConflictV2
-from utils import INFINITY, getConflictPieces
+from utils import INFINITY, getConflictPieces, saveBestSolution
 import matplotlib.pyplot as plt
 import argparse
 import timeit
@@ -92,16 +92,28 @@ def runTest(eternityPuzzle, algorithme, heuristique, nbIter, save=False, saveFil
     """
     sommeConflit = 0
     best = INFINITY
+    bestSol = None
     start = time.time()
     for _ in tqdm(range(nbIter)):
-        _, nbConflict = algorithme(eternityPuzzle, heuristique)
-        best = min(best, nbConflict)
+        sol, nbConflict = algorithme(eternityPuzzle, heuristique)
+        if nbConflict < best:
+            best = nbConflict
+            bestSol = sol
+
         sommeConflit += nbConflict
     print("- Moyenne des conflits : ", sommeConflit / nbIter)
     print("- Meilleur score : ", best)
     print(f"- Temps d'exécution :  {round(time.time() - start, 2)} secondes")
     print(f"- Temps d'exécution moyen : {round((time.time() - start) / nbIter, 2)} secondes")
     print("\n")
+
+    logs = {"Algorithme": algorithme.__name__, "Heuristique": heuristique.__name__,
+            "Moyenne des conflits": sommeConflit / nbIter, "Meilleur score": best,
+            "Temps d'exécution": round(time.time() - start, 2),
+            "Temps d'exécution moyen": round((time.time() - start) / nbIter, 4),
+            "Nombre d'itérations": nbIter}
+
+    saveBestSolution(eternityPuzzle, "heuristic", bestSol, best, logs)
 
     # Sauvegarde des résultats
     if saveFile is not None and save:
@@ -354,9 +366,13 @@ if __name__ == '__main__':
     #
     # save = args.save.lower() == "true"
     # plot = args.plot.lower() == "true"
-    #
+
     runAllTests(False, None, 500, True)
 
+    # instance = "eternity_E.txt"
+    #
+    # puzzle = eternity_puzzle.EternityPuzzle("./instances/" + instance)
+    # runTest(puzzle, solverHeuristique1DeepEdgeFirstV2, heuristicNbConflictPieceV3, 200)
     # runTestTailleVoisinage()
     # runTestTempsVoisinage()
 

@@ -1,0 +1,109 @@
+
+--------------------------------------------------
+Date : 15/04/2024, 12:42:07
+Algorithm : LocalSearch
+maxTime : 30.0
+bestScore : 87
+Temps pris : 47.52
+NbRestart : 1
+NbIter : 7
+Score Moyen : 92.0
+Score std : 0.0
+
+--------------------------------------------------
+Date : 15/04/2024, 12:45:09
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingNeighbor
+costFct : get_total_n_conflict
+maxTime : 30.0
+bestScore : 86
+Temps pris : 31.93
+NbRestart : 1
+NbIter : 7
+Score Moyen : 86.0
+Score std : 0.0
+
+--------------------------------------------------
+Date : 15/04/2024, 12:45:18
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingOrSameNeighbor
+costFct : get_total_n_conflict
+maxTime : 30.0
+bestScore : 95
+Temps pris : 31.36
+NbRestart : 1
+NbIter : 13
+Score Moyen : 95.0
+Score std : 0.0
+
+--------------------------------------------------
+Date : 15/04/2024, 13:17:54
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingOrSameNeighbor
+costFct : get_total_n_conflict
+maxTime : 1800
+bestScore : 77
+Temps pris : 1801.01
+NbRestart : 18
+NbIter : 546
+Score Moyen : 93.38888888888889
+Score std : 5.889150937565796
+
+--------------------------------------------------
+Date : 15/04/2024, 13:18:07
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingNeighbor
+costFct : get_total_n_conflict
+maxTime : 1800
+bestScore : 74
+Temps pris : 1802.17
+NbRestart : 21
+NbIter : 216
+Score Moyen : 87.38095238095238
+Score std : 5.533243176054299
+
+--------------------------------------------------
+Date : 15/04/2024, 13:18:29
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingNeighbor
+costFct : get_total_n_conflict
+maxTime : 1800
+bestScore : 79
+Temps pris : 1812.1
+NbRestart : 20
+NbIter : 212
+Score Moyen : 86.9
+Score std : 3.986226285598949
+
+--------------------------------------------------
+Date : 15/04/2024, 13:18:35
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingOrSameNeighbor
+costFct : get_total_n_conflict
+maxTime : 1800
+bestScore : 74
+Temps pris : 1801.11
+NbRestart : 12
+NbIter : 559
+Score Moyen : 88.75
+Score std : 6.893535619211185
+
+--------------------------------------------------
+Date : 15/04/2024, 14:27:00
+Algorithm : LocalSearch
+voisinageFct : getVoisinageOnlyConflictV2
+selectFct : findFirstUpgradingNeighbor
+costFct : get_total_n_conflict
+maxTime : 3600
+bestScore : 74
+Temps pris : 3613.2
+NbRestart : 45
+NbIter : 474
+Score Moyen : 87.2
+Score std : 5.035871324805668
