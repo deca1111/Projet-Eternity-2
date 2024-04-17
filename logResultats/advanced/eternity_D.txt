@@ -178,3 +178,25 @@ NbUsedFct :
 NbTotalIter : 0
 bestScore : 10
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 20:27:04
+Algorithm : restartBestAndRandom_LNS
+maxTime : 1800
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 144
+MeanScore : 8.5035
+StdScore : 2.2652
+NbRestartBest : 95
+NbRestartRandom : 48
+NbImprovement : 
+	Best : 3
+	Random : 0
+ratioBest : 2
+bestScore : 7
+Temps pris : 1800.0

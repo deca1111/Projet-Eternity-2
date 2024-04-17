@@ -689,3 +689,47 @@ NbTotalIter : 239556
 	AcceptFct : {'acceptOnlyBetter': 0.15, 'acceptSameOrBetter': 0.85}
 bestScore : 62
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 20:27:12
+Algorithm : restartBestAndRandom_LNS
+maxTime : 1800
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 31
+MeanScore : 45.4667
+StdScore : 1.9276
+NbRestartBest : 20
+NbRestartRandom : 10
+NbImprovement : 
+	Best : 5
+	Random : 0
+ratioBest : 2
+bestScore : 42
+Temps pris : 1800.0
+
+--------------------------------------------------
+Date : 16/04/2024, 20:27:19
+Algorithm : restartBestAndRandom_LNS
+maxTime : 1800
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 32
+MeanScore : 41.8065
+StdScore : 3.5959
+NbRestartBest : 21
+NbRestartRandom : 10
+NbImprovement : 
+	Best : 3
+	Random : 0
+ratioBest : 2
+bestScore : 39
+Temps pris : 1800.0

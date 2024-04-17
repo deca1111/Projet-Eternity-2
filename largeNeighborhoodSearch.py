@@ -88,6 +88,7 @@ def restartLNS(
                           f"-----------------" + Style.RESET_ALL)
 
     if logs is not None:
+        logs["Algorithm"] = "restartLNS"
         logs["DestructFct"] = destructFct.__name__
         logs["ReconstructFct"] = reconstructFct.__name__
         logs["AcceptFct"] = acceptFct.__name__
@@ -294,7 +295,7 @@ def restartBestAndRandom_LNS(
         destructFctBest=None, reconstructFctBest=None, acceptFctBest=None,
         maxWithoutAcceptOrImprove=100, prctDestruct=None, ratioBest=0.5,
         maxTime=60., debug=False, logs=None
-        ):  # sourcery skip: low-code-quality
+        ):    # sourcery skip: low-code-quality
     """
     LNS avec restart aléatoire ou avec la meilleure solution trouvée.
     :param puzzle: Instance du puzzle
@@ -363,20 +364,11 @@ def restartBestAndRandom_LNS(
         if nbRestart % (nbMaxBest + nbMaxRandom) < nbMaxBest:  # On fait un restart avec la meilleure solution
             startingSol = bestSol
             startBest = True
-            correctedMaxWithoutAcceptOrImprove = maxWithoutAcceptOrImprove * 2
+            correctedMaxWithoutAcceptOrImprove = maxWithoutAcceptOrImprove * 1.5
             nbRestartBest += 1
-            if destructFctBest is not None:
-                destructFct = destructFctBest
-            else:
-                destructFct = destructFctRandom
-            if reconstructFctBest is not None:
-                reconstructFct = reconstructFctBest
-            else:
-                reconstructFct = reconstructFctRandom
-            if acceptFctBest is not None:
-                acceptFct = acceptFctBest
-            else:
-                acceptFct = acceptFctRandom
+            destructFct = destructFctBest if destructFctBest is not None else destructFctRandom
+            reconstructFct = reconstructFctBest if reconstructFctBest is not None else reconstructFctRandom
+            acceptFct = acceptFctBest if acceptFctBest is not None else acceptFctRandom
 
         else:  # On fait un restart aléatoire
             startingSol, _ = getInitialSolutionAndScore(puzzle)

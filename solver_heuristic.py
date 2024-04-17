@@ -12,10 +12,12 @@ def solve_heuristic(eternity_puzzle):
     :return: a tuple (solution, cost) where solution is a list of the pieces (rotations applied) and
         cost is the cost of the solution
     """
+    saveBestSol = True
 
     solution, nbConflict = solverHeuristique1DeepEdgeFirstV2(eternity_puzzle, heuristicNbConflictPieceV3)
 
-    saveBestSolution(eternity_puzzle, "heuristic", solution, nbConflict)
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "heuristic", solution, nbConflict)
 
     return solution, nbConflict
 

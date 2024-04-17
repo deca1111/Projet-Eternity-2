@@ -247,3 +247,25 @@ MeanScore : 13.9
 StdScore : 1.6603
 bestScore : 11
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 20:27:07
+Algorithm : restartBestAndRandom_LNS
+maxTime : 1800
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 112
+MeanScore : 10.5315
+StdScore : 2.1553
+NbRestartBest : 74
+NbRestartRandom : 37
+NbImprovement : 
+	Best : 3
+	Random : 1
+ratioBest : 2
+bestScore : 9
+Temps pris : 1800.0

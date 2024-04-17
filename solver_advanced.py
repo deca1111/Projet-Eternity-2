@@ -34,6 +34,7 @@ def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
     log = True
     prctWorstAccept = 1
     ratioBest = 2
+    saveBestSol = True
     if log:
         date = datetime.now()
         logs = {"Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
@@ -70,7 +71,8 @@ def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
         logs["Temps pris"] = round(time.time() - startTime, 2)
         logResults(eternity_puzzle, "advanced", logs)
 
-    saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore, logs)
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore, logs)
 
     return bestSol, bestScore
 
@@ -83,10 +85,11 @@ def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
     debug = True
     log = True
     prctWorstAccept = 0.1
+    saveBestSol = True
     if log:
         date = datetime.now()
         logs = {"Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
-                "Algorithm": "restartBestALNS",
+                "Algorithm": "",
                 "maxTime": maxTime,
                 "prctDestruct": prctDestruct,
                 "maxWithoutAcceptOrImprove": maxWithoutAcceptOrImprove,
@@ -137,6 +140,7 @@ def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
         logs["Temps pris"] = round(time.time() - startTime, 2)
         logResults(eternity_puzzle, "advanced", logs)
 
-    saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore, logs)
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "advanced", bestSol, bestScore, logs)
 
     return bestSol, bestScore

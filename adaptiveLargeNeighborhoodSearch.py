@@ -252,6 +252,7 @@ def restartALNS(
                           f"Meilleur score: {bestScore}" + Style.RESET_ALL)
 
     if logs is not None:
+        logs["Algorithm"] = "restartALNS"
         logs["NbRestart"] = nbRestart
         if len(scores) > 0:
             meanScore = sum(scores) / len(scores)
@@ -376,6 +377,7 @@ def restartBestALNS(
                           f"Meilleur score: {bestScore}" + Style.RESET_ALL)
 
     if logs is not None:
+        logs["Algorithm"] = "restartBestALNS"
         logs["NbRestart"] = nbRestart
         if len(scores) > 0:
             meanScore = sum(scores) / len(scores)

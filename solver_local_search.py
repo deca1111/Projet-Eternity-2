@@ -12,6 +12,7 @@ from colorama import Fore, Style
 
 
 def solve_local_search(eternity_puzzle: EternityPuzzle):
+    # sourcery skip: low-code-quality
     """
     Local search solution of the problem
     :param eternity_puzzle: object describing the input
@@ -25,6 +26,8 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
 
     maxTime = 15 * 60
     debug = True
+    log = True
+    saveBestSol = True
 
     startingTemp = 1
     tauxDecroissance = 0.999
@@ -33,7 +36,11 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
     startTime = time.time()
     nbIter = 1
 
-    log_ = {}
+    if log:
+        log_ = {}
+    else:
+        log_ = None
+        
     scores = []
 
     while time.time() - startTime < maxTime and bestScore > 0:
@@ -74,23 +81,26 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
         nbIter += 1
 
     print(Style.RESET_ALL)
+    
+    if log:
+        logs = {"Date": time.strftime("%d/%m/%Y, %H:%M:%S"),
+                "Algorithm": "LocalSearch",
+                "voisinageFct": log_["voisinageFct"] if "voisinageFct" in log_ else "getVoisinageOnlyConflictV2",
+                "selectFct": log_["selectFct"] if "selectFct" in log_ else "findFirstUpgradingNeighbor",
+                "costFct": log_["costFct"] if "costFct" in log_ else "eternity_puzzle.get_total_n_conflict",
+                "maxTime": maxTime,
+                "bestScore": bestScore,
+                "Temps pris": round(time.time() - startTime, 2),
+                "NbRestart": nbIter - 1,
+                "NbIter": log_["nbIter"] if "nbIter" in log_ else 0,
+                "Score Moyen": np.mean(scores),
+                "Score std": np.std(scores),
+                }
 
-    logs = {"Date": time.strftime("%d/%m/%Y, %H:%M:%S"),
-            "Algorithm": "LocalSearch",
-            "voisinageFct": log_["voisinageFct"] if "voisinageFct" in log_ else "getVoisinageOnlyConflictV2",
-            "selectFct": log_["selectFct"] if "selectFct" in log_ else "findFirstUpgradingNeighbor",
-            "costFct": log_["costFct"] if "costFct" in log_ else "eternity_puzzle.get_total_n_conflict",
-            "maxTime": maxTime,
-            "bestScore": bestScore,
-            "Temps pris": round(time.time() - startTime, 2),
-            "NbRestart": nbIter - 1,
-            "NbIter": log_["nbIter"] if "nbIter" in log_ else 0,
-            "Score Moyen": np.mean(scores),
-            "Score std": np.std(scores),
-            }
+        logResults(eternity_puzzle, "local_search", logs)
 
-    saveBestSolution(eternity_puzzle, "local_search", bestSol, bestScore, logs)
-    logResults(eternity_puzzle, "local_search", logs)
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "local_search", bestSol, bestScore, logs)
 
     return bestSol, bestScore
 
