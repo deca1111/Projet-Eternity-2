@@ -12,4 +12,4 @@ def acceptSameOrBetter(oldCost, newCost):
 
 
 def acceptPrctWorst(oldCost, newCost, prct=0.1):
-    return newCost <= oldCost or newCost - oldCost < prct * oldCost
+    return newCost <= oldCost or newCost < prct * oldCost + oldCost

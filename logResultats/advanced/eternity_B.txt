@@ -658,3 +658,91 @@ MeanScore : 8.6429
 StdScore : 3.7754
 bestScore : 2
 Temps pris : 300.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:25:21
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 171
+MeanScore : 5.9649
+StdScore : 4.3285
+NbRestartBest : 57
+NbRestartRandom : 114
+NbImprovement : 
+	Best : 1
+	Random : 4
+ratioBest : 0.5
+bestScore : 0
+Temps pris : 641.81
+
+--------------------------------------------------
+Date : 16/04/2024, 18:25:02
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 199
+MeanScore : 3.6414
+StdScore : 3.0662
+NbRestartBest : 132
+NbRestartRandom : 66
+NbImprovement : 
+	Best : 2
+	Random : 0
+ratioBest : 2
+bestScore : 2
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:25:15
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 215
+MeanScore : 4.9579
+StdScore : 4.1007
+NbRestartBest : 107
+NbRestartRandom : 107
+NbImprovement : 
+	Best : 2
+	Random : 1
+ratioBest : 1
+bestScore : 2
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:25:32
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 250
+MeanScore : 6.4458
+StdScore : 4.2848
+NbRestartBest : 62
+NbRestartRandom : 187
+NbImprovement : 
+	Best : 0
+	Random : 2
+ratioBest : 0.3333333333333333
+bestScore : 2
+Temps pris : 900.0

@@ -178,8 +178,9 @@ def largeNeighborhoodSearch(
 
         # Si on a dépassé le nombre d'itérations sans accepter ou améliorer, on s'arrête
         if nbWithoutAccept > maxWithoutAcceptOrImprove or nbWithoutImprovement > maxWithoutAcceptOrImprove:
-            print(Fore.RED + f"Arrêt du LNS - Nombre d'itérations dépassé - Dernier score {currentScore}" +
-                  Style.RESET_ALL)
+            if debug:
+                print(Fore.RED + f"Arrêt du LNS - Nombre d'itérations dépassé - Dernier score {currentScore}" +
+                      Style.RESET_ALL)
             break
 
         idxIter += 1
@@ -209,13 +210,13 @@ def restartBestLNS(
     :return: La meilleure solution trouvée et son score
     """
 
-
     startTime = time.time()
     nbRestart = 1
     scores = []
 
     if debug:
-        print(Fore.BLUE + f"--------------- Début LNS avec restart meilleur - Temps restant: {maxTime} s ---------------")
+        print(
+            Fore.BLUE + f"--------------- Début LNS avec restart meilleur - Temps restant: {maxTime} s ---------------")
         print(f" - Fonction de destruction: {destructFct.__name__}")
         print(f" - Fonction de reconstruction: {reconstructFct.__name__}")
         print(f" - Fonction d'acceptation: {acceptFct.__name__}")
@@ -224,7 +225,7 @@ def restartBestLNS(
         print(f" - MaxTime: {maxTime}")
         print("--------------------------------------------------------------------------------------------" +
               Style.RESET_ALL)
-        
+
     # Initialisation meilleure solution
     bestSol, bestScore = getInitialSolutionAndScore(puzzle)
 
@@ -275,6 +276,7 @@ def restartBestLNS(
                           f"-----------------" + Style.RESET_ALL)
 
     if logs is not None:
+        logs["Algorithm"] = "restartBestLNS"
         logs["DestructFct"] = destructFct.__name__
         logs["ReconstructFct"] = reconstructFct.__name__
         logs["AcceptFct"] = acceptFct.__name__
@@ -283,5 +285,176 @@ def restartBestLNS(
         logs["MeanScore"] = round(meanScore, 4)
         stdScore = np.std(scores)
         logs["StdScore"] = round(stdScore, 4)
+
+    return bestSol, bestScore
+
+
+def restartBestAndRandom_LNS(
+        puzzle: EternityPuzzle, destructFctRandom, reconstructFctRandom, acceptFctRandom,
+        destructFctBest=None, reconstructFctBest=None, acceptFctBest=None,
+        maxWithoutAcceptOrImprove=100, prctDestruct=None, ratioBest=0.5,
+        maxTime=60., debug=False, logs=None
+        ):  # sourcery skip: low-code-quality
+    """
+    LNS avec restart aléatoire ou avec la meilleure solution trouvée.
+    :param puzzle: Instance du puzzle
+    :param destructFctRandom: Fonction de destruction pour le restart aléatoire
+    :param reconstructFctRandom: Fonction de reconstruction pour le restart aléatoire
+    :param acceptFctRandom: Fonction d'acceptation pour le restart aléatoire
+    :param destructFctBest: Fonction de destruction pour le restart avec la meilleure solution, si None, on utilise
+    destructFctRandom
+    :param reconstructFctBest: Fonction de reconstruction pour le restart avec la meilleure solution, si None,
+    on utilise reconstructFctRandom
+    :param acceptFctBest: Fonction d'acceptation pour le restart avec la meilleure solution, si None, on utilise
+    acceptFctRandom
+    :param maxWithoutAcceptOrImprove: Nombre maximum d'itérations sans accepter ou améliorer avant de redémarrer
+    :param prctDestruct: Pourcentage (maximum) de pièces à détruire
+    :param ratioBest: Ratio x de restart avec la meilleure solution, si x > 1, on fait x restarts avec la meilleure
+    solution avant de faire un restart aléatoire, sinon on fait 1/x restarts aléatoires avant de faire un restart avec
+    la meilleure solution.
+    :param maxTime: Temps maximum alloué à la recherche
+    :param debug: Affichage des informations de débogage
+    :param logs: Dictionnaire pour les logs
+    :return: La meilleure solution trouvée et son score
+    """
+
+    startTime = time.time()
+    nbRestart = 1
+    scores = []
+    nbRestartBest = 0
+    nbRestartRandom = 0
+    nbImprovement = {"Best": 0, "Random": 0}
+
+    if debug:
+        print(Fore.BLUE + f"--------------- Début LNS avec restart Split - Temps restant: {maxTime} s ---------------")
+        print(f" - Fonction de destruction Random: {destructFctRandom.__name__}")
+        print(f" - Fonction de reconstruction Random: {reconstructFctRandom.__name__}")
+        print(f" - Fonction d'acceptation Random: {acceptFctRandom.__name__}")
+        if destructFctBest is not None:
+            print(f" - Fonction de destruction Best: {destructFctBest.__name__}")
+        if reconstructFctBest is not None:
+            print(f" - Fonction de reconstruction Best: {reconstructFctBest.__name__}")
+        if acceptFctBest is not None:
+            print(f" - Fonction d'acceptation Best: {acceptFctBest.__name__}")
+        print(f" - RatioBest: {ratioBest}")
+        print(f" - MaxWithoutAccept: {maxWithoutAcceptOrImprove}")
+        print(f" - PrctDestruct: {prctDestruct}")
+        print(f" - MaxTime: {maxTime}")
+        print("--------------------------------------------------------------------------------------------" +
+              Style.RESET_ALL)
+
+    # Initialisation meilleure solution
+    bestSol, bestScore = getInitialSolutionAndScore(puzzle)
+
+    # Initialisation des compteurs
+    if ratioBest > 1:
+        nbMaxBest = int(ratioBest)
+        nbMaxRandom = 1
+    else:
+        nbMaxBest = 1
+        nbMaxRandom = int(1 / ratioBest)
+
+    if debug:
+        print(Fore.BLUE + f"Nombre de restarts avec la meilleure solution: {nbMaxBest}")
+        print(Fore.BLUE + f"Nombre de restarts aléatoires: {nbMaxRandom}")
+
+    while (time.time() - startTime) < maxTime and bestScore > 0:
+
+        if nbRestart % (nbMaxBest + nbMaxRandom) < nbMaxBest:  # On fait un restart avec la meilleure solution
+            startingSol = bestSol
+            startBest = True
+            correctedMaxWithoutAcceptOrImprove = maxWithoutAcceptOrImprove * 2
+            nbRestartBest += 1
+            if destructFctBest is not None:
+                destructFct = destructFctBest
+            else:
+                destructFct = destructFctRandom
+            if reconstructFctBest is not None:
+                reconstructFct = reconstructFctBest
+            else:
+                reconstructFct = reconstructFctRandom
+            if acceptFctBest is not None:
+                acceptFct = acceptFctBest
+            else:
+                acceptFct = acceptFctRandom
+
+        else:  # On fait un restart aléatoire
+            startingSol, _ = getInitialSolutionAndScore(puzzle)
+            startBest = False
+            correctedMaxWithoutAcceptOrImprove = maxWithoutAcceptOrImprove
+            nbRestartRandom += 1
+            destructFct = destructFctRandom
+            reconstructFct = reconstructFctRandom
+            acceptFct = acceptFctRandom
+
+        remainingTime = maxTime - (time.time() - startTime)
+
+        if debug:
+            print(
+                Fore.BLUE + f"Restart {nbRestart} - Temps restant: {round(remainingTime, 2)} s - "
+                            f"Restart Best ? {startBest} - Score initial: {bestScore} \n"
+                            f"Nb restart best: {nbMaxBest} - Nb restart random: {nbMaxRandom} - "
+                            f"Idx restart: {nbRestart % (nbMaxBest + nbMaxRandom)}")
+
+        # Lancement du LNS
+        currentSol, currentScore = largeNeighborhoodSearch(puzzle, startingSol, destructFct, reconstructFct,
+                                                           acceptFct,
+                                                           maxWithoutAcceptOrImprove=correctedMaxWithoutAcceptOrImprove,
+                                                           prctDestruct=prctDestruct, remainingTime=remainingTime,
+                                                           debug=debug)
+
+        scores.append(currentScore)
+
+        # Si on a trouvé une solution valide, on arrête
+        if currentScore == 0:
+            bestSol = currentSol
+            bestScore = currentScore
+            break
+
+        if currentScore <= bestScore:
+
+            if currentScore < bestScore:
+                if startBest:
+                    nbImprovement["Best"] += 1
+                else:
+                    nbImprovement["Random"] += 1
+
+            bestSol = currentSol
+            bestScore = currentScore
+
+
+            if debug:
+                print(Fore.GREEN + f"New best score: {bestScore} - "
+                                   f"Temps restant: {round(maxTime - (time.time() - startTime), 2)} s - "
+                                   f"Restart {nbRestart} - Restart Best ? {startBest}")
+
+        else:
+            if debug:
+                print(Fore.WHITE + f"No improvement: {currentScore} - "
+                                   f"Temps restant: {round(maxTime - (time.time() - startTime), 2)} s - "
+                                   f"Restart {nbRestart} - Restart Best ? {startBest}")
+
+        nbRestart += 1
+
+    if debug:
+        print(Fore.BLUE + f"----------------- Fin LNS avec restart best et random - "
+                          f"Temps écoulé: {round(time.time() - startTime, 2)} s - "
+                          f"Restarts: {nbRestart} - "
+                          f"Meilleur score: {bestScore}"
+                          f"-----------------" + Style.RESET_ALL)
+
+    if logs is not None:
+        logs["Algorithm"] = "restartBestAndRandom_LNS"
+        logs["DestructFct"] = destructFct.__name__
+        logs["ReconstructFct"] = reconstructFct.__name__
+        logs["AcceptFct"] = acceptFct.__name__
+        logs["NbRestart"] = nbRestart
+        meanScore = sum(scores) / len(scores)
+        logs["MeanScore"] = round(meanScore, 4)
+        stdScore = np.std(scores)
+        logs["StdScore"] = round(stdScore, 4)
+        logs["NbRestartBest"] = nbRestartBest
+        logs["NbRestartRandom"] = nbRestartRandom
+        logs["NbImprovement"] = nbImprovement
 
     return bestSol, bestScore

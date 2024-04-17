@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import List, Tuple
 import random
 from eternity_puzzle import EternityPuzzle
-from heuristiques import heuristicNbConflictPieceV3
+from heuristiques import heuristicNbConflictPieceV2, heuristicNbConflictPieceV3
 from utils import *
 
 
@@ -31,12 +31,12 @@ def repairRandom(
     return reconstructedSol
 
 
-def repairHeuristicAllRotation(
+def repairHeuristicEmplacementBest(
         puzzle: EternityPuzzle, partialSolution: List[Tuple[int]],
         destructedPieces: List[Tuple[int]], idxDestroyedPieces: List[int]
         ):
     """
-    Reconstruct the solution by replacing the None values by the best possible piece
+    Reconstruct the solution en plaçant à chaque emplacement la pièce qui minimise le nombre de conflits
     :param puzzle: the puzzle
     :param partialSolution: the partial solution
     :param destructedPieces: the pieces destructed
@@ -48,18 +48,64 @@ def repairHeuristicAllRotation(
     random.shuffle(destructedPieces)
     random.shuffle(idxDestroyedPieces)
 
-    solutionMatrix = getMatrixFromList(puzzle, reconstructedSol)
+    for idxEmplacement in idxDestroyedPieces:
 
-    for idxNewPiece in idxDestroyedPieces:
-        newIdx = (idxNewPiece // puzzle.board_size, idxNewPiece % puzzle.board_size)
-        # print(f"Reconstruction de la pièce {newIdx}")
+        idxBestPiece = None
+        idxBestRot = None
+        bestScore = float("inf")
 
-        bestPiece, destructedPieces = chooseBestPiece(puzzle, solutionMatrix, destructedPieces,
-                                                      heuristicNbConflictPieceV3, newIdx)
+        for idxPiece, piece in enumerate(destructedPieces):
 
-        solutionMatrix[newIdx[0]][newIdx[1]] = bestPiece
+            for idxRot, newPiece in enumerate(puzzle.generate_rotation(piece)):
+                score = heuristicNbConflictPieceV2(puzzle, reconstructedSol, newPiece, idxEmplacement)
+                if score < bestScore:
+                    bestScore = score
+                    idxBestPiece = idxPiece
+                    idxBestRot = idxRot
+                if bestScore == 0:
+                    break
 
-    # Conversion de la solution en liste
-    solutionList = getListFromMatrix(puzzle, solutionMatrix)
+        reconstructedSol[idxEmplacement] = puzzle.generate_rotation(destructedPieces.pop(idxBestPiece))[idxBestRot]
 
-    return solutionList
+    return reconstructedSol
+
+
+def repairHeuristicPieceBest(
+        puzzle: EternityPuzzle, partialSolution: List[Tuple[int]],
+        destructedPieces: List[Tuple[int]], idxDestroyedPieces: List[int]
+        ):
+    """
+    Reconstruction de la solution en plaçant chaque pièce au meilleur endroit possible
+    :param puzzle:
+    :param partialSolution:
+    :param destructedPieces:
+    :param idxDestroyedPieces:
+    :return:
+    """
+
+    reconstructedSol = deepcopy(partialSolution)
+    random.shuffle(destructedPieces)
+    random.shuffle(idxDestroyedPieces)
+
+    for piece in destructedPieces:
+
+        rotPiece = puzzle.generate_rotation(piece)
+
+        bestIdx = None
+        bestScore = float("inf")
+        bestRotPiece = None
+
+        for idx in idxDestroyedPieces:
+            for idxRot, newPiece in enumerate(rotPiece):
+                score = heuristicNbConflictPieceV2(puzzle, reconstructedSol, newPiece, idx)
+                if score < bestScore:
+                    bestScore = score
+                    bestIdx = idx
+                    bestRotPiece = newPiece
+                if bestScore == 0:
+                    break
+
+        reconstructedSol[bestIdx] = bestRotPiece
+        idxDestroyedPieces.remove(bestIdx)
+
+    return reconstructedSol

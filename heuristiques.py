@@ -94,7 +94,8 @@ def heuristicNbConflictPieceV2(
     else:
         if newPiece[SOUTH] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[SOUTH] != solution[indexNewPiece - sizeBoard][NORTH]:
+        elif (newPiece[SOUTH] != solution[indexNewPiece - sizeBoard][NORTH] and
+              solution[indexNewPiece - sizeBoard][NORTH] != -1):
             n_conflict += poidConflitClassique
 
     # WEST
@@ -108,7 +109,8 @@ def heuristicNbConflictPieceV2(
     else:
         if newPiece[WEST] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[WEST] != solution[indexNewPiece - 1][EAST]:
+        elif (newPiece[WEST] != solution[indexNewPiece - 1][EAST]
+              and solution[indexNewPiece - 1][EAST] != -1):
             n_conflict += poidConflitClassique
 
     # NORTH
@@ -120,7 +122,8 @@ def heuristicNbConflictPieceV2(
     else:
         if newPiece[NORTH] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[NORTH] != solution[indexNewPiece + sizeBoard][SOUTH]:
+        elif (newPiece[NORTH] != solution[indexNewPiece + sizeBoard][SOUTH]
+              and solution[indexNewPiece + sizeBoard][SOUTH] != -1):
             n_conflict += poidConflitClassique
 
     # EAST
@@ -132,7 +135,8 @@ def heuristicNbConflictPieceV2(
     else:
         if newPiece[EAST] == GRAY:
             n_conflict += poidConflitBord
-        elif newPiece[EAST] != solution[indexNewPiece + 1][WEST]:
+        elif (newPiece[EAST] != solution[indexNewPiece + 1][WEST]
+              and solution[indexNewPiece + 1][WEST] != -1):
             n_conflict += poidConflitClassique
 
     return n_conflict
@@ -141,7 +145,7 @@ def heuristicNbConflictPieceV2(
 def heuristicNbConflictPieceV3(
         eternity_puzzle: EternityPuzzle, solutionMatrix: [[int]], newPiece: Tuple[int],
         coordNewPiece: Tuple[int, int]
-        ) -> int:
+        ) -> int:  # sourcery skip: low-code-quality
     """
     On compte le nombre de conflit que la pièce apporte à la solution. La solution fournit est une matrice.
     On doit aussi donner les coordonnées de la pièce dans la matrice.

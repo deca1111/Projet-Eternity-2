@@ -25,7 +25,7 @@ def destructRandom(_, solution: List[Tuple[int]], prctDestruct: float = 0.1):
     destroyedPieces = []
 
     for idx in idxDestructed:
-        destructedSol[idx] = (0, 0, 0, 0)
+        destructedSol[idx] = (-1, -1, -1, -1)
         destroyedPieces.append(solution[idx])
 
     return destructedSol, destroyedPieces, idxDestructed
@@ -57,7 +57,7 @@ def destructProbaMostConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]]
     destroyedPieces = []
 
     for idx in idxDestructed:
-        destructedSol[idx] = (0, 0, 0, 0)
+        destructedSol[idx] = (-1, -1, -1, -1)
         destroyedPieces.append(solution[idx])
 
     return destructedSol, destroyedPieces, idxDestructed
@@ -98,7 +98,7 @@ def destructOnlyConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], prc
     destroyedPieces = []
 
     for idx in idxDestructed:
-        destructedSol[idx] = (0, 0, 0, 0)
+        destructedSol[idx] = (-1, -1, -1, -1)
         destroyedPieces.append(solution[idx])
 
     return destructedSol, destroyedPieces, idxDestructed
@@ -119,7 +119,7 @@ def destructAllConflict(puzzle: EternityPuzzle, solution: List[Tuple[int]], _):
 
     for idx, piece in enumerate(solution):
         if heuristicNbConflictPieceV2(puzzle, solution, piece, idx) > 0:
-            destructedSol[idx] = (0, 0, 0, 0)
+            destructedSol[idx] = (-1, -1, -1, -1)
             destroyedPieces.append(piece)
             idxDestructed.append(idx)
 

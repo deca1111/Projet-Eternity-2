@@ -353,7 +353,7 @@ def restartBestALNS(
             bestScore = currentScore
             break
 
-        if currentScore < bestScore:
+        if currentScore <= bestScore:
             bestSol = currentSol
             bestScore = currentScore
 

@@ -3,7 +3,8 @@ import random
 import time
 from typing import Tuple, List
 
-from utils import getRandomSolution, getMatrixFromList, getConflictPieces, selectWithNbConflict, getEdgeIndexes, printGridIndexes, getAngleIndexes
+from utils import (getRandomSolution, getMatrixFromList, getConflictPieces, selectWithNbConflict, getEdgeIndexes,
+                   printGridIndexes, getAngleIndexes)
 from eternity_puzzle import EternityPuzzle
 import itertools
 from algoHeuristic import solverHeuristique1DeepEdgeFirstV2
@@ -62,8 +63,11 @@ def solverLSNaive(eternityPuzzle: EternityPuzzle, maxTime, goodStart=False) -> T
     return bestSolution, bestCost
 
 
-def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selectFct, costFct, remainingTime=60,
-                debug=False, maxNbWithoutImprovement = 15, logs=None) -> Tuple[List[Tuple[int]], int]:
+def localSearch(
+        eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selectFct, costFct, remainingTime=60,
+        debug=False, maxNbWithoutImprovement=15, logs=None
+        ) -> Tuple[List[Tuple[int]], int]:
+    # sourcery skip: low-code-quality
     """
     Algorithme de recherche locale générique.
     :param eternityPuzzle: Instance du problème
@@ -121,14 +125,18 @@ def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selec
             bestCost = currentCost
             nbWithoutImprovement = 0
             if debug:
-                print(f"Nouveau meilleur coût : {bestCost} - Temps restant: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter}")
+                print(f"Nouveau meilleur coût : {bestCost} - "
+                      f"Temps restant: {round(remainingTime - (time.time() - startTime), 2)} s - "
+                      f"Iteration: {idxIter}")
         else:
             nbWithoutImprovement += 1
 
             # Si on atteint le nombre d'itérations sans amélioration, on arrête
             if nbWithoutImprovement >= maxNbWithoutImprovement:
                 if debug:
-                    print(f"Nombre d'itérations max sans amélioration atteint ({maxNbWithoutImprovement}) - Final score {currentCost} - Total iteration: {idxIter}")
+                    print(f"Nombre d'itérations max sans amélioration atteint ({maxNbWithoutImprovement}) - "
+                          f"Final score {currentCost} - "
+                          f"Total iteration: {idxIter}")
                 break
 
         idxIter += 1
@@ -139,12 +147,13 @@ def localSearch(eternityPuzzle: EternityPuzzle, startingSol, voisinageFct, selec
         else:
             logs["nbIter"] = idxIter
 
-
     return bestSolution, bestCost
 
 
-def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp, tauxDecroissance, maxWithoutImprovement=100, remainingTime=60, debug=False) -> Tuple[List[Tuple[int]], int]:
-
+def simulatedAnnealing(
+        eternityPuzzle: EternityPuzzle, startingSol, initialTemp, tauxDecroissance,
+        maxWithoutImprovement=100, remainingTime=60, debug=False
+        ) -> Tuple[List[Tuple[int]], int]:  # sourcery skip: low-code-quality
     # Initialisation
     currentSolution = startingSol
     currentCost = eternityPuzzle.get_total_n_conflict(startingSol)
@@ -159,8 +168,9 @@ def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp,
     tailleVoisinage = 0
 
     if debug:
-        print(f"Début simulated annealing - Temps restant: {round(remainingTime, 2)} s - Coût initial: {bestCost} - Température "
-              f"initiale: {initialTemp}")
+        print(
+            f"Début simulated annealing - Temps restant: {round(remainingTime, 2)} s - "
+            f"Coût initial: {bestCost} - Température initiale: {initialTemp}")
 
     temperature = initialTemp
 
@@ -176,8 +186,6 @@ def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp,
         chosenCost = eternityPuzzle.get_total_n_conflict(chosenSol)
 
         delta = chosenCost - currentCost
-
-        changeSol = False
 
         # Si le voisin est meilleur, on le garde
         if delta < 0:
@@ -197,7 +205,10 @@ def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp,
             bestCost = currentCost
             nbTryWithoutImprovement = 0
             if debug:
-                print(f"New best cost: {bestCost} - Temperature: {round(temperature, 3)} - Remaining time: {round(remainingTime - (time.time() - startTime), 2)} s - Iteration: {idxIter} - Taille moyenne du voisinage: {tailleVoisinage / idxIter}")
+                print(
+                    f"New best cost: {bestCost} - Temperature: {round(temperature, 3)} - "
+                    f"Remaining time: {round(remainingTime - (time.time() - startTime), 2)} s - "
+                    f"Iteration: {idxIter} - Taille moyenne du voisinage: {tailleVoisinage / idxIter}")
 
         # Si on améliore pas au bout, on augmente le nombre d'essais sans amélioration
         else:
@@ -206,7 +217,11 @@ def simulatedAnnealing(eternityPuzzle: EternityPuzzle, startingSol, initialTemp,
             # Si on atteint le nombre d'essais sans amélioration, on arrête
             if nbTryWithoutImprovement >= maxWithoutImprovement:
                 if debug:
-                    print(f"Nombre d'essais max sans amélioration atteint ({maxWithoutImprovement}) - Final score {currentCost} - Temperature: {temperature} - Total iteration: {idxIter} - Taille moyenne du voisinage: {tailleVoisinage / idxIter} - % chosen sol: {nbChosenSol / idxIter}")
+                    print(
+                        f"Nombre d'essais max sans amélioration atteint ({maxWithoutImprovement}) - "
+                        f"Final score {currentCost} - Temperature: {temperature} - Total iteration: {idxIter} - "
+                        f"Taille moyenne du voisinage: {tailleVoisinage / idxIter} - "
+                        f"% chosen sol: {nbChosenSol / idxIter}")
                 break
 
         # Mise à jour de la température
@@ -292,7 +307,6 @@ def getVoisinageOnlyConflictV2(eternityPuzzle: EternityPuzzle, solution: List[Tu
     # Génération de toutes les pièces comportant un conflit
     pieceInConflict = getConflictPieces(eternityPuzzle, solution)
 
-
     voisinage = []
     for swap in itertools.combinations(range(len(solution)), 2):
         # Verification conflit
@@ -320,6 +334,7 @@ def getVoisinageOnlyConflictV2(eternityPuzzle: EternityPuzzle, solution: List[Tu
 
 
 def generatePossibleRotationForSwap(eternityPuzzle: EternityPuzzle, solution, idxPiece1, idxPiece2):
+    # sourcery skip: low-code-quality
     piece1 = solution[idxPiece1]
 
     edgesIndexes = getEdgeIndexes(eternityPuzzle)
@@ -450,7 +465,9 @@ def generatePossibleRotationForSwap(eternityPuzzle: EternityPuzzle, solution, id
             return [initial_shape, rotation_90, rotation_180, rotation_270]
 
 
-def findFirstUpgradingNeighbor(eternityPuzzle: EternityPuzzle, voisinage: List[List[Tuple[int]]], currentSolution: List[Tuple[int]]) -> List[Tuple[int]]:
+def findFirstUpgradingNeighbor(
+        eternityPuzzle: EternityPuzzle, voisinage: List[List[Tuple[int]]], currentSolution: List[Tuple[int]]
+        ) -> List[Tuple[int]]:
     """
     Retourne le premier voisin qui améliore la solution actuelle.
     Si aucun voisin n'améliore la solution, retourne None.
@@ -466,7 +483,3 @@ def findFirstUpgradingNeighbor(eternityPuzzle: EternityPuzzle, voisinage: List[L
             return voisin
 
     return None
-
-
-
-

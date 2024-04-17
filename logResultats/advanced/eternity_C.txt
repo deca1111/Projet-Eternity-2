@@ -517,3 +517,91 @@ NbTotalIter : 694643
 	AcceptFct : {'acceptAll': 1.0}
 bestScore : 9
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:04:17
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 151
+MeanScore : 11.5067
+StdScore : 5.0488
+NbRestartBest : 75
+NbRestartRandom : 75
+NbImprovement : 
+	Best : 5
+	Random : 2
+ratioBest : 0.3333333333333333
+bestScore : 6
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:04:32
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 136
+MeanScore : 8.5185
+StdScore : 5.7023
+NbRestartBest : 90
+NbRestartRandom : 45
+NbImprovement : 
+	Best : 5
+	Random : 2
+ratioBest : 0.5
+bestScore : 4
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:04:38
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 127
+MeanScore : 9.5
+StdScore : 5.3995
+NbRestartBest : 126
+NbRestartRandom : 0
+NbImprovement : 
+	Best : 4
+	Random : 0
+ratioBest : 1
+bestScore : 6
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 18:04:50
+Algorithm : restartBestAndRandom_LNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 7500
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 127
+MeanScore : 9.8254
+StdScore : 2.7891
+NbRestartBest : 126
+NbRestartRandom : 0
+NbImprovement : 
+	Best : 5
+	Random : 0
+ratioBest : 2
+bestScore : 9
+Temps pris : 900.0

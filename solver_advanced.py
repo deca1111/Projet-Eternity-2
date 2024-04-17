@@ -1,7 +1,7 @@
 from solver_local_search import getInitialSolutionAndScore
 from eternity_puzzle import EternityPuzzle
 from colorama import Fore, Style
-from largeNeighborhoodSearch import largeNeighborhoodSearch, restartLNS, restartBestLNS
+from largeNeighborhoodSearch import largeNeighborhoodSearch, restartLNS, restartBestLNS, restartBestAndRandom_LNS
 from utils import countChange, logResults, saveBestSolution
 import time
 from adaptiveLargeNeighborhoodSearch import ALNS, restartALNS, restartBestALNS
@@ -21,28 +21,27 @@ def solve_advanced(eternity_puzzle: EternityPuzzle, maxTime_=None):
         cost is the cost of the solution
     """
 
-    bestSol, bestScore = solveALNS(eternity_puzzle, maxTime_)
+    bestSol, bestScore = solveLNS(eternity_puzzle, maxTime_)
 
     return bestSol, bestScore
 
 
 def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
-    maxTime = 5 * 60 if maxTime_ is None else maxTime_
+    maxTime = 30 * 60 if maxTime_ is None else maxTime_
     prctDestruct = 0.1
-    maxWithoutAcceptOrImprove = 5000
+    maxWithoutAcceptOrImprove = 10000
     debug = True
     log = True
     prctWorstAccept = 1
+    ratioBest = 2
     if log:
         date = datetime.now()
         logs = {"Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
-                "Algorithm": "restartBestLNS",
+                "Algorithm": "",
                 "maxTime": maxTime,
                 "prctDestruct": prctDestruct,
                 "maxWithoutAcceptOrImprove": maxWithoutAcceptOrImprove,
                 "debug": debug}
-        if prctWorstAccept is not None:
-            logs["prctWorstAccept"] = prctWorstAccept
 
     startTime = time.time()
 
@@ -50,12 +49,23 @@ def solveLNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
         def acceptPrctWorst_(oldCost, newCost):
             return acceptPrctWorst(oldCost, newCost, prct=prctWorstAccept)
 
-    bestSol, bestScore = restartBestLNS(eternity_puzzle, destructOnlyConflict, repairHeuristicAllRotation,
-                                        acceptPrctWorst_,
-                                        maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
-                                        prctDestruct=prctDestruct, maxTime=maxTime, debug=debug, logs=logs)
+    # bestSol, bestScore = restartLNS(eternity_puzzle, destructFct=destructOnlyConflict,
+    #                                 reconstructFct=repairHeuristicPieceBest, acceptFct=acceptAll,
+    #                                 maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
+    #                                 prctDestruct=prctDestruct, maxTime=maxTime, debug=debug, logs=logs)
+
+    bestSol, bestScore = restartBestAndRandom_LNS(eternity_puzzle, destructFctRandom=destructOnlyConflict,
+                                                  reconstructFctRandom=repairHeuristicEmplacementBest,
+                                                  acceptFctRandom=acceptAll,
+                                                  maxWithoutAcceptOrImprove=maxWithoutAcceptOrImprove,
+                                                  prctDestruct=prctDestruct, maxTime=maxTime, ratioBest=ratioBest,
+                                                  debug=debug, logs=logs)
 
     if log:
+        if logs["AcceptFct"] == acceptPrctWorst_.__name__:
+            logs["prctWorstAccept"] = prctWorstAccept
+        if logs["Algorithm"] == "restartBestAndRandom_LNS":
+            logs["ratioBest"] = ratioBest
         logs["bestScore"] = bestScore
         logs["Temps pris"] = round(time.time() - startTime, 2)
         logResults(eternity_puzzle, "advanced", logs)
@@ -89,7 +99,7 @@ def solveALNS(eternity_puzzle: EternityPuzzle, maxTime_=None):
 
     # Choix des fonctions de destruction, de reconstruction et d'acceptation
     listDestructFct = [destructRandom, destructProbaMostConflict, destructOnlyConflict, destructAllConflict]
-    listReconstructFct = [repairHeuristicAllRotation]
+    listReconstructFct = [repairHeuristicEmplacementBest]
     listAcceptFct = [acceptOnlyBetter, acceptSameOrBetter]
 
     if log:

@@ -87,3 +87,163 @@ MeanScore : 13.6308
 StdScore : 1.5745
 bestScore : 10
 Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:15:49
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 81
+MeanScore : 27.1
+StdScore : 2.4218
+bestScore : 21
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:15:51
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 84
+MeanScore : 27.5904
+StdScore : 2.4839
+bestScore : 22
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:15:52
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 84
+MeanScore : 27.1446
+StdScore : 2.1404
+bestScore : 21
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:15:54
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 75
+MeanScore : 27.1757
+StdScore : 2.5646
+bestScore : 22
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:34:12
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 59
+MeanScore : 13.7241
+StdScore : 1.4117
+bestScore : 11
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:34:13
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicAllRotation
+AcceptFct : acceptAll
+NbRestart : 61
+MeanScore : 13.55
+StdScore : 1.2169
+bestScore : 11
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:39:08
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 61
+MeanScore : 13.55
+StdScore : 1.3955
+bestScore : 9
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:39:14
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicEmplacementBest
+AcceptFct : acceptAll
+NbRestart : 64
+MeanScore : 13.9206
+StdScore : 1.4508
+bestScore : 11
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:55:30
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicPieceBest
+AcceptFct : acceptAll
+NbRestart : 66
+MeanScore : 14.4769
+StdScore : 1.2166
+bestScore : 11
+Temps pris : 900.0
+
+--------------------------------------------------
+Date : 16/04/2024, 19:55:33
+Algorithm : restartLNS
+maxTime : 900
+prctDestruct : 0.1
+maxWithoutAcceptOrImprove : 10000
+debug : True
+DestructFct : destructOnlyConflict
+ReconstructFct : repairHeuristicPieceBest
+AcceptFct : acceptAll
+NbRestart : 61
+MeanScore : 13.9
+StdScore : 1.6603
+bestScore : 11
+Temps pris : 900.0
