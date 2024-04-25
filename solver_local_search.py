@@ -1,3 +1,8 @@
+# Auteurs
+# Armel Ngounou Tchawe - 2238017
+# Léo Valette - 2307835
+
+
 import copy
 import time
 from algoHeuristic import solverHeuristique1DeepEdgeFirstV2
@@ -29,9 +34,9 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
     log = True
     saveBestSol = True
 
-    startingTemp = 1
-    tauxDecroissance = 0.999
-    maxWithoutImprovement = 500
+    # startingTemp = 1
+    # tauxDecroissance = 0.999
+    # maxWithoutImprovement = 500
 
     startTime = time.time()
     nbIter = 1
@@ -47,7 +52,6 @@ def solve_local_search(eternity_puzzle: EternityPuzzle):
         if debug:
             print(Fore.WHITE + f"---------------- Iteration: {nbIter} - Temps "
                   f"restant: {round(maxTime - (time.time() - startTime), 2)} s -----------------")
-
 
         startingSol, _ = getInitialSolutionAndScore(eternity_puzzle)
 

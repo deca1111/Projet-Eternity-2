@@ -14,7 +14,7 @@ if __name__ == '__main__':
     #     # Execute the command
     #     os.system(commande)
 
-    nbrep = 500
+    nbrep = 5
     for i in range(nbrep):
-        commande = f"python .\main.py --agent=heuristic --infile=.\instances\eternity_complet.txt"
+        commande = f"python .\main.py --agent=advanced --infile=.\instances\eternity_complet.txt"
         os.system(commande)

@@ -1,3 +1,8 @@
+# Auteurs
+# Armel Ngounou Tchawe - 2238017
+# Léo Valette - 2307835
+
+
 from algoHeuristic import (solverHeuristique1Deep, solverHeuristique1DeepRestart, solverHeuristique1DeepEdgeFirst,
                            solverHeuristique1DeepEdgeFirstV2)
 from heuristiques import heuristicNbConflictPieceV1, heuristicNbConflictPieceV2, heuristicNbConflictPieceV3

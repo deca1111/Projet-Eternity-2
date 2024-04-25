@@ -1,5 +1,13 @@
+# Auteurs
+# Armel Ngounou Tchawe - 2238017
+# Léo Valette - 2307835
+
 import numpy as np
 import copy
+from datetime import datetime
+
+
+from utils import saveBestSolution
 
 
 def solve_random(eternity_puzzle):
@@ -9,6 +17,8 @@ def solve_random(eternity_puzzle):
     :return: a tuple (solution, cost) where solution is a list of the pieces (rotations applied) and
         cost is the cost of the solution
     """
+
+    saveBestSol = True
 
     solution = []
     remaining_piece = copy.deepcopy(eternity_puzzle.piece_list)
@@ -27,12 +37,22 @@ def solve_random(eternity_puzzle):
 
         remaining_piece.remove(piece)
 
-        # print(solution)
+    score = eternity_puzzle.get_total_n_conflict(solution)
 
-    return solution, eternity_puzzle.get_total_n_conflict(solution)
+    date = datetime.now()
+    logs = {
+        "Algorithm": "Random",
+        "Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
+        "Score": score,
+        }
+
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "random", solution, score, logDict=logs)
+
+    return solution, score
 
 
-def solve_best_random(eternity_puzzle, n_trial):
+def solve_best_random(eternity_puzzle, n_trial=1000):
     """
     Random solution of the problem (best of n_trial random solution generated)
     :param eternity_puzzle: object describing the input
@@ -40,18 +60,29 @@ def solve_best_random(eternity_puzzle, n_trial):
     :return: a tuple (solution, cost) where solution is a list of the pieces (rotations applied) and
         cost is the cost of the solution, the solution is the best among the n_trial generated ones
     """
-    best_n_conflict = 1000000
+    saveBestSol = True
 
     best_solution = None
+    bestScore = float("inf")
 
     for i in range(n_trial):
 
         cur_sol, cur_n_conflict = solve_random(eternity_puzzle)
 
-        if cur_n_conflict < best_n_conflict:
-            best_n_conflict = cur_n_conflict
+        if cur_n_conflict < bestScore:
+            bestScore = cur_n_conflict
             best_solution = cur_sol
 
     assert best_solution != None
 
-    return best_solution, best_n_conflict
+    date = datetime.now()
+    logs = {
+        "Algorithm": "Random",
+        "Date": date.strftime("%d/%m/%Y, %H:%M:%S"),
+        "Nb trial": n_trial,
+        }
+
+    if saveBestSol:
+        saveBestSolution(eternity_puzzle, "random", best_solution, bestScore, logDict=logs)
+
+    return best_solution, bestScore

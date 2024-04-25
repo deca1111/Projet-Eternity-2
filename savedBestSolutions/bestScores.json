@@ -17,123 +17,137 @@
         },
         "eternity_B.txt": {
             "score": 0,
-            "Date": "16/04/2024, 18:25:21",
+            "Date": "17/04/2024, 21:38:15",
             "Algorithm": "restartBestAndRandom_LNS",
-            "maxTime": 900,
+            "maxTime": 3600,
             "prctDestruct": 0.1,
-            "maxWithoutAcceptOrImprove": 7500,
+            "maxWithoutAcceptOrImprove": 10000,
             "debug": true,
+            "tag": "run",
+            "NbIter": 9705436,
             "DestructFct": "destructOnlyConflict",
-            "ReconstructFct": "repairHeuristicAllRotation",
+            "ReconstructFct": "repairHeuristicEmplacementBest",
             "AcceptFct": "acceptAll",
-            "NbRestart": 171,
-            "MeanScore": 5.9649,
-            "StdScore": 4.3285,
-            "NbRestartBest": 57,
-            "NbRestartRandom": 114,
+            "NbRestart": 766,
+            "MeanScoreBest": 2.0471,
+            "StdScoreBest": 0.572,
+            "NbRestartBest": 255,
+            "MeanScoreRandom": 8.1918,
+            "StdScoreRandom": 3.961,
+            "NbRestartRandom": 511,
             "NbImprovement": {
                 "Best": 1,
-                "Random": 4
+                "Random": 3
             },
             "ratioBest": 0.5,
             "bestScore": 0,
-            "Temps pris": 641.81
+            "Temps pris": 2760.66
         },
         "eternity_C.txt": {
             "score": 4,
-            "Date": "16/04/2024, 18:04:32",
+            "Date": "17/04/2024, 17:18:17",
             "Algorithm": "restartBestAndRandom_LNS",
-            "maxTime": 900,
+            "maxTime": 3600,
             "prctDestruct": 0.1,
-            "maxWithoutAcceptOrImprove": 7500,
+            "maxWithoutAcceptOrImprove": 10000,
             "debug": true,
+            "tag": "run",
+            "NbIter": 8259116,
             "DestructFct": "destructOnlyConflict",
-            "ReconstructFct": "repairHeuristicAllRotation",
+            "ReconstructFct": "repairHeuristicEmplacementBest",
             "AcceptFct": "acceptAll",
-            "NbRestart": 136,
-            "MeanScore": 8.5185,
-            "StdScore": 5.7023,
-            "NbRestartBest": 90,
-            "NbRestartRandom": 45,
+            "NbRestart": 584,
+            "MeanScoreBest": 4.1031,
+            "StdScoreBest": 0.6004,
+            "NbRestartBest": 194,
+            "MeanScoreRandom": 15.0334,
+            "StdScoreRandom": 4.3048,
+            "NbRestartRandom": 389,
             "NbImprovement": {
-                "Best": 5,
+                "Best": 4,
                 "Random": 2
             },
             "ratioBest": 0.5,
             "bestScore": 4,
-            "Temps pris": 900.0
+            "Temps pris": 3600.0
         },
         "eternity_complet.txt": {
-            "score": 39,
-            "Date": "16/04/2024, 20:27:19",
+            "score": 37,
+            "Date": "17/04/2024, 15:07:48",
             "Algorithm": "restartBestAndRandom_LNS",
-            "maxTime": 1800,
+            "maxTime": 3600,
             "prctDestruct": 0.1,
             "maxWithoutAcceptOrImprove": 10000,
             "debug": true,
             "DestructFct": "destructOnlyConflict",
             "ReconstructFct": "repairHeuristicEmplacementBest",
             "AcceptFct": "acceptAll",
-            "NbRestart": 32,
-            "MeanScore": 41.8065,
-            "StdScore": 3.5959,
-            "NbRestartBest": 21,
-            "NbRestartRandom": 10,
+            "NbRestart": 74,
+            "MeanScoreBest": 38.0417,
+            "StdScoreBest": 1.9253,
+            "NbRestartBest": 24,
+            "MeanScoreRandom": 47.551,
+            "StdScoreRandom": 2.304,
+            "NbRestartRandom": 49,
             "NbImprovement": {
-                "Best": 3,
-                "Random": 0
+                "Best": 4,
+                "Random": 1
             },
-            "ratioBest": 2,
-            "bestScore": 39,
-            "Temps pris": 1800.0
+            "ratioBest": 0.5,
+            "bestScore": 37,
+            "Temps pris": 3600.0
         },
         "eternity_D.txt": {
-            "score": 7,
-            "Date": "16/04/2024, 20:27:04",
+            "score": 6,
+            "Date": "17/04/2024, 16:14:28",
             "Algorithm": "restartBestAndRandom_LNS",
-            "maxTime": 1800,
+            "maxTime": 3600,
             "prctDestruct": 0.1,
             "maxWithoutAcceptOrImprove": 10000,
             "debug": true,
             "DestructFct": "destructOnlyConflict",
             "ReconstructFct": "repairHeuristicEmplacementBest",
             "AcceptFct": "acceptAll",
-            "NbRestart": 144,
-            "MeanScore": 8.5035,
-            "StdScore": 2.2652,
-            "NbRestartBest": 95,
-            "NbRestartRandom": 48,
-            "NbImprovement": {
-                "Best": 3,
-                "Random": 0
-            },
-            "ratioBest": 2,
-            "bestScore": 7,
-            "Temps pris": 1800.0
-        },
-        "eternity_E.txt": {
-            "score": 9,
-            "Date": "16/04/2024, 20:27:07",
-            "Algorithm": "restartBestAndRandom_LNS",
-            "maxTime": 1800,
-            "prctDestruct": 0.1,
-            "maxWithoutAcceptOrImprove": 10000,
-            "debug": true,
-            "DestructFct": "destructOnlyConflict",
-            "ReconstructFct": "repairHeuristicEmplacementBest",
-            "AcceptFct": "acceptAll",
-            "NbRestart": 112,
-            "MeanScore": 10.5315,
-            "StdScore": 2.1553,
-            "NbRestartBest": 74,
-            "NbRestartRandom": 37,
+            "NbRestart": 317,
+            "MeanScoreBest": 6.2,
+            "StdScoreBest": 0.7091,
+            "NbRestartBest": 105,
+            "MeanScoreRandom": 10.9479,
+            "StdScoreRandom": 2.6649,
+            "NbRestartRandom": 211,
             "NbImprovement": {
                 "Best": 3,
                 "Random": 1
             },
-            "ratioBest": 2,
-            "bestScore": 9,
-            "Temps pris": 1800.0
+            "ratioBest": 0.5,
+            "bestScore": 6,
+            "Temps pris": 3600.0
+        },
+        "eternity_E.txt": {
+            "score": 8,
+            "Date": "17/04/2024, 16:14:33",
+            "Algorithm": "restartBestAndRandom_LNS",
+            "maxTime": 3600,
+            "prctDestruct": 0.1,
+            "maxWithoutAcceptOrImprove": 10000,
+            "debug": true,
+            "DestructFct": "destructOnlyConflict",
+            "ReconstructFct": "repairHeuristicEmplacementBest",
+            "AcceptFct": "acceptAll",
+            "NbRestart": 259,
+            "MeanScoreBest": 8.9884,
+            "StdScoreBest": 0.7547,
+            "NbRestartBest": 86,
+            "MeanScoreRandom": 13.5349,
+            "StdScoreRandom": 1.4603,
+            "NbRestartRandom": 172,
+            "NbImprovement": {
+                "Best": 3,
+                "Random": 2
+            },
+            "ratioBest": 0.5,
+            "bestScore": 8,
+            "Temps pris": 3600.0
         },
         "eternity_trivial_A.txt": {
             "score": 0,
@@ -305,6 +319,44 @@
             "NbIter": 474,
             "Score Moyen": 87.2,
             "Score std": 5.035871324805668
+        }
+    },
+    "random": {
+        "eternity_A.txt": {
+            "score": 25,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:50:30",
+            "Nb trial": 10000
+        },
+        "eternity_B.txt": {
+            "score": 83,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:50:47",
+            "Nb trial": 10000
+        },
+        "eternity_C.txt": {
+            "score": 117,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:51:01",
+            "Nb trial": 1000
+        },
+        "eternity_D.txt": {
+            "score": 154,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:51:09",
+            "Nb trial": 1000
+        },
+        "eternity_E.txt": {
+            "score": 190,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:51:16",
+            "Nb trial": 1000
+        },
+        "eternity_complet.txt": {
+            "score": 500,
+            "Algorithm": "Random",
+            "Date": "17/04/2024, 13:51:37",
+            "Nb trial": 1000
         }
     }
 }

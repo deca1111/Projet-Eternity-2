@@ -1,5 +1,8 @@
+import json
 import time
+import os
 
+import matplotlib.ticker as ticker
 import numpy as np
 
 import eternity_puzzle
@@ -356,6 +359,173 @@ def runTestVoisinage():
     fig.savefig("plot_voisinage_v2.png", dpi=250)
 
 
+def comparaisonScoreSolvers():
+
+    # Chargement des données du fichier bestScores.json
+    filePath = "savedBestSolutions/bestScores.json"
+    with open(filePath, "r", encoding="utf-8") as file:
+        dataRaw = json.load(file)
+
+    instancesRaw = ['eternity_A.txt', 'eternity_B.txt', 'eternity_C.txt', 'eternity_D.txt', 'eternity_E.txt', 'eternity_complet.txt']
+    instancesClean = ['A', 'B', 'C', 'D', 'E', 'Complet']
+    solverRaw = ["random", "heuristic", "local_search", "advanced"]
+    solverClean = ["Random", "Heuristique", "Recherche locale", "Métaheuristique"]
+    dataClean = {}
+
+    for instance in instancesRaw:
+        dataClean[instance] = []
+
+        for solver in solverRaw:
+            dataClean[instance].append(dataRaw[solver][instance]["score"])
+
+    # Création et affichage d'un graphe par instance avec les scores des solveurs
+    fig, axs = plt.subplots(3, 2, figsize=(15, 8))
+
+    fig.suptitle("Comparaison des scores des solveurs pour chaque instance", fontsize=16)
+
+    for idx, instance in enumerate(instancesRaw):
+        ax = axs[idx // 2, idx % 2]
+
+        ax.bar(solverClean, dataClean[instance], color=['blue', 'orange', 'green', 'red'], width=0.7)
+
+        ax.set_title(f"Instance : {instancesClean[idx]}")
+        ax.set_ylabel("Nb conflits")
+
+        # ajout du pourcentage de différence entre les solveurs
+        prcts = [0]
+        for i in range(1, 4):
+            diff = dataClean[instance][i-1] - dataClean[instance][i]
+            if dataClean[instance][i-1] != 0:
+                prct = (diff / dataClean[instance][i-1]) * 100
+            else:
+                prct = 0
+            prcts.append(prct)
+
+        ax_prct = ax.twinx()
+        ax_prct.plot(solverClean, prcts, '--ro', linewidth=1, label="Diff solveur précédent")
+        ax_prct.set_ylabel("%")
+        ax_prct.margins(y=0.35)
+        ax_prct.legend(loc="upper right")
+
+        # Ajout d'une marge pour qu'on puisse voir les valeurs
+        ax.margins(y=0.15)
+
+        # Ajout des valeurs sur les barres
+        for i, v in enumerate(dataClean[instance]):
+            ax.text(i, v + 1, str(v), ha='center', va='bottom', fontsize=10)
+
+    # Sauvegarde du graphe
+    plt.tight_layout()
+
+    plt.show()
+    fig.savefig("plots/global/comparaisonSolver.png", dpi=250)
+
+
+def timeComplexityLNS():
+    instancesRaw = ['eternity_B.txt', 'eternity_C.txt', 'eternity_D.txt', 'eternity_E.txt',
+                    'eternity_complet.txt']
+
+    instancesClean = ['B - 7x7', 'C - 8x8', 'D - 9x9', 'E - 10x10', 'Complet - 16x16']
+
+    tailleInstance = [7, 8, 9, 10, 16]
+
+    # pour chaque instance raw, on va chercher les runs dans les logs qui comportent le tag "test" et récupérer la données
+    # "NbIter"
+
+    logRoot = "logResultats/advanced"
+
+    nbiter = {}
+    times = {}
+
+    for instance in instancesRaw:
+        nbiter[instance] = []
+        times[instance] = []
+        instanceLogs = os.path.join(logRoot, instance)
+        # Ouverture du fichier de logs
+        with open(instanceLogs, "r", encoding="utf-8") as file:
+            data = file.readlines()
+
+        for idx, line in enumerate(data):
+            if line.find("tag : test") != -1:
+                nbIter_ = int(data[idx+1].split(":")[1])
+                nbiter[instance].append(nbIter_)
+                times[instance].append(60/nbIter_)
+
+
+    y_mean = [np.mean(i) for i in times.values()]
+
+    totalIter = 0
+    for idx, instance in enumerate(instancesRaw):
+        print(f"Instance : {instance}")
+        print(f"Nombre de runs : {len(nbiter[instance])}")
+        iters = sum(nbiter[instance])
+        totalIter += iters
+        print(f"Nombre total d'itérations : {iters}")
+        print(f"Temps moyen : {y_mean[idx]}")
+
+    print(f"Nombre total d'itérations (toutes les instances) : {totalIter}")
+
+    # Création et affichage d'un graphe avec les temps d'exécution
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    # Regression polynomiale pour modéliser le temps de résolution
+    # Degré du polynome
+    deg = [1, 2, 3, 4]
+    x_reg = np.linspace(7, max(tailleInstance), 100)
+
+    x_train = tailleInstance
+    y_train = y_mean
+    print(y_train)
+
+    # On crée un polynome pour chaque degré
+    for d in deg:
+
+        p = np.polyfit(x_train, y_train, d)
+        f = np.poly1d(p)
+        y_reg = f(x_reg)
+        # Affichage de la fonction polynomiale
+        print(f"\nRégression (degré {d}) : {f}")
+        # Evaluation de la fonction polynomiale
+        y_pred = f(x_train)
+        # Calcul de l'erreur
+        r_squared = 1 - (np.sum((y_mean - y_pred) ** 2) / np.sum((y_mean - np.mean(y_mean)) ** 2))
+
+        ax.plot(x_reg, y_reg, label=f"Polynome degré {d} - R^2 : {round(r_squared, 4)}")
+
+
+    #Affichage des temps moyens (en pointillé)
+    # ax.plot(tailleInstance, y_mean, 'b--', label="Temps moyen")
+
+    # Affichage de tous les échantillons (scatter plot)
+    for i in range(len(tailleInstance)):
+        ax.scatter([tailleInstance[i]]*len(times[instancesRaw[i]]), times[instancesRaw[i]], color='blue', s=10, alpha=0.40)
+
+    # Affichage pour chaque x, de la valeur avec ecart type
+    for i in range(len(tailleInstance)):
+        label = "Temps execution moyen + Écart type" if i == 0 else None
+        ax.errorbar(tailleInstance[i], y_mean[i], yerr=np.std(times[instancesRaw[i]]), fmt='o', color='red', label=label)
+
+    # Formatage du label de l'axe des ordonnées en notation scientifique
+    ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0e'))
+
+    # Nom des instances ecris en abscisse
+    ax.set_xticks(tailleInstance)
+    ax.set_xticklabels(instancesClean)
+
+    # Legendes et labels
+    ax.set_xlabel('Taille de l\'instance - TxT')
+    ax.set_ylabel('Temps moyen [s]')
+    ax.set_title(f"Évolution du temps d'exécution moyen en fonction de la taille de l'instance - "
+                 f"{len(nbiter[instancesRaw[0]])} runs / instance\n "
+                 f"Nombre total d'itérations évaluées : {totalIter:,.0f}")
+    ax.legend(loc="upper left")
+    # Sauvegarde du graphe
+    plt.tight_layout()
+
+    plt.show()
+    fig.savefig("plots/global/timeComplexityLNS", dpi=250)
+
+
 if __name__ == '__main__':
     # args = parse_arguments()
     #
@@ -367,7 +537,7 @@ if __name__ == '__main__':
     # save = args.save.lower() == "true"
     # plot = args.plot.lower() == "true"
 
-    runAllTests(False, None, 500, True)
+    # runAllTests(False, None, 500, True)
 
     # instance = "eternity_E.txt"
     #
@@ -377,3 +547,7 @@ if __name__ == '__main__':
     # runTestTempsVoisinage()
 
     # runTestVoisinage()
+
+    # comparaisonScoreSolvers()
+
+    timeComplexityLNS()
